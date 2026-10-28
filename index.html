@@ -620,6 +620,31 @@
     <button id="mixExport">⬇ Export processed audio</button>
   </div>
 
+  <div id="mixControls">
+    <label for="mixVolume">Volume</label>
+    <input id="mixVolume" type="range" min="0" max="2" step="0.1" value="1" style="width:100%">
+
+    <label for="mixBass">Bass</label>
+    <input id="mixBass" type="range" min="-12" max="12" value="0" style="width:100%">
+
+    <label for="mixTreble">Treble</label>
+    <input id="mixTreble" type="range" min="-12" max="12" value="0" style="width:100%">
+  </div>
+
+  <p id="mixStatus" role="status">Choose an audio file to begin.</p>
+</section>
+
+  <label for="mixFile">Choose your audio recording</label>
+  <input id="mixFile" type="file" accept="audio/*" style="display:block;margin:12px 0;max-width:100%">
+
+  <audio id="mixAudio" controls style="width:100%"></audio>
+
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin:14px 0">
+    <button id="mixPlay">▶ Play</button>
+    <button id="mixStop">■ Stop</button>
+    <button id="mixExport">⬇ Export processed audio</button>
+  </div>
+
   <div id="mixControls"></div>
   <p id="mixStatus" role="status">Choose an audio file to begin.</p>
 
