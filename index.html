@@ -897,6 +897,46 @@
   background:#17172b;color:#fff;padding:20px;
   margin:20px 0;border-radius:16px;font-family:Arial,sans-serif;
 ">
+  <h2>🎤 WakaûndūVibez Pitch Correction</h2>
+  <p>Upload your vocals and adjust pitch correction to help tune your voice.</p>
+
+  <label for="wv-pitch-file">Choose your vocal recording:</label>
+  <input id="wv-pitch-file" type="file" accept="audio/*"
+    style="display:block;margin:12px 0;color:white;max-width:100%;">
+
+  <audio id="wv-pitch-audio" controls
+    style="display:block;width:100%;margin:12px 0;"></audio>
+
+  <label for="wv-pitch-amount">Correction strength: <span id="wv-pitch-value">50%</span></label>
+  <input id="wv-pitch-amount" type="range" min="0" max="100" value="50"
+    style="display:block;width:100%;margin:12px 0;">
+
+  <p id="wv-pitch-status">Choose a recording to begin.</p>
+
+  <script>
+  (() => {
+    const file = document.getElementById('wv-pitch-file');
+    const audio = document.getElementById('wv-pitch-audio');
+    const amount = document.getElementById('wv-pitch-amount');
+    const value = document.getElementById('wv-pitch-value');
+    const status = document.getElementById('wv-pitch-status');
+
+    file.addEventListener('change', () => {
+      if (!file.files || !file.files[0]) return;
+      audio.src = URL.createObjectURL(file.files[0]);
+      status.textContent =
+        'Recording loaded. Basic playback is ready.';
+    });
+
+    amount.addEventListener('input', () => {
+      value.textContent = amount.value + '%';
+      status.textContent =
+        'Strength setting changed. Actual pitch correction is not yet active.';
+    });
+  })();
+  </script>
+</section>
+
   <h2>🎤 Auto-Tune / Pitch Correction</h2>
   <p>Choose a musical key and adjust vocal correction.</p>
 
