@@ -604,320 +604,260 @@
   play.onclick = () => audio.play();
 })();
 </script> 
+ 
 <section id="mix-master" style="background:#17172b;color:white;padding:20px;border-radius:16px;font-family:Arial,sans-serif;margin:20px 0">
-
-  <h2>🎚️ WakaûndūVibez Mixing &amp; Mastering</h2>
-  <p>Upload a recording, shape your sound, and export your mix.</p>
-
-  <label for="mixFile">Choose your audio recording</label>
-  <input
-    id="mixFile"
-    type="file"
-    accept="audio/*"
-    style="display:block;margin:12px 0;max-width:100%"
-  >
-
-  <audio id="mixAudio" controls style="width:100%"></audio>
-
-  <div style="display:flex;gap:10px;flex-wrap:wrap;margin:14px 0">
-    <button id="mixPlay" type="button">▶ Play</button>
-    <button id="mixStop" type="button">■ Stop</button>
-    <button id="mixExport" type="button">⬇ Export processed audio</button>
-  </div>
-
-  <div id="mixControls">
-    <label for="mixVolume">Volume</label>
-    <input
-      id="mixVolume"
-      type="range"
-      min="0"
-      max="2"
-      step="0.1"
-      value="1"
-      style="width:100%"
-    >
-
-    <label for="mixBass">Bass</label>
-    <input
-      id="mixBass"
-      type="range"
-      min="-12"
-      max="12"
-      step="1"
-      value="0"
-      style="width:100%"
-    >
-
-    <label for="mixTreble">Treble</label>
-    <input
-      id="mixTreble"
-      type="range"
-      min="-12"
-      max="12"
-      step="1"
-      value="0"
-      style="width:100%"
-    >
-  </div>
-
-  <p id="mixStatus" role="status" aria-live="polite">
-    Choose an audio file to begin.
-  </p>
-
-</section>
-
-  <label for="mixFile">Choose your audio recording</label>
-  <input id="mixFile" type="file" accept="audio/*" style="display:block;margin:12px 0;max-width:100%">
-
-  <audio id="mixAudio" controls style="width:100%"></audio>
-
-  <div style="display:flex;gap:10px;flex-wrap:wrap;margin:14px 0">
-    <button id="mixPlay">▶ Play</button>
-    <button id="mixStop">■ Stop</button>
-    <button id="mixExport">⬇ Export processed audio</button>
-  </div>
-
-  <div id="mixControls"></div>
-  <p id="mixStatus" role="status">Choose an audio file to begin.</p>
-
   <style>
     #mix-master label {display:block;margin-top:15px}
     #mix-master input[type=range] {width:100%;accent-color:#b58cff}
     #mix-master button {
       background:#8b5cf6;color:white;border:0;border-radius:9px;
-      padding:12px;font-weight:bold
+      padding:12px;margin:4px;font-weight:bold
     }
-    #mix-master .mix-control {
-      background:#24243d;padding:10px;border-radius:10px;margin:10px 0
-    }
-    #mix-master .mix-value {float:right;color:#c4b5fd}
   </style>
+
+  <h2>🎚️ WakaûndūVibez Mixing &amp; Mastering</h2>
+  <p>Upload your recording, adjust your sound, and export your mix.</p>
+
+  <label for="mixFile">Choose your audio recording</label>
+  <input id="mixFile" type="file" accept="audio/*"
+    style="display:block;margin:12px 0;max-width:100%">
+
+  <audio id="mixAudio" controls style="width:100%"></audio>
+
+  <div style="margin:14px 0">
+    <button id="mixPlay" type="button">▶ Play</button>
+    <button id="mixStop" type="button">■ Stop</button>
+    <button id="mixExport" type="button">⬇ Export processed audio</button>
+  </div>
+
+  <label for="mixVolume">Volume</label>
+  <input id="mixVolume" type="range" min="0" max="2"
+    step="0.1" value="1">
+
+  <label for="mixBass">Bass</label>
+  <input id="mixBass" type="range" min="-12" max="12"
+    step="1" value="0">
+
+  <label for="mixTreble">Treble</label>
+  <input id="mixTreble" type="range" min="-12" max="12"
+    step="1" value="0">
+
+  <p id="mixStatus" role="status" aria-live="polite">
+    Choose an audio file to begin.
+  </p>
 
   <script>
   (() => {
     const root = document.getElementById('mix-master');
-    const file = root.querySelector('#mixFile');
+    if (!root || root.dataset.initialized === 'true') return;
+    root.dataset.initialized = 'true';
+
+    const fileInput = root.querySelector('#mixFile');
     const audio = root.querySelector('#mixAudio');
+    const playBtn = root.querySelector('#mixPlay');
+    const stopBtn = root.querySelector('#mixStop');
+    const exportBtn = root.querySelector('#mixExport');
+    const volume = root.querySelector('#mixVolume');
+    const bass = root.querySelector('#mixBass');
+    const treble = root.querySelector('#mixTreble');
     const status = root.querySelector('#mixStatus');
-    const controls = root.querySelector('#mixControls');
 
-    let ctx, source, bass, treble, compressor, gain, pan;
-    let delay, feedback, echoWet, reverb, reverbWet;
-    let recorder, chunks = [], exportStream;
-    let ready = false, objectURL;
+    let ctx, source, bassFilter, trebleFilter, gain, recorder;
+    let chunks = [], objectURL = null, exportURL = null;
+    let audioReady = false, recording = false;
 
-    const settings = [
-      ['volume', 'Master volume', 0, 150, 100, '%'],
-      ['bass', 'Bass', -12, 12, 0, ' dB'],
-      ['treble', 'Treble', -12, 12, 0, ' dB'],
-      ['pan', 'Stereo balance', -100, 100, 0, ''],
-      ['echo', 'Echo', 0, 45, 0, '%'],
-      ['reverb', 'Reverb', 0, 45, 0, '%'],
-      ['compress', 'Compression', 0, 100, 35, '%']
-    ];
-
-    settings.forEach(([id, name, min, max, initial, unit]) => {
-      const row = document.createElement('div');
-      row.className = 'mix-control';
-      row.innerHTML =
-        '<label for="mm-' + id + '">' + name +
-        '<span class="mix-value" id="mm-val-' + id + '">' +
-        initial + unit + '</span></label>' +
-        '<input id="mm-' + id + '" type="range" min="' + min +
-        '" max="' + max + '" value="' + initial +
-        '" step="1" style="width:100%">';
-      controls.appendChild(row);
-      row.querySelector('input').addEventListener('input', update);
-    });
-
-    function makeReverb() {
-      const length = Math.floor(ctx.sampleRate * 1.8);
-      const impulse = ctx.createBuffer(2, length, ctx.sampleRate);
-
-      for (let ch = 0; ch < 2; ch++) {
-        const data = impulse.getChannelData(ch);
-        for (let i = 0; i < length; i++) {
-          data[i] = (Math.random() * 2 - 1) *
-            Math.pow(1 - i / length, 3);
-        }
-      }
-
-      reverb = ctx.createConvolver();
-      reverb.buffer = impulse;
+    function say(message) {
+      status.textContent = message;
     }
 
-    function setup() {
-      if (ready) return;
+    function cleanupURL(url) {
+      if (url) URL.revokeObjectURL(url);
+    }
 
-      ctx = new (window.AudioContext || window.webkitAudioContext)();
+    async function setupAudio() {
+      if (audioReady) {
+        if (ctx.state === 'suspended') await ctx.resume();
+        return;
+      }
+
+      const AudioContextClass =
+        window.AudioContext || window.webkitAudioContext;
+
+      if (!AudioContextClass) {
+        throw new Error('Your browser does not support audio processing.');
+      }
+
+      ctx = new AudioContextClass();
       source = ctx.createMediaElementSource(audio);
 
-      bass = ctx.createBiquadFilter();
-      bass.type = 'lowshelf';
-      bass.frequency.value = 200;
+      bassFilter = ctx.createBiquadFilter();
+      bassFilter.type = 'lowshelf';
+      bassFilter.frequency.value = 200;
 
-      treble = ctx.createBiquadFilter();
-      treble.type = 'highshelf';
-      treble.frequency.value = 4000;
+      trebleFilter = ctx.createBiquadFilter();
+      trebleFilter.type = 'highshelf';
+      trebleFilter.frequency.value = 3000;
 
-      compressor = ctx.createDynamicsCompressor();
       gain = ctx.createGain();
-      pan = ctx.createStereoPanner();
 
-      delay = ctx.createDelay(1);
-      delay.delayTime.value = 0.24;
+      source.connect(bassFilter);
+      bassFilter.connect(trebleFilter);
+      trebleFilter.connect(gain);
+      gain.connect(ctx.destination);
 
-      feedback = ctx.createGain();
-      feedback.gain.value = 0.18;
+      gain.gain.value = Number(volume.value);
+      bassFilter.gain.value = Number(bass.value);
+      trebleFilter.gain.value = Number(treble.value);
 
-      echoWet = ctx.createGain();
-      reverbWet = ctx.createGain();
-      makeReverb();
-
-      const dry = ctx.createGain();
-      source.connect(bass);
-      bass.connect(treble);
-      treble.connect(compressor);
-      compressor.connect(gain);
-      gain.connect(pan);
-
-      pan.connect(dry);
-      dry.connect(ctx.destination);
-
-      pan.connect(delay);
-      delay.connect(feedback);
-      feedback.connect(delay);
-      delay.connect(echoWet);
-      echoWet.connect(ctx.destination);
-
-      pan.connect(reverb);
-      reverb.connect(reverbWet);
-      reverbWet.connect(ctx.destination);
-
-      exportStream = ctx.createMediaStreamDestination();
-      dry.connect(exportStream);
-      echoWet.connect(exportStream);
-      reverbWet.connect(exportStream);
-
-      ready = true;
-      update();
+      audioReady = true;
+      await ctx.resume();
     }
 
-    function update() {
-      if (!ready) return;
+    fileInput.addEventListener('change', () => {
+      const file = fileInput.files && fileInput.files[0];
+      if (!file) return;
 
-      const val = id => Number(root.querySelector('#mm-' + id).value);
-
-      gain.gain.value = val('volume') / 100;
-      bass.gain.value = val('bass');
-      treble.gain.value = val('treble');
-      pan.pan.value = val('pan') / 100;
-
-      echoWet.gain.value = val('echo') / 100;
-      reverbWet.gain.value = val('reverb') / 100;
-
-      const amount = val('compress') / 100;
-      compressor.threshold.value = -12 - amount * 30;
-      compressor.ratio.value = 1 + amount * 11;
-      compressor.attack.value = 0.01;
-      compressor.release.value = 0.2;
-
-      settings.forEach(([id, name, min, max, initial, unit]) => {
-        const value = val(id);
-        root.querySelector('#mm-val-' + id).textContent =
-          value + unit;
-      });
-    }
-
-    file.addEventListener('change', () => {
-      if (!file.files || !file.files[0]) return;
-
-      if (objectURL) URL.revokeObjectURL(objectURL);
-      objectURL = URL.createObjectURL(file.files[0]);
+      audio.pause();
+      cleanupURL(objectURL);
+      objectURL = URL.createObjectURL(file);
       audio.src = objectURL;
-      status.textContent = 'Audio loaded. Press Play to hear your mix.';
+      audio.load();
+
+      say('Audio loaded. Press Play to listen and adjust your sound.');
     });
 
-    root.querySelector('#mixPlay').addEventListener('click', async () => {
+    playBtn.addEventListener('click', async () => {
       if (!audio.src) {
-        status.textContent = 'Choose an audio file first.';
+        say('Please choose an audio file first.');
         return;
       }
 
       try {
-        setup();
-        await ctx.resume();
+        await setupAudio();
         await audio.play();
-        status.textContent = 'Playing your processed mix.';
-      } catch (e) {
-        status.textContent = 'Could not play audio: ' + e.message;
+        say('Playing processed audio.');
+      } catch (error) {
+        say(error.message || 'Could not play the audio.');
       }
     });
 
-    root.querySelector('#mixStop').addEventListener('click', () => {
+    stopBtn.addEventListener('click', () => {
       audio.pause();
       audio.currentTime = 0;
-      status.textContent = 'Playback stopped.';
+      say('Playback stopped.');
     });
 
-    root.querySelector('#mixExport').addEventListener('click', async () => {
+    volume.addEventListener('input', () => {
+      if (gain && ctx) {
+        gain.gain.setTargetAtTime(
+          Number(volume.value), ctx.currentTime, 0.01
+        );
+      }
+    });
+
+    bass.addEventListener('input', () => {
+      if (bassFilter && ctx) {
+        bassFilter.gain.setTargetAtTime(
+          Number(bass.value), ctx.currentTime, 0.01
+        );
+      }
+    });
+
+    treble.addEventListener('input', () => {
+      if (trebleFilter && ctx) {
+        trebleFilter.gain.setTargetAtTime(
+          Number(treble.value), ctx.currentTime, 0.01
+        );
+      }
+    });
+
+    exportBtn.addEventListener('click', async () => {
       if (!audio.src) {
-        status.textContent = 'Choose an audio file first.';
+        say('Please choose an audio file first.');
         return;
       }
 
-      if (!window.MediaRecorder) {
-        status.textContent = 'Audio export is not supported in this browser.';
+      if (recording) {
+        say('An export is already in progress.');
         return;
       }
 
       try {
-        setup();
-        await ctx.resume();
+        await setupAudio();
 
-        const mime = [
-          'audio/webm;codecs=opus',
-          'audio/ogg;codecs=opus',
-          'audio/webm'
-        ].find(type => MediaRecorder.isTypeSupported(type));
-
-        if (!mime) {
-          status.textContent =
-            'This browser cannot export a supported audio format.';
+        if (!window.MediaRecorder) {
+          say('Audio export recording is not supported by this browser.');
           return;
         }
 
-        audio.pause();
-        audio.currentTime = 0;
-        chunks = [];
+        const destination = ctx.createMediaStreamDestination();
+        gain.connect(destination);
 
-        recorder = new MediaRecorder(exportStream, { mimeType: mime });
+        let mimeType = '';
+        if (MediaRecorder.isTypeSupported('audio/webm;codecs=opus')) {
+          mimeType = 'audio/webm;codecs=opus';
+        } else if (MediaRecorder.isTypeSupported('audio/webm')) {
+          mimeType = 'audio/webm';
+        }
+
+        recorder = mimeType
+          ? new MediaRecorder(destination.stream, {mimeType})
+          : new MediaRecorder(destination.stream);
+
+        chunks = [];
+        recording = true;
+
         recorder.ondataavailable = event => {
-          if (event.data.size) chunks.push(event.data);
+          if (event.data && event.data.size > 0) {
+            chunks.push(event.data);
+          }
+        };
+
+        recorder.onerror = () => {
+          recording = false;
+          say('Export failed. Please try again.');
         };
 
         recorder.onstop = () => {
-          const blob = new Blob(chunks, { type: mime });
-          const url = URL.createObjectURL(blob);
+          recording = false;
+          destination.stream.getTracks().forEach(track => track.stop());
+
+          if (!chunks.length) {
+            say('No audio was recorded. Please try again.');
+            return;
+          }
+
+          const blob = new Blob(chunks, {
+            type: recorder.mimeType || 'audio/webm'
+          });
+
+          cleanupURL(exportURL);
+          exportURL = URL.createObjectURL(blob);
+
           const link = document.createElement('a');
-          link.href = url;
-          link.download = 'WakaunduVibez-Mix.webm';
+          link.href = exportURL;
+          link.download = 'wakaun du-mix.webm'.replace(' ', '');
+          document.body.appendChild(link);
           link.click();
-          setTimeout(() => URL.revokeObjectURL(url), 60000);
-          status.textContent =
-            'Export complete. Your processed mix was downloaded.';
+          link.remove();
+
+          say('Export complete. Check your Downloads folder.');
         };
 
+        audio.pause();
+        audio.currentTime = 0;
         recorder.start();
         await audio.play();
-        status.textContent = 'Exporting in real time. Keep this page open...';
+        say('Recording your processed mix for export...');
 
         audio.onended = () => {
-          if (recorder && recorder.state === 'recording') recorder.stop();
+          if (recorder && recorder.state !== 'inactive') {
+            recorder.stop();
+          }
         };
-      } catch (e) {
-        if (recorder && recorder.state === 'recording') recorder.stop();
-        status.textContent = 'Export failed: ' + e.message;
+      } catch (error) {
+        recording = false;
+        say(error.message || 'Could not export audio.');
       }
     });
   })();
