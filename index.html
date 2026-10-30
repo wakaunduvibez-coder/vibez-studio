@@ -2354,7 +2354,10 @@ masterGain.connect(ctx.destination);
    }
 
    active = chain;
-   update();
+
+active.masterGain.gain.value = 0.8;
+
+update();
 
    status.textContent = 'Effects connected to ' +
     (track.file ? track.file.name : 'selected track');
