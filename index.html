@@ -2271,8 +2271,6 @@ async function startMicTest() {
 
  function refresh() {
   const tracks = window.vibezMixerTracks || [];
-  if (select.options.length === tracks.length + 1) return;
-
   const current = select.value;
   select.innerHTML = '<option value="">Select a mixer track</option>';
 
