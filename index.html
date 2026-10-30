@@ -2356,7 +2356,15 @@ delayNode.connect(delayGain);
 delayGain.connect(masterGain);
 masterGain.connect(ctx.destination);
 
-    chain = { bass, mid, treble, compressor, masterGain };
+    chain = {
+  bass,
+  mid,
+  treble,
+  compressor,
+  masterGain,
+  delayNode,
+  delayGain
+};
     chains.set(track, chain);
    }
 
