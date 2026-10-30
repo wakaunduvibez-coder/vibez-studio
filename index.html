@@ -2343,7 +2343,11 @@ function refresh() {
     bass.connect(mid);
     mid.connect(treble);
     treble.connect(compressor);
-    compressor.connect(ctx.destination);
+    const masterGain = ctx.createGain();
+masterGain.gain.value = 0.8;
+
+compressor.connect(masterGain);
+masterGain.connect(ctx.destination);
 
     chain = { bass, mid, treble, compressor };
     chains.set(track, chain);
