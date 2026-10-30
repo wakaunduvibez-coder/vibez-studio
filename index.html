@@ -1448,5 +1448,204 @@ async function startMicTest() {
   });
 })();
 </script>
+  
+<section id="vibez-beat-synth" style="background:#100d20;color:white;padding:18px;border-radius:18px;margin:20px 0;font-family:Arial">
+  <h2>🥁 WakaûndūVibez Beat Maker</h2>
+  <p>Create your own Gengetone and Afrobeat rhythms.</p>
+
+  <label>Tempo: <span id="vTempo">120</span> BPM</label>
+  <input id="vBpm" type="range" min="60" max="180" value="120" style="width:100%">
+
+  <div id="vDrums"></div>
+  <button id="vBeatPlay">▶ Play Beat</button>
+  <button id="vBeatStop">■ Stop</button>
+
+  <hr style="margin:22px 0;border-color:#554477">
+
+  <h2>🎹 WakaûndūVibez Synthesizer</h2>
+  <p>KORG-inspired electronic keyboard</p>
+
+  <label>Sound:</label>
+  <select id="vWave" style="padding:9px">
+    <option value="sawtooth">Synth Lead</option>
+    <option value="square">Electronic Bass</option>
+    <option value="triangle">Soft Keys</option>
+    <option value="sine">Pure Tone</option>
+  </select>
+
+  <div id="vKeys" style="display:flex;gap:4px;overflow-x:auto;padding:15px 0"></div>
+  <p>Touch and hold a key to play. Release to stop.</p>
+  <style>
+    #vibez-beat-synth button {cursor:pointer;border:0;border-radius:7px;padding:10px;margin:3px;background:#713be8;color:white}
+    #vDrums .vrow {display:flex;align-items:center;gap:3px;margin:9px 0}
+    #vDrums .vrow span {width:48px;font-size:12px}
+    #vDrums .step {flex:1;min-width:0;padding:0;height:29px;background:#343047}
+    #vDrums .step.active {background:#e52baf}
+    #vKeys button {min-width:43px;height:115px;background:#fff;color:#111;border:1px solid #aaa}
+    #vKeys button:active {background:#b9a1ff}
+  </style>
+</section>
+
+<script>
+(() => {
+  const root = document.getElementById("vibez-beat-synth");
+  if (!root || root.dataset.ready) return;
+  root.dataset.ready = "yes";
+
+  let ctx, timer, currentStep = 0;
+  let playing = false;
+  let bpm = 120;
+  const patterns = {
+    Kick: Array(16).fill(false),
+    Snare: Array(16).fill(false),
+    Clap: Array(16).fill(false),
+    HiHat: Array(16).fill(false)
+  };
+
+  patterns.Kick[0] = patterns.Kick[4] = patterns.Kick[8] = patterns.Kick[12] = true;
+  patterns.Snare[4] = patterns.Snare[12] = true;
+  [2,6,10,14].forEach(i => patterns.HiHat[i] = true);
+
+  const drums = root.querySelector("#vDrums");
+
+  Object.entries(patterns).forEach(([name, pattern]) => {
+    const row = document.createElement("div");
+    row.className = "vrow";
+    const label = document.createElement("span");
+    label.textContent = name;
+    row.append(label);
+
+    pattern.forEach((on, i) => {
+      const btn = document.createElement("button");
+      btn.className = "step" + (on ? " active" : "");
+      btn.textContent = "";
+      btn.setAttribute("aria-label", name + " step " + (i + 1));
+      btn.onclick = () => {
+        pattern[i] = !pattern[i];
+        btn.classList.toggle("active", pattern[i]);
+      };
+      row.append(btn);
+    });
+    drums.append(row);
+  });
+
+  async function audio() {
+    if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+    if (ctx.state === "suspended") await ctx.resume();
+    return ctx;
+  }
+
+  function drumSound(name) {
+    const t = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    if (name === "Kick") {
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(150, t);
+      osc.frequency.exponentialRampToValueAtTime(42, t + .15);
+      gain.gain.setValueAtTime(.9, t);
+      gain.gain.exponentialRampToValueAtTime(.001, t + .25);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(t);
+      osc.stop(t + .26);
+    } else {
+      const buffer = ctx.createBuffer(1, ctx.sampleRate * .2, ctx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
+
+      const noise = ctx.createBufferSource();
+      noise.buffer = buffer;
+      const filter = ctx.createBiquadFilter();
+      filter.type = name === "HiHat" ? "highpass" : "bandpass";
+      filter.frequency.value = name === "HiHat" ? 8000 : 1800;
+      gain.gain.setValueAtTime(name === "Clap" ? .35 : .45, t);
+      gain.gain.exponentialRampToValueAtTime(.001, t + (name === "HiHat" ? .045 : .15));
+      noise.connect(filter);
+      filter.connect(gain);
+      gain.connect(ctx.destination);
+      noise.start(t);
+    }
+  }
+
+  function tick() {
+    Object.entries(patterns).forEach(([name, pattern]) => {
+      if (pattern[currentStep]) drumSound(name);
+    });
+    currentStep = (currentStep + 1) % 16;
+  }
+
+  root.querySelector("#vBpm").oninput = e => {
+    bpm = Number(e.target.value);
+    root.querySelector("#vTempo").textContent = bpm;
+    if (playing) {
+      clearInterval(timer);
+      timer = setInterval(tick, 60000 / bpm / 4);
+    }
+  };
+
+  root.querySelector("#vBeatPlay").onclick = async () => {
+    await audio();
+    if (playing) return;
+    playing = true;
+    currentStep = 0;
+    tick();
+    timer = setInterval(tick, 60000 / bpm / 4);
+  };
+
+  root.querySelector("#vBeatStop").onclick = () => {
+    playing = false;
+    clearInterval(timer);
+    currentStep = 0;
+  };
+
+  const notes = [
+    ["C4",261.63],["D4",293.66],["E4",329.63],
+    ["F4",349.23],["G4",392],["A4",440],
+    ["B4",493.88],["C5",523.25],
+    ["D5",587.33],["E5",659.25]
+  ];
+
+  const keys = root.querySelector("#vKeys");
+
+  notes.forEach(([name, frequency]) => {
+    const key = document.createElement("button");
+    key.textContent = name;
+    let oscillator, gain;
+
+    key.onpointerdown = async e => {
+      e.preventDefault();
+      if (oscillator) return;
+      await audio();
+      oscillator = ctx.createOscillator();
+      gain = ctx.createGain();
+      oscillator.type = root.querySelector("#vWave").value;
+      oscillator.frequency.value = frequency;
+      gain.gain.value = .18;
+      oscillator.connect(gain);
+      gain.connect(ctx.destination);
+      oscillator.start();
+      key.style.background = "#b9a1ff";
+    };
+
+    function release() {
+      if (!oscillator) return;
+      const old = oscillator;
+      const oldGain = gain;
+      oscillator = null;
+      gain = null;
+      oldGain.gain.setTargetAtTime(0, ctx.currentTime, .04);
+      old.stop(ctx.currentTime + .2);
+      key.style.background = "white";
+    }
+
+    key.onpointerup = release;
+    key.onpointercancel = release;
+    key.onlostpointercapture = release;
+    keys.append(key);
+  });
+})();
+</script>
 </body>
 </html>
