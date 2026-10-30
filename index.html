@@ -2364,7 +2364,7 @@ const recordDestination = ctx.createMediaStreamDestination();
 masterGain.connect(recordDestination);    
 masterGain.connect(ctx.destination);
 
-    chain = {
+chain = {
   bass,
   mid,
   treble,
@@ -2372,6 +2372,7 @@ masterGain.connect(ctx.destination);
   masterGain,
   delayNode,
   delayGain
+  recordDestination
 };
     chains.set(track, chain);
    }
