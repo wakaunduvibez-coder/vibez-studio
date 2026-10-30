@@ -2348,6 +2348,8 @@ function refresh() {
 delayNode.delayTime.value = 0.25;
 
 const delayGain = ctx.createGain();
+     const masterGain = ctx.createGain();
+masterGain.gain.value = 0.8;
 delayGain.gain.value = 0;
 masterGain.gain.value = 0.8;
 
