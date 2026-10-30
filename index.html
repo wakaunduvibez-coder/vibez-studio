@@ -2104,6 +2104,7 @@ async function startMicTest() {
   root.dataset.ready = 'yes';
 
   const tracks = [];
+  window.vibezMixerTracks = tracks;
   let master = 0.8;
   let playing = false;
   let startTime = 0;
