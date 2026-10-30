@@ -2347,7 +2347,10 @@ async function startMicTest() {
   root.querySelector('#fxDelay').disabled=true;
  }
 
- select.onchange=connect;
+ select.addEventListener('change', () => {
+  connect();
+  status.textContent = 'Track selected. Connecting effects...';
+});
 
  ['fxBass','fxMid','fxTreble','fxComp'].forEach(id=>{
   root.querySelector('#'+id).oninput=update;
