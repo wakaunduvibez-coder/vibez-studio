@@ -2080,5 +2080,142 @@ async function startMicTest() {
   draw();
 })();
 </script>
+
+<section id="multi-mixer" style="background:#151225;color:white;padding:18px;border-radius:14px;margin:20px 0;">
+  <h2>🎚️ Wakaûndū Multitrack Mixer</h2>
+  <p>Build your song with multiple audio tracks.</p>
+
+  <button id="mmAdd">＋ Add Audio Track</button>
+  <label style="display:block;margin-top:15px">
+    Master Volume
+    <input id="mmMaster" type="range" min="0" max="1" step="0.01" value="0.8">
+  </label>
+
+  <div id="mmTracks"></div>
+
+  <button id="mmPlay">▶ Play All</button>
+  <button id="mmStop">■ Stop All</button>
+</section>
+
+<script>
+(() => {
+  const root = document.querySelector('#multi-mixer');
+  if (!root || root.dataset.ready) return;
+  root.dataset.ready = 'yes';
+
+  const tracks = [];
+  let master = 0.8;
+  let playing = false;
+  let startTime = 0;
+  let offset = 0;
+
+  function addTrack(file) {
+    const audio = new Audio(URL.createObjectURL(file));
+    audio.loop = true;
+    const track = {audio, volume: 0.8, muted: false, solo: false, file};
+    tracks.push(track);
+
+    const card = document.createElement('div');
+    card.style.cssText = 'background:#241d38;padding:12px;margin:12px 0;border-radius:10px';
+
+    const title = document.createElement('strong');
+    title.textContent = '🎵 ' + file.name;
+
+    const volume = document.createElement('input');
+    volume.type = 'range';
+    volume.min = 0;
+    volume.max = 1;
+    volume.step = 0.01;
+    volume.value = 0.8;
+    volume.style.width = '100%';
+
+    const mute = document.createElement('button');
+    mute.textContent = 'Mute';
+
+    const solo = document.createElement('button');
+    solo.textContent = 'Solo';
+
+    const remove = document.createElement('button');
+    remove.textContent = 'Remove';
+
+    function update() {
+      const anySolo = tracks.some(t => t.solo);
+      tracks.forEach(t => {
+        t.audio.volume = master *
+          t.volume *
+          (!t.muted && (!anySolo || t.solo) ? 1 : 0);
+      });
+    }
+
+    volume.oninput = () => {
+      track.volume = Number(volume.value);
+      update();
+    };
+
+    mute.onclick = () => {
+      track.muted = !track.muted;
+      mute.textContent = track.muted ? 'Unmute' : 'Mute';
+      update();
+    };
+
+    solo.onclick = () => {
+      track.solo = !track.solo;
+      solo.textContent = track.solo ? 'Unsolo' : 'Solo';
+      update();
+    };
+
+    remove.onclick = () => {
+      track.audio.pause();
+      track.audio.src = '';
+      tracks.splice(tracks.indexOf(track), 1);
+      card.remove();
+      update();
+    };
+
+    card.append(title, document.createElement('br'),
+      volume, document.createElement('br'),
+      mute, solo, remove);
+    root.querySelector('#mmTracks').append(card);
+    update();
+  }
+
+  root.querySelector('#mmAdd').onclick = () => {
+    const picker = document.createElement('input');
+    picker.type = 'file';
+    picker.accept = 'audio/*';
+    picker.onchange = () => {
+      if (picker.files[0]) addTrack(picker.files[0]);
+    };
+    picker.click();
+  };
+
+  root.querySelector('#mmMaster').oninput = e => {
+    master = Number(e.target.value);
+    tracks.forEach(t => {
+      const anySolo = tracks.some(x => x.solo);
+      t.audio.volume = master * t.volume *
+        (!t.muted && (!anySolo || t.solo) ? 1 : 0);
+    });
+  };
+
+  root.querySelector('#mmPlay').onclick = async () => {
+    if (playing) return;
+    playing = true;
+    for (const t of tracks) {
+      t.audio.currentTime = offset;
+      await t.audio.play().catch(() => {});
+    }
+  };
+
+  root.querySelector('#mmStop').onclick = () => {
+    tracks.forEach(t => {
+      t.audio.pause();
+      t.audio.currentTime = 0;
+    });
+    playing = false;
+    offset = 0;
+  };
+})();
+</script>
 </body>
 </html>
