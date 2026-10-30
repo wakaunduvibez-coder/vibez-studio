@@ -2399,6 +2399,50 @@ update();
  });
 
  refresh();
+  let exportRecorder = null;
+let exportChunks = [];
+
+root.querySelector('#fxExport').onclick = async () => {
+  if (!active) {
+    status.textContent = 'Select a track first.';
+    return;
+  }
+
+  if (!exportRecorder || exportRecorder.state === 'inactive') {
+    exportChunks = [];
+
+    exportRecorder = new MediaRecorder(active.recordDestination.stream);
+
+    exportRecorder.ondataavailable = e => {
+      if (e.data.size > 0) exportChunks.push(e.data);
+    };
+
+    exportRecorder.onstop = async () => {
+      try {
+        const blob = new Blob(exportChunks, { type: exportRecorder.mimeType });
+        const buffer = await ctx.decodeAudioData(await blob.arrayBuffer());
+        const wav = audioBufferToWav(buffer);
+        const url = URL.createObjectURL(wav);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'Wakaundu-Processed-Audio.wav';
+        link.click();
+        URL.revokeObjectURL(url);
+        status.textContent = 'Processed WAV downloaded.';
+      } catch (error) {
+        status.textContent = 'Export failed: ' + error.message;
+      }
+    };
+
+    exportRecorder.start();
+    root.querySelector('#fxExport').textContent = '■ Stop and Download WAV';
+    status.textContent = 'Recording processed audio. Play your track now.';
+  } else {
+    exportRecorder.stop();
+    root.querySelector('#fxExport').textContent = '⬇ Download Processed Audio (WAV)';
+    status.textContent = 'Preparing WAV download...';
+  }
+};
  setInterval(refresh, 1000);
 })();
 </script>
