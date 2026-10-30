@@ -2269,23 +2269,6 @@ async function startMicTest() {
  let active = null;
  const chains = new WeakMap();
 
- function refresh() {
-  const tracks = window.vibezMixerTracks || [];
-  const current = select.value;
-  select.innerHTML = '<option value="">Select a mixer track</option>';
-
-  tracks.forEach((t, i) => {
-   const option = document.createElement('option');
-   option.value = i;
-   option.textContent = t.file ? t.file.name : 'Audio track ' + (i + 1);
-   select.appendChild(option);
-  });
-
-  if (current !== '' && tracks[Number(current)]) {
-   select.value = current;
-  }
- }
-
  function update() {
   if (!active) return;
 
