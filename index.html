@@ -2386,7 +2386,7 @@ update();
  select.addEventListener('focus', refresh);
  select.addEventListener('change', connect);
 
- ['fxBass', 'fxMid', 'fxTreble', 'fxComp'].forEach(id => {
+ ['fxBass', 'fxMid', 'fxTreble', 'fxComp', 'fxDelay'].forEach(id => {
   root.querySelector('#' + id).addEventListener('input', update);
  });
 
