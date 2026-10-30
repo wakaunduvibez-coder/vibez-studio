@@ -1930,5 +1930,155 @@ async function startMicTest() {
   })();
   </script>
 </section>
+  
+<section id="vibez-beatmaker" style="background:#111124;color:white;padding:18px;border-radius:18px;margin:20px 0;font-family:Arial,sans-serif">
+  <h2>🥁 WakaûndūVibez Beat Maker</h2>
+  <p>Create your own Gengetone beats!</p>
+
+  <label>Tempo (BPM)</label>
+  <input id="bmTempo" type="number" min="60" max="200" value="120" style="width:75px;padding:8px">
+
+  <div id="bmPads" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:16px 0">
+    <button data-sound="kick">Kick</button>
+    <button data-sound="snare">Snare</button>
+    <button data-sound="hat">Hi-hat</button>
+    <button data-sound="clap">Clap</button>
+  </div>
+
+  <h3>🎼 Step Sequencer</h3>
+  <div id="bmSequence"></div>
+
+  <div style="display:flex;gap:10px;margin-top:16px">
+    <button id="bmPlay">▶ Play</button>
+    <button id="bmStop">■ Stop</button>
+    <button id="bmClear">Clear</button>
+  </div>
+  <p id="bmStatus">Ready to make beats.</p>
+</section>
+
+<style>
+#vibez-beatmaker button {
+  background:#762cff;color:white;border:0;border-radius:9px;
+  padding:12px 5px;font-weight:bold;
+}
+#bmSequence .bm-row {
+  display:grid;grid-template-columns:65px repeat(16,minmax(0,1fr));
+  gap:3px;margin:8px 0;align-items:center;
+}
+#bmSequence button {
+  padding:0;min-width:0;height:27px;background:#33334c;
+}
+#bmSequence button.active {background:#00cba0;}
+#bmSequence button.current {outline:2px solid white;}
+</style>
+
+<script>
+(() => {
+  const root=document.getElementById('vibez-beatmaker');
+  if(!root || root.dataset.ready) return;
+  root.dataset.ready='1';
+
+  const names=['kick','snare','hat','clap'];
+  let pattern=names.map(()=>Array(16).fill(false));
+  let audio=null, timer=null, step=0;
+
+  const sequence=root.querySelector('#bmSequence');
+  const status=root.querySelector('#bmStatus');
+
+  function sound(type){
+    audio=audio || new (window.AudioContext||window.webkitAudioContext)();
+    if(audio.state==='suspended') audio.resume();
+    const now=audio.currentTime;
+    const osc=audio.createOscillator();
+    const gain=audio.createGain();
+
+    if(type==='kick'){
+      osc.type='sine';
+      osc.frequency.setValueAtTime(150,now);
+      osc.frequency.exponentialRampToValueAtTime(45,now+0.16);
+      gain.gain.setValueAtTime(1,now);
+      gain.gain.exponentialRampToValueAtTime(0.001,now+0.22);
+      osc.connect(gain);gain.connect(audio.destination);
+      osc.start(now);osc.stop(now+0.23);
+    } else {
+      const length=audio.sampleRate*0.12;
+      const buffer=audio.createBuffer(1,length,audio.sampleRate);
+      const data=buffer.getChannelData(0);
+      for(let i=0;i<length;i++) data[i]=Math.random()*2-1;
+      const noise=audio.createBufferSource();
+      noise.buffer=buffer;
+      const filter=audio.createBiquadFilter();
+      filter.type=type==='hat'?'highpass':'lowpass';
+      filter.frequency.value=type==='hat'?8000:2500;
+      gain.gain.setValueAtTime(type==='clap'?0.7:0.35,now);
+      gain.gain.exponentialRampToValueAtTime(0.001,now+0.12);
+      noise.connect(filter);filter.connect(gain);gain.connect(audio.destination);
+      noise.start(now);
+    }
+  }
+
+  function draw(){
+    sequence.innerHTML='';
+    names.forEach((name,r)=>{
+      const row=document.createElement('div');
+      row.className='bm-row';
+      const label=document.createElement('span');
+      label.textContent=name;
+      row.appendChild(label);
+      for(let s=0;s<16;s++){
+        const b=document.createElement('button');
+        b.className=pattern[r][s]?'active':'';
+        b.textContent='';
+        b.setAttribute('aria-label',name+' step '+(s+1));
+        b.onclick=()=>{
+          pattern[r][s]=!pattern[r][s];
+          draw();
+        };
+        row.appendChild(b);
+      }
+      sequence.appendChild(row);
+    });
+  }
+
+  function tick(){
+    const buttons=sequence.querySelectorAll('.bm-row button');
+    buttons.forEach(b=>b.classList.remove('current'));
+    names.forEach((name,r)=>{
+      const b=sequence.children[r].children[step+1];
+      b.classList.add('current');
+      if(pattern[r][step]) sound(name);
+    });
+    step=(step+1)%16;
+  }
+
+  function stop(){
+    if(timer) clearInterval(timer);
+    timer=null;
+    status.textContent='Stopped.';
+  }
+
+  function play(){
+    stop();
+    const bpm=Math.max(60,Math.min(200,Number(root.querySelector('#bmTempo').value)||120));
+    step=0;
+    tick();
+    timer=setInterval(tick,60000/bpm/4);
+    status.textContent='Playing at '+bpm+' BPM';
+  }
+
+  root.querySelectorAll('[data-sound]').forEach(b=>{
+    b.onclick=()=>sound(b.dataset.sound);
+  });
+  root.querySelector('#bmPlay').onclick=play;
+  root.querySelector('#bmStop').onclick=stop;
+  root.querySelector('#bmClear').onclick=()=>{
+    stop();
+    pattern=names.map(()=>Array(16).fill(false));
+    draw();
+  };
+
+  draw();
+})();
+</script>
 </body>
 </html>
