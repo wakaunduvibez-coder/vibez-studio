@@ -2258,106 +2258,120 @@ async function startMicTest() {
 
 <script>
 (() => {
- const root=document.querySelector('#vibez-fx');
- if(!root || root.dataset.ready)return;
- root.dataset.ready='yes';
+ const root = document.querySelector('#vibez-fx');
+ if (!root || root.dataset.ready) return;
+ root.dataset.ready = 'yes';
 
- const select=root.querySelector('#fxTrack');
- const status=root.querySelector('#fxStatus');
- let ctx=null, active=null, nodes=[];
+ const select = root.querySelector('#fxTrack');
+ const status = root.querySelector('#fxStatus');
 
- function refresh(){
-  const tracks=window.vibezMixerTracks;
-  if(!tracks)return;
-  const current=select.value;
-  select.innerHTML='<option value="">Select a mixer track</option>';
-  tracks.forEach((t,i)=>{
-   const o=document.createElement('option');
-   o.value=i;
-   o.textContent=t.file.name;
-   select.append(o);
+ let ctx = null;
+ let active = null;
+ const chains = new WeakMap();
+
+ function refresh() {
+  const tracks = window.vibezMixerTracks || [];
+  if (select.options.length === tracks.length + 1) return;
+
+  const current = select.value;
+  select.innerHTML = '<option value="">Select a mixer track</option>';
+
+  tracks.forEach((t, i) => {
+   const option = document.createElement('option');
+   option.value = i;
+   option.textContent = t.file ? t.file.name : 'Audio track ' + (i + 1);
+   select.appendChild(option);
   });
-  if(current!=='' && tracks[current])select.value=current;
+
+  if (current !== '' && tracks[Number(current)]) {
+   select.value = current;
+  }
  }
 
- function clear(){
-  nodes.forEach(n=>{try{n.disconnect()}catch(e){}});
-  nodes=[];
-  active=null;
+ function update() {
+  if (!active) return;
+
+  active.bass.gain.value = Number(root.querySelector('#fxBass').value);
+  active.mid.gain.value = Number(root.querySelector('#fxMid').value);
+  active.treble.gain.value = Number(root.querySelector('#fxTreble').value);
+  active.compressor.ratio.value = Number(root.querySelector('#fxComp').value);
  }
 
- function connect(){
+ async function connect() {
   refresh();
-  const tracks=window.vibezMixerTracks;
-  if(!tracks || select.value===''){
-   status.textContent='No compatible track selected.';
-   return;
-  }
-  const track=tracks[Number(select.value)];
-  if(!track || !track.audio){
-   status.textContent='Track unavailable.';
+
+  const tracks = window.vibezMixerTracks || [];
+  if (select.value === '') {
+   status.textContent = 'Select a mixer track first.';
    return;
   }
 
-  if(!ctx)ctx=new (window.AudioContext||window.webkitAudioContext)();
+  const track = tracks[Number(select.value)];
+  if (!track || !track.audio) {
+   status.textContent = 'Track unavailable.';
+   return;
+  }
 
-  clear();
+  try {
+   if (!ctx) {
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContextClass) throw new Error('Audio effects are not supported.');
+    ctx = new AudioContextClass();
+   }
 
-  try{
-   const source=ctx.createMediaElementSource(track.audio);
-   const bass=ctx.createBiquadFilter();
-   bass.type='lowshelf';
-   bass.frequency.value=250;
+   await ctx.resume();
 
-   const mid=ctx.createBiquadFilter();
-   mid.type='peaking';
-   mid.frequency.value=1000;
-   mid.Q.value=1;
+   let chain = chains.get(track);
 
-   const treble=ctx.createBiquadFilter();
-   treble.type='highshelf';
-   treble.frequency.value=4000;
+   if (!chain) {
+    const source = ctx.createMediaElementSource(track.audio);
 
-   const compressor=ctx.createDynamicsCompressor();
-   compressor.threshold.value=-18;
-   compressor.ratio.value=1;
+    const bass = ctx.createBiquadFilter();
+    bass.type = 'lowshelf';
+    bass.frequency.value = 250;
 
-   source.connect(bass);
-   bass.connect(mid);
-   mid.connect(treble);
-   treble.connect(compressor);
-   compressor.connect(ctx.destination);
+    const mid = ctx.createBiquadFilter();
+    mid.type = 'peaking';
+    mid.frequency.value = 1000;
+    mid.Q.value = 1;
 
-   nodes=[source,bass,mid,treble,compressor];
-   active={bass,mid,treble,compressor};
-   status.textContent='Effects connected to '+track.file.name;
+    const treble = ctx.createBiquadFilter();
+    treble.type = 'highshelf';
+    treble.frequency.value = 4000;
+
+    const compressor = ctx.createDynamicsCompressor();
+    compressor.threshold.value = -18;
+
+    source.connect(bass);
+    bass.connect(mid);
+    mid.connect(treble);
+    treble.connect(compressor);
+    compressor.connect(ctx.destination);
+
+    chain = { bass, mid, treble, compressor };
+    chains.set(track, chain);
+   }
+
+   active = chain;
    update();
-  }catch(e){
-   status.textContent='This track may already have an audio connection. Reload the page and try again.';
+
+   status.textContent = 'Effects connected to ' +
+    (track.file ? track.file.name : 'selected track');
+
+  } catch (error) {
+   status.textContent = 'Audio connection error: ' + error.message;
   }
  }
 
- function update(){
-  if(!active)return;
-  active.bass.gain.value=Number(root.querySelector('#fxBass').value);
-  active.mid.gain.value=Number(root.querySelector('#fxMid').value);
-  active.treble.gain.value=Number(root.querySelector('#fxTreble').value);
-  active.compressor.ratio.value=Number(root.querySelector('#fxComp').value);
-  root.querySelector('#fxReverb').disabled=true;
-  root.querySelector('#fxDelay').disabled=true;
- }
+ select.addEventListener('focus', refresh);
+ select.addEventListener('change', connect);
 
- select.addEventListener('change', () => {
-  connect();
-  status.textContent = 'Track selected. Connecting effects...';
-});
-
- ['fxBass','fxMid','fxTreble','fxComp'].forEach(id=>{
-  root.querySelector('#'+id).oninput=update;
+ ['fxBass', 'fxMid', 'fxTreble', 'fxComp'].forEach(id => {
+  root.querySelector('#' + id).addEventListener('input', update);
  });
 
  refresh();
-setInterval(refresh, 1000);
+ setInterval(refresh, 1000);
 })();
 </script>
 </body>
