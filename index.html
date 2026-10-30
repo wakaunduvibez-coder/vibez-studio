@@ -2349,7 +2349,7 @@ masterGain.gain.value = 0.8;
 compressor.connect(masterGain);
 masterGain.connect(ctx.destination);
 
-    chain = { bass, mid, treble, compressor };
+    chain = { bass, mid, treble, compressor, masterGain };
     chains.set(track, chain);
    }
 
