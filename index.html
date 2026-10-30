@@ -1647,5 +1647,288 @@ async function startMicTest() {
   });
 })();
 </script>
+  
+<section id="wv-multitrack">
+  <style>
+    #wv-multitrack {
+      background:#090711;
+      color:#fff;
+      padding:18px;
+      border-radius:18px;
+      margin:20px 0;
+      font-family:Arial,sans-serif;
+    }
+    #wv-multitrack h2 {color:#c084fc;}
+    #wv-multitrack button {
+      background:#7c3aed;color:white;border:0;
+      padding:11px 15px;border-radius:9px;
+      margin:4px;cursor:pointer;
+    }
+    #wv-multitrack button:disabled {opacity:.5;}
+    #wv-multitrack .wv-track {
+      background:#1b1930;padding:12px;
+      border-radius:12px;margin:12px 0;
+      border:1px solid #38304e;
+    }
+    #wv-multitrack input[type=range] {width:100%;}
+    #wv-multitrack input[type=text] {
+      background:#292440;color:white;
+      padding:9px;border:1px solid #554477;
+      border-radius:7px;width:90%;
+    }
+    #wv-multitrack .wv-timeline {
+      display:flex;gap:3px;overflow:hidden;
+      margin:12px 0;
+    }
+    #wv-multitrack .wv-timeline span {
+      background:#30264d;min-width:38px;
+      padding:8px 3px;text-align:center;
+      font-size:11px;border-radius:4px;
+    }
+    #wv-multitrack .wv-status {
+      color:#c4b5fd;font-size:13px;
+    }
+    #wv-multitrack audio {display:none;}
+  </style>
+
+  <h2>🎚️ WakaûndūVibez Multitrack Studio</h2>
+  <p>Create, arrange and mix your music.</p>
+
+  <div>
+    <button type="button" id="wv-play">▶ Play</button>
+    <button type="button" id="wv-pause">⏸ Pause</button>
+    <button type="button" id="wv-stop">⏹ Stop</button>
+    <button type="button" id="wv-add">＋ Add Track</button>
+  </div>
+
+  <p class="wv-status" id="wv-status">
+    Studio ready. Add audio to begin.
+  </p>
+
+  <div class="wv-timeline" id="wv-ruler">
+    <span>00:00</span><span>00:10</span>
+    <span>00:20</span><span>00:30</span>
+    <span>00:40</span><span>00:50</span>
+  </div>
+
+  <label>Song timeline</label>
+  <input id="wv-seek" type="range" min="0" max="100"
+         value="0" step="0.1">
+
+  <p id="wv-time">00:00 / 00:00</p>
+
+  <hr>
+
+  <div id="wv-tracks"></div>
+
+  <hr>
+  <h3>🎛️ Master Volume</h3>
+  <input id="wv-master" type="range"
+         min="0" max="1" step="0.01" value="1">
+  <p>Adjust overall playback volume.</p>
+
+  <p class="wv-status">
+    Tip: Upload separate vocals, drums, bass and instruments
+    to arrange your song.
+  </p>
+
+  <script>
+  (() => {
+    const root = document.getElementById('wv-multitrack');
+    if (!root || root.dataset.ready) return;
+    root.dataset.ready = 'yes';
+
+    const tracksBox = root.querySelector('#wv-tracks');
+    const status = root.querySelector('#wv-status');
+    const seek = root.querySelector('#wv-seek');
+    const time = root.querySelector('#wv-time');
+    const master = root.querySelector('#wv-master');
+
+    let tracks = [];
+    let playing = false;
+    let timer = null;
+
+    function format(seconds) {
+      if (!isFinite(seconds)) return '00:00';
+      return Math.floor(seconds / 60).toString().padStart(2,'0')
+        + ':' + Math.floor(seconds % 60).toString().padStart(2,'0');
+    }
+
+    function totalDuration() {
+      return Math.max(0, ...tracks.map(t => t.audio.duration || 0));
+    }
+
+    function updateTime() {
+      const duration = totalDuration();
+      const current = Math.max(0, ...tracks.map(t => t.audio.currentTime || 0));
+      seek.value = duration ? current / duration * 100 : 0;
+      time.textContent = format(current) + ' / ' + format(duration);
+    }
+
+    function addTrack(name) {
+      const id = Date.now() + Math.random();
+      const audio = new Audio();
+      audio.preload = 'metadata';
+
+      const track = {
+        id, audio, url:null, muted:false, volume:1,
+        name:name || 'Audio Track ' + (tracks.length + 1)
+      };
+
+      tracks.push(track);
+
+      const card = document.createElement('div');
+      card.className = 'wv-track';
+      card.dataset.id = id;
+
+      card.innerHTML = `
+        <strong class="wv-title"></strong>
+        <p>
+          <input class="wv-name" type="text"
+                 aria-label="Track name">
+        </p>
+        <input class="wv-file" type="file"
+               accept="audio/*">
+        <p class="wv-status wv-file-status">No audio loaded</p>
+        <label>Track volume</label>
+        <input class="wv-volume" type="range"
+               min="0" max="1" step="0.01" value="1">
+        <div>
+          <button type="button" class="wv-mute">Mute</button>
+          <button type="button" class="wv-remove">Remove Track</button>
+        </div>
+      `;
+
+      tracksBox.appendChild(card);
+
+      const nameInput = card.querySelector('.wv-name');
+      const title = card.querySelector('.wv-title');
+      const fileInput = card.querySelector('.wv-file');
+      const volumeInput = card.querySelector('.wv-volume');
+      const muteButton = card.querySelector('.wv-mute');
+      const fileStatus = card.querySelector('.wv-file-status');
+
+      nameInput.value = track.name;
+      title.textContent = track.name;
+
+      nameInput.addEventListener('input', () => {
+        track.name = nameInput.value;
+        title.textContent = track.name;
+      });
+
+      fileInput.addEventListener('change', () => {
+        const file = fileInput.files[0];
+        if (!file) return;
+
+        if (track.url) URL.revokeObjectURL(track.url);
+
+        track.url = URL.createObjectURL(file);
+        audio.src = track.url;
+        audio.load();
+
+        fileStatus.textContent = 'Loaded: ' + file.name;
+        status.textContent = track.name + ' loaded successfully.';
+        updateTime();
+      });
+
+      volumeInput.addEventListener('input', () => {
+        track.volume = Number(volumeInput.value);
+        audio.volume = track.muted ? 0 :
+          track.volume * Number(master.value);
+      });
+
+      muteButton.addEventListener('click', () => {
+        track.muted = !track.muted;
+        audio.volume = track.muted ? 0 :
+          track.volume * Number(master.value);
+        muteButton.textContent = track.muted ? 'Unmute' : 'Mute';
+      });
+
+      card.querySelector('.wv-remove').addEventListener('click', () => {
+        audio.pause();
+        audio.removeAttribute('src');
+        audio.load();
+        if (track.url) URL.revokeObjectURL(track.url);
+        tracks = tracks.filter(t => t.id !== id);
+        card.remove();
+        updateTime();
+        status.textContent = 'Track removed.';
+      });
+
+      audio.addEventListener('loadedmetadata', updateTime);
+      audio.addEventListener('ended', updateTime);
+    }
+
+    function pauseAll() {
+      tracks.forEach(t => t.audio.pause());
+      playing = false;
+      clearInterval(timer);
+      status.textContent = 'Playback paused.';
+    }
+
+    root.querySelector('#wv-add').addEventListener('click', () => {
+      addTrack();
+    });
+
+    root.querySelector('#wv-play').addEventListener('click', async () => {
+      const loaded = tracks.filter(t => t.url);
+      if (!loaded.length) {
+        status.textContent = 'Upload an audio file first.';
+        return;
+      }
+
+      const start = Math.max(0, ...loaded.map(t => t.audio.currentTime || 0));
+      playing = true;
+
+      await Promise.all(loaded.map(async t => {
+        if (Math.abs(t.audio.currentTime - start) > 0.25) {
+          t.audio.currentTime = start;
+        }
+        t.audio.volume = t.muted ? 0 :
+          t.volume * Number(master.value);
+        try { await t.audio.play(); } catch(e) {}
+      }));
+
+      status.textContent = 'Playing your arrangement.';
+      clearInterval(timer);
+      timer = setInterval(updateTime, 200);
+    });
+
+    root.querySelector('#wv-pause').addEventListener('click', pauseAll);
+
+    root.querySelector('#wv-stop').addEventListener('click', () => {
+      pauseAll();
+      tracks.forEach(t => {
+        t.audio.currentTime = 0;
+      });
+      updateTime();
+      status.textContent = 'Playback stopped.';
+    });
+
+    master.addEventListener('input', () => {
+      tracks.forEach(t => {
+        t.audio.volume = t.muted ? 0 :
+          t.volume * Number(master.value);
+      });
+    });
+
+    seek.addEventListener('input', () => {
+      const duration = totalDuration();
+      if (!duration) return;
+      const position = duration * Number(seek.value) / 100;
+      tracks.forEach(t => {
+        if (t.url && isFinite(t.audio.duration)) {
+          t.audio.currentTime = Math.min(position, t.audio.duration);
+        }
+      });
+      updateTime();
+    });
+
+    addTrack('Vocals');
+    addTrack('Drums');
+    addTrack('Instruments');
+  })();
+  </script>
+</section>
 </body>
 </html>
