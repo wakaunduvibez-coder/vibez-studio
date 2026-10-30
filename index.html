@@ -2343,7 +2343,11 @@ function refresh() {
     bass.connect(mid);
     mid.connect(treble);
     treble.connect(compressor);
-    const masterGain = ctx.createGain();
+  const delayNode = ctx.createDelay(2);
+delayNode.delayTime.value = 0.25;
+
+const delayGain = ctx.createGain();
+delayGain.gain.value = 0;
 masterGain.gain.value = 0.8;
 
 compressor.connect(masterGain);
