@@ -1,2459 +1,906 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#090711">
-  <meta name="description" content="WakaûndūVibez Studio — record your vocals, play beats and create your sound.">
-  <title>WakaûndūVibez Studio</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#090711">
+<meta name="description" content="WakaûndūVibez Studio PRO - Record, mix, produce and create music from your phone.">
+<title>WakaûndūVibez Studio PRO</title>
 
-  <style>
-    * { box-sizing: border-box; }
-
-    :root {
-      --bg: #090711;
-      --panel: #151023;
-      --purple: #a855f7;
-      --pink: #ec4899;
-      --text: #f8f5ff;
-      --muted: #b8aecb;
-    }
-html {
-  scroll-behavior: smooth;
+<style>
+:root {
+  --bg:#090711;
+  --panel:#151023;
+  --purple:#a855f7;
+  --pink:#ec4899;
+  --text:#fff;
+  --muted:#b9adc9;
+  --green:#22c55e;
 }
-
+* {box-sizing:border-box}
+html {scroll-behavior:smooth}
 body {
-  margin: 0;
-  min-height: 100vh;
-  background-color: #090711;
-  background-image: url("./wakaundu-studio-artwork.png");
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-attachment: scroll;
-  color: #ffffff;
-  font-family: system-ui, Arial, sans-serif;
+  margin:0;
+  background:linear-gradient(145deg,#090711,#1b1030,#090711);
+  color:var(--text);
+  font-family:Arial,sans-serif;
 }
-
 header {
-  padding: 22px 16px;
-  border-bottom: 1px solid rgba(255,255,255,0.2);
-  text-align: center;
-  background: rgba(0,0,0,0.25);
+  padding:22px 15px;
+  text-align:center;
+  background:#100b1d;
+  border-bottom:1px solid #35204e;
 }
-
-.brand {
-  margin: 0;
-  font-size: clamp(23px, 6vw, 34px);
-  color: #e5c5ff;
-  letter-spacing: -1px;
-  text-shadow: 0 0 20px #a855f766;
+header h1 {
+  color:var(--pink);
+  margin:0;
+  font-size:25px;
 }
-
-.tagline {
-  color: #ffffff;
-  font-size: 13px;
-  letter-spacing: 3px;
-  margin: 9px 0 15px;
-}
-
+header p {color:var(--muted);letter-spacing:2px;font-size:12px}
 nav {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 22px;
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:18px;
+  padding:14px;
+  background:#100b1d;
+  position:sticky;
+  top:0;
+  z-index:10;
 }
-
-nav a {
-  color: white;
-  text-decoration: none;
-  font-size: 14px;
-}
-
-nav a:hover {
-  color: #d8a5ff;
-}
-
-main {
-  width: min(900px, 100%);
-  padding: 28px 16px 45px;
-  margin: auto;
-}
-
+nav a {color:white;text-decoration:none;font-size:13px}
+nav a:hover {color:var(--pink)}
 .hero {
-  text-align: center;
-  padding: 28px 10px 35px;
+  text-align:center;
+  padding:55px 18px;
+  background:radial-gradient(circle at center,#38204e,#100b1d 70%);
 }
-
-.eyebrow {
-  color: #d8a5ff;
-  font-size: 12px;
-  letter-spacing: 3px;
-  font-weight: 800;
-}
-
-h2 {
-  font-size: clamp(25px, 6vw, 40px);
-  line-height: 1.15;
-  margin: 15px 0;
-}
-
-.gradient {
-  background: linear-gradient(90deg, #d8a5ff, #f472b6);
-  color: transparent;
-  background-clip: text;
-  -webkit-background-clip: text;
-}
-
-p {
-  line-height: 1.7;
-  color: #eee5f7;
-}
-
-.hero p {
-  max-width: 550px;
-  margin: 0 auto 23px;
-}
-
-.button {
-  border: 0;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  padding: 13px 19px;
-  margin: 5px;
-  border-radius: 13px;
-  background: linear-gradient(110deg, #9333ea, #db2777);
-  color: white;
-  font-size: 14px;
-  font-weight: 750;
-  text-decoration: none;
-  cursor: pointer;
-  box-shadow: 0 5px 22px #a855f72b;
-}
-
-.button:disabled {
-  opacity: .4;
-  cursor: not-allowed;
-}
-
-.button.secondary {
-  background: rgba(36,24,50,0.7);
-  border: 1px solid #69418a;
-  box-shadow: none;
-}
-
+.hero h2 {font-size:32px;margin:10px 0}
+.hero p {color:var(--muted);line-height:1.7}
+.hero strong {color:var(--pink)}
+main {max-width:1050px;margin:auto;padding:15px}
 .panel {
-  padding: 23px 18px;
-  margin: 17px 0;
-  border: 1px solid rgba(255,255,255,0.20);
-  border-radius: 22px;
-  background: rgba(0,0,0,0.35);
-  box-shadow: 0 15px 45px #0003;
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  background:var(--panel);
+  border:1px solid #38254d;
+  border-radius:16px;
+  padding:20px;
+  margin:18px 0;
+  box-shadow:0 8px 25px #0005;
 }
-
-.panel h3 {
-  margin: 0 0 7px;
-  font-size: 21px;
-}
-
+.panel h3 {color:var(--pink);margin-top:5px}
 .section-label {
-  font-size: 11px;
-  letter-spacing: 2px;
-  font-weight: bold;
-  margin-bottom: 9px;
-  color: #d8a5ff;
+  color:var(--purple);
+  font-size:11px;
+  letter-spacing:2px;
+  font-weight:bold;
 }
-
-.section-label {
-  font-size: 11px;
-  letter-spacing: 2px;
-  font-weight: bold;
-  margin-bottom: 9px;
-  color: #d8a5ff;
+p {line-height:1.6;color:var(--muted)}
+.grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:15px;
 }
-
+button,.button {
+  background:linear-gradient(100deg,var(--purple),var(--pink));
+  color:white;
+  border:0;
+  border-radius:9px;
+  padding:12px 16px;
+  margin:5px 3px;
+  font-weight:bold;
+  cursor:pointer;
+  display:inline-block;
+  text-decoration:none;
+}
+button.secondary,.secondary {
+  background:#342449;
+  border:1px solid #7950a5;
+}
+button:disabled {opacity:.4;cursor:not-allowed}
+input[type=file] {
+  width:100%;
+  padding:12px;
+  background:#21172e;
+  color:white;
+  border-radius:8px;
+  margin:10px 0;
+}
+input[type=range] {width:100%;accent-color:var(--pink)}
+input[type=text],select {
+  width:100%;
+  padding:12px;
+  border-radius:8px;
+  background:#21172e;
+  border:1px solid #63427e;
+  color:white;
+}
+label.field {display:block;margin-top:15px;color:#e7d8f7}
+.status {
+  background:#21172e;
+  padding:12px;
+  border-radius:8px;
+  margin:12px 0;
+  color:var(--green);
+  font-size:13px;
+}
+audio {width:100%;margin:12px 0}
+.small {font-size:12px;color:#a99ab9}
+.control-group {margin:18px 0}
+.control-group label {display:block;margin-bottom:7px}
 .visualizer {
-  height: 90px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  margin: 20px 0;
-  padding: 12px;
-  overflow: hidden;
-  border-radius: 15px;
-  background: rgba(10, 8, 17, 0.55);
-  border: 1px solid #2b1b3d;
+  height:55px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+  overflow:hidden;
 }
-
-    .bar {
-      width: 5px;
-      height: 12px;
-      border-radius: 8px;
-      background: rgba(0, 0, 0, 0.72);
-      opacity: .8;
-    }
-
-    .visualizer.active .bar {
-      animation: pulse .55s ease-in-out infinite alternate;
-      animation-delay: calc(var(--i) * -0.06s);
-    }
-
-    @keyframes pulse {
-      from { height: 8px; }
-      to { height: calc(12px + (var(--i) % 7) * 9px); }
-    }
-
-    .status {
-      padding: 11px;
-      border-radius: 10px;
-      background: #0c0914;
-      color: #d8a5ff;
-      font-size: 13px;
-      text-align: center;
-      overflow-wrap: anywhere;
-    }
-
-    .controls {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 4px;
-      margin: 15px 0;
-    }
-
-    .field {
-      display: block;
-      margin: 17px 0 8px;
-      color: #ded3ef;
-      font-size: 13px;
-      font-weight: 650;
-    }
-
-    input[type="file"] {
-      width: 100%;
-      padding: 12px;
-      color: var(--muted);
-      border: 1px dashed #69418a;
-      border-radius: 12px;
-      background: #0b0813;
-    }
-
-    audio {
-      display: block;
-      width: 100%;
-      margin: 15px 0;
-      height: 45px;
-    }
-
-    .small {
-      font-size: 12px;
-      color: #998ba9;
-    }
-
-    .feature-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-      margin-top: 18px;
-    }
-
-    .feature {
-      padding: 17px 12px;
-      background: #110d1c;
-      border: 1px solid #30203f;
-      border-radius: 15px;
-    }
-
-    .feature span {
-      display: block;
-      font-size: 25px;
-      margin-bottom: 8px;
-    }
-
-    .feature strong { font-size: 14px; }
-
-    .feature p {
-      margin-bottom: 0;
-      font-size: 12px;
-    }
-
-    footer {
-      text-align: center;
-      padding: 25px 15px;
-      color: #9285a3;
-      font-size: 12px;
-      border-top: 1px solid #281936;
-    }
-
-    @media (min-width: 650px) {
-      .studio-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 16px;
-        align-items: start;
-      }
-      .panel { margin: 0 0 18px; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: .01ms !important;
-        scroll-behavior: auto !important;
-      }
-    }
-  </style>
+.visualizer span {
+  width:4px;
+  height:12px;
+  border-radius:5px;
+  background:var(--pink);
+  animation:wave .8s ease-in-out infinite alternate;
+}
+.visualizer span:nth-child(3n) {animation-delay:.2s}
+.visualizer span:nth-child(2n) {animation-delay:.4s}
+@keyframes wave {to {height:48px}}
+.steps {
+  display:grid;
+  grid-template-columns:repeat(8,1fr);
+  gap:6px;
+  margin:15px 0;
+}
+.step {
+  min-width:0;
+  padding:12px 2px;
+  background:#292039;
+  border:1px solid #61447c;
+}
+.step.active {background:var(--pink)}
+.track {
+  padding:12px;
+  background:#21172e;
+  border-radius:9px;
+  margin:10px 0;
+}
+footer {
+  text-align:center;
+  padding:25px;
+  color:#a99ab9;
+  font-size:12px;
+}
+hr {border:0;border-top:1px solid #49335d;margin:20px 0}
+@media(max-width:500px) {
+  .hero h2 {font-size:25px}
+  .panel {padding:15px}
+  nav {gap:12px}
+}
+</style>
 </head>
 
 <body>
-  <header>
-    <h1 class="brand">WakaûndūVibez Studio</h1>
-    <div class="tagline">CREATE YOUR VIBE. BUILD YOUR SOUND.</div>
-    <nav>
-      <a href="#home">Home</a>
-      <a href="#studio">Studio</a>
-      <a href="#beats">Beats</a>
-      <a href="#about">About</a>
-    </nav>
-  </header>
 
-  <main>
-    <section class="hero" id="home">
-      <div class="eyebrow">YOUR SOUND. YOUR STORY.</div>
-      <h2>Welcome to your<br><span class="gradient">personal music studio.</span></h2>
-      <p>Record your vocals, listen to your takes and bring your musical ideas to life — right from your phone.</p>
-      <a class="button" href="#studio">🎙️ Open Recording Studio</a>
-    </section>
+<header>
+  <h1>WakaûndūVibez Studio PRO</h1>
+  <p>CREATE YOUR VIBE. BUILD YOUR SOUND.</p>
+</header>
 
-    <div class="studio-grid">
-      <section class="panel" id="studio">
-        <div class="section-label">01 / VOCAL BOOTH</div>
-        <h3>Record Your Vocals</h3>
-        <p>Connect your headphones, allow microphone access and capture your performance.</p>
+<nav>
+  <a href="#home">Home</a>
+  <a href="#record">Recording</a>
+  <a href="#beats">Beats</a>
+  <a href="#mix">Mixing</a>
+  <a href="#pitch">Auto-Tune</a>
+  <a href="#multitrack">Multitrack</a>
+  <a href="#synth">Synth</a>
+</nav>
 
-        <div class="visualizer" id="visualizer" aria-label="Decorative audio waveform"></div>
-
-        <div class="status" id="recordStatus" role="status" aria-live="polite">
-          Ready to record
-        </div>
-
-        <div class="controls">
-          <button class="button" id="recordBtn">● Start Recording</button>
-          <button class="button secondary" id="stopBtn" disabled>■ Stop</button>
-        </div>
-
-        <label class="field" for="vocalAudio">Your recorded vocals</label>
-        <audio id="vocalAudio" controls hidden></audio>
-
-        <a id="downloadBtn" class="button secondary" hidden download="wakaundu-vocals.webm">
-          ↓ Download Recording
-        </a>
-
-        <p class="small">Recording stays on this page unless you download or share it. Keep the page open while recording.</p>
-      </section>
-
-      <section class="panel" id="beats">
-        <div class="section-label">02 / BEAT PLAYER</div>
-        <h3>Bring Your Beat</h3>
-        <p>Choose an audio beat saved on your phone and play it while preparing your vocals.</p>
-
-        <label class="field" for="beatFile">Choose an audio file</label>
-        <input id="beatFile" type="file" accept="audio/*">
-
-        <audio id="beatAudio" controls hidden></audio>
-
-        <div class="status" id="beatStatus" role="status" aria-live="polite">
-          No beat selected yet
-        </div>
-
-        <p class="small">Use MP3, WAV or another audio format supported by your browser.</p>
-      </section>
-    </div>
-
-    <section class="panel" id="about">
-      <div class="section-label">03 / YOUR CREATIVE SPACE</div>
-      <h3>More than a vibe.</h3>
-      <p>WakaûndūVibez Studio is built for original music, fresh Gengetone energy and independent artists.</p>
-
-      <div class="feature-grid">
-        <div class="feature">
-          <span>🎙️</span>
-          <strong>Vocal Recording</strong>
-          <p>Capture and replay your takes.</p>
-        </div>
-        <div class="feature">
-          <span>🎧</span>
-          <strong>Beat Playback</strong>
-          <p>Listen to audio files from your phone.</p>
-        </div>
-        <div class="feature">
-          <span>〰️</span>
-          <strong>Studio Visuals</strong>
-          <p>Animated waveform-style display.</p>
-        </div>
-        <div class="feature">
-          <span>🎚️</span>
-          <strong>Next: Mixing</strong>
-          <p>Build toward a fuller music workstation.</p>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    © <span id="year"></span> WakaûndūVibez Studio<br>
-    Create your vibe. Build your sound.
-  </footer>
-
-  <script>
-    const recordBtn = document.getElementById("recordBtn");
-    const stopBtn = document.getElementById("stopBtn");
-    const recordStatus = document.getElementById("recordStatus");
-    const vocalAudio = document.getElementById("vocalAudio");
-    const downloadBtn = document.getElementById("downloadBtn");
-    const visualizer = document.getElementById("visualizer");
-    const beatFile = document.getElementById("beatFile");
-    const beatAudio = document.getElementById("beatAudio");
-    const beatStatus = document.getElementById("beatStatus");
-
-    let recorder = null;
-    let micStream = null;
-    let chunks = [];
-    let recordingUrl = null;
-    let beatUrl = null;
-
-    document.getElementById("year").textContent =
-      new Date().getFullYear();
-
-    // Decorative waveform bars
-    for (let i = 0; i < 35; i++) {
-      const bar = document.createElement("div");
-      bar.className = "bar";
-      bar.style.setProperty("--i", i);
-      visualizer.appendChild(bar);
-    }
-
-    function setStatus(message) {
-      recordStatus.textContent = message;
-    }
-
-    recordBtn.addEventListener("click", async () => {
-      if (!navigator.mediaDevices ||
-          !navigator.mediaDevices.getUserMedia ||
-          !window.MediaRecorder) {
-        setStatus("Recording is not supported here. Open your published HTTPS website in a supported browser.");
-        return;
-      }
-
-      recordBtn.disabled = true;
-      setStatus("Requesting microphone permission...");
-
-      try {
-        micStream = await navigator.mediaDevices.getUserMedia({
-          audio: true
-        });
-
-        let options = {};
-        if (MediaRecorder.isTypeSupported("audio/webm;codecs=opus")) {
-          options.mimeType = "audio/webm;codecs=opus";
-        } else if (MediaRecorder.isTypeSupported("audio/mp4")) {
-          options.mimeType = "audio/mp4";
-        }
-
-        recorder = new MediaRecorder(micStream, options);
-        chunks = [];
-
-        recorder.addEventListener("dataavailable", event => {
-          if (event.data && event.data.size > 0) {
-            chunks.push(event.data);
-          }
-        });
-
-        recorder.addEventListener("stop", () => {
-          const mime = recorder.mimeType || "audio/webm";
-          const blob = new Blob(chunks, { type: mime });
-
-          if (recordingUrl) URL.revokeObjectURL(recordingUrl);
-          recordingUrl = URL.createObjectURL(blob);
-
-          vocalAudio.src = recordingUrl;
-          vocalAudio.hidden = false;
-
-          const extension = mime.includes("mp4") ? "m4a" : "webm";
-          downloadBtn.href = recordingUrl;
-          downloadBtn.download = "wakaundu-vocals." + extension;
-          downloadBtn.hidden = false;
-
-          if (micStream) {
-            micStream.getTracks().forEach(track => track.stop());
-            micStream = null;
-          }
-
-          visualizer.classList.remove("active");
-          setStatus("Recording saved in this page. Play it back or download it.");
-          recordBtn.disabled = false;
-          stopBtn.disabled = true;
-        });
-
-        recorder.addEventListener("error", () => {
-          setStatus("Recording error. Please try again.");
-          recordBtn.disabled = false;
-          stopBtn.disabled = true;
-          visualizer.classList.remove("active");
-          if (micStream) {
-            micStream.getTracks().forEach(track => track.stop());
-            micStream = null;
-          }
-        });
-
-        recorder.start();
-        recordBtn.disabled = true;
-        stopBtn.disabled = false;
-        visualizer.classList.add("active");
-        setStatus("🔴 Recording... perform your vocals!");
-
-      } catch (error) {
-        if (micStream) {
-          micStream.getTracks().forEach(track => track.stop());
-          micStream = null;
-        }
-        recordBtn.disabled = false;
-        stopBtn.disabled = true;
-
-        if (error.name === "NotAllowedError" ||
-            error.name === "PermissionDeniedError") {
-          setStatus("Microphone permission denied. Allow microphone access in your browser settings.");
-        } else {
-          setStatus("Could not start recording. Check your microphone and try again.");
-        }
-      }
-    });
-
-    stopBtn.addEventListener("click", () => {
-      if (recorder && recorder.state !== "inactive") {
-        stopBtn.disabled = true;
-        setStatus("Finishing your recording...");
-        recorder.stop();
-      }
-    });
-
-    beatFile.addEventListener("change", () => {
-      const file = beatFile.files && beatFile.files[0];
-      if (!file) return;
-
-      if (beatUrl) URL.revokeObjectURL(beatUrl);
-      beatUrl = URL.createObjectURL(file);
-      beatAudio.src = beatUrl;
-      beatAudio.hidden = false;
-      beatStatus.textContent = "Beat ready: " + file.name;
-    });
-
-    window.addEventListener("pagehide", () => {
-      if (micStream) {
-        micStream.getTracks().forEach(track => track.stop());
-      }
-    });
-  </script>
-
-<section id="audio-tool" style="background:#18182b;color:white;padding:20px;border-radius:16px;margin:20px 0;font-family:Arial,sans-serif">
-  <h2>🎙️ WakaûndūVibez Audio Tool</h2>
-  <p>Record your vocals and play them back.</p>
-  <button id="startAudio">🔴 Start Recording</button>
-  <button id="stopAudio" disabled>⏹ Stop Recording</button>
-  <button id="playAudio" disabled>▶ Play Recording</button>
-  <p id="audioStatus">Ready to record.</p>
-  <audio id="audioPlayback" controls style="width:100%"></audio>
+<section class="hero" id="home">
+  <div class="section-label">YOUR SOUND. YOUR STORY.</div>
+  <h2>Welcome to your <strong>personal music studio.</strong></h2>
+  <p>Record vocals, produce beats, shape your sound and create music directly from your phone.</p>
+  <a class="button" href="#record">🎙️ OPEN RECORDING STUDIO</a>
 </section>
 
-<script>
-(() => {
-  const start = document.getElementById('startAudio');
-  const stop = document.getElementById('stopAudio');
-  const play = document.getElementById('playAudio');
-  const status = document.getElementById('audioStatus');
-  const audio = document.getElementById('audioPlayback');
-  let recorder;
-  let chunks = [];
-  let recordingUrl;
+<main>
 
-  start.onclick = async () => {
-    try {
-      if (!navigator.mediaDevices?.getUserMedia || !window.MediaRecorder) {
-        status.textContent = 'Recording is not supported in this browser.';
-        return;
-      }
-      const stream = await navigator.mediaDevices.getUserMedia({audio:true});
-      chunks = [];
-      recorder = new MediaRecorder(stream);
-      recorder.ondataavailable = e => {
-        if (e.data.size) chunks.push(e.data);
-      };
-      recorder.onstop = () => {
-        const blob = new Blob(chunks, {type: recorder.mimeType || 'audio/webm'});
-        if (recordingUrl) URL.revokeObjectURL(recordingUrl);
-        recordingUrl = URL.createObjectURL(blob);
-        audio.src = recordingUrl;
-        play.disabled = false;
-        status.textContent = 'Recording saved temporarily. Tap Play Recording.';
-        stream.getTracks().forEach(track => track.stop());
-      };
-      recorder.start();
-      start.disabled = true;
-      stop.disabled = false;
-      status.textContent = 'Recording your vocals…';
-    } catch (error) {
-      status.textContent = 'Microphone access failed. Allow microphone permission and try again.';
-    }
-  };
+<!-- VOCAL RECORDING -->
 
-  stop.onclick = () => {
-    if (recorder && recorder.state === 'recording') {
-      recorder.stop();
-      start.disabled = false;
-      stop.disabled = true;
-    }
-  };
+<section class="panel" id="record">
+  <div class="section-label">01 / VOCAL BOOTH</div>
+  <h3>🎙️ WakaûndūVibez Vocal Studio</h3>
+  <p>Record your vocals using your phone microphone.</p>
 
-  play.onclick = () => audio.play();
-})();
-</script> 
- 
-<section id="mix-master" style="background:#17172b;color:white;padding:20px;border-radius:16px;font-family:Arial,sans-serif;margin:20px 0">
-  <style>
-    #mix-master label {display:block;margin-top:15px}
-    #mix-master input[type=range] {width:100%;accent-color:#b58cff}
-    #mix-master button {
-      background:#8b5cf6;color:white;border:0;border-radius:9px;
-      padding:12px;margin:4px;font-weight:bold
-    }
-  </style>
+  <div class="visualizer" id="visualizer"></div>
+  <div class="status" id="recordStatus">Ready to record.</div>
 
-  <h2>🎚️ WakaûndūVibez Mixing &amp; Mastering</h2>
-  <p>Upload your recording, adjust your sound, and export your mix.</p>
+  <button id="recordBtn">🔴 Start Recording</button>
+  <button id="stopBtn" class="secondary" disabled>⏹ Stop Recording</button>
 
-  <label for="mixFile">Choose your audio recording</label>
-  <input id="mixFile" type="file" accept="audio/*"
-    style="display:block;margin:12px 0;max-width:100%">
+  <audio id="vocalAudio" controls hidden></audio>
+  <a id="downloadVocal" class="button secondary" hidden download="WakaunduVibez-Vocals.webm">⬇ Download Vocals</a>
+  <p class="small">Allow microphone permission. Keep this page open while recording.</p>
+</section>
 
-  <audio id="mixAudio" controls style="width:100%"></audio>
+<!-- BEAT PLAYER -->
 
-  <div style="margin:14px 0">
-    <button id="mixPlay" type="button">▶ Play</button>
-    <button id="mixStop" type="button">■ Stop</button>
-    <button id="mixExport" type="button">⬇ Export processed audio</button>
+<section class="panel" id="beats">
+  <div class="section-label">02 / BEAT PLAYER</div>
+  <h3>🎧 Bring Your Beat</h3>
+  <p>Upload instrumentals and listen to them while recording.</p>
+
+  <label class="field">Choose your beat</label>
+  <input type="file" id="beatFile" accept="audio/*">
+  <audio id="beatAudio" controls hidden></audio>
+  <div class="status" id="beatStatus">No beat selected.</div>
+</section>
+
+<!-- MIXING AND MASTERING -->
+
+<section class="panel" id="mix">
+  <div class="section-label">03 / MIXING & MASTERING</div>
+  <h3>🎚️ Professional Mixing Desk</h3>
+  <p>Upload a recording, adjust the processing controls and export the processed playback.</p>
+
+  <label class="field">Choose your recording</label>
+  <input type="file" id="mixFile" accept="audio/*">
+  <audio id="mixAudio" controls hidden></audio>
+
+  <div class="control-group">
+    <label>Volume: <span id="volumeValue">80%</span></label>
+    <input type="range" id="volume" min="0" max="100" value="80">
   </div>
 
-  <label for="mixVolume">Volume</label>
-  <input id="mixVolume" type="range" min="0" max="2"
-    step="0.1" value="1">
+  <div class="control-group">
+    <label>Bass: <span id="bassValue">0 dB</span></label>
+    <input type="range" id="bass" min="-12" max="12" value="0">
+  </div>
 
-  <label for="mixBass">Bass</label>
-  <input id="mixBass" type="range" min="-12" max="12"
-    step="1" value="0">
+  <div class="control-group">
+    <label>Treble: <span id="trebleValue">0 dB</span></label>
+    <input type="range" id="treble" min="-12" max="12" value="0">
+  </div>
 
-  <label for="mixTreble">Treble</label>
-  <input id="mixTreble" type="range" min="-12" max="12"
-    step="1" value="0">
+  <div class="control-group">
+    <label>Compression: <span id="compressionValue">40%</span></label>
+    <input type="range" id="compression" min="0" max="100" value="40">
+  </div>
 
-  <p id="mixStatus" role="status" aria-live="polite">
-    Choose an audio file to begin.
-  </p>
+  <div class="control-group">
+    <label>Reverb: <span id="reverbValue">0%</span></label>
+    <input type="range" id="reverb" min="0" max="100" value="0">
+  </div>
 
-  <script>
-  (() => {
-    const root = document.getElementById('mix-master');
-    if (!root || root.dataset.initialized === 'true') return;
-    root.dataset.initialized = 'true';
+  <div class="control-group">
+    <label>Echo: <span id="echoValue">0%</span></label>
+    <input type="range" id="echo" min="0" max="100" value="0">
+  </div>
 
-    const fileInput = root.querySelector('#mixFile');
-    const audio = root.querySelector('#mixAudio');
-    const playBtn = root.querySelector('#mixPlay');
-    const stopBtn = root.querySelector('#mixStop');
-    const exportBtn = root.querySelector('#mixExport');
-    const volume = root.querySelector('#mixVolume');
-    const bass = root.querySelector('#mixBass');
-    const treble = root.querySelector('#mixTreble');
-    const status = root.querySelector('#mixStatus');
-
-    let ctx, source, bassFilter, trebleFilter, gain, recorder;
-    let chunks = [], objectURL = null, exportURL = null;
-    let audioReady = false, recording = false;
-
-    function say(message) {
-      status.textContent = message;
-    }
-
-    function cleanupURL(url) {
-      if (url) URL.revokeObjectURL(url);
-    }
-
-    async function setupAudio() {
-      if (audioReady) {
-        if (ctx.state === 'suspended') await ctx.resume();
-        return;
-      }
-
-      const AudioContextClass =
-        window.AudioContext || window.webkitAudioContext;
-
-      if (!AudioContextClass) {
-        throw new Error('Your browser does not support audio processing.');
-      }
-
-      ctx = new AudioContextClass();
-      source = ctx.createMediaElementSource(audio);
-
-      bassFilter = ctx.createBiquadFilter();
-      bassFilter.type = 'lowshelf';
-      bassFilter.frequency.value = 200;
-
-      trebleFilter = ctx.createBiquadFilter();
-      trebleFilter.type = 'highshelf';
-      trebleFilter.frequency.value = 3000;
-
-      gain = ctx.createGain();
-
-      source.connect(bassFilter);
-      bassFilter.connect(trebleFilter);
-      trebleFilter.connect(gain);
-      gain.connect(ctx.destination);
-
-      gain.gain.value = Number(volume.value);
-      bassFilter.gain.value = Number(bass.value);
-      trebleFilter.gain.value = Number(treble.value);
-
-      audioReady = true;
-      await ctx.resume();
-    }
-
-    fileInput.addEventListener('change', () => {
-      const file = fileInput.files && fileInput.files[0];
-      if (!file) return;
-
-      audio.pause();
-      cleanupURL(objectURL);
-      objectURL = URL.createObjectURL(file);
-      audio.src = objectURL;
-      audio.load();
-
-      say('Audio loaded. Press Play to listen and adjust your sound.');
-    });
-
-    playBtn.addEventListener('click', async () => {
-      if (!audio.src) {
-        say('Please choose an audio file first.');
-        return;
-      }
-
-      try {
-        await setupAudio();
-        await audio.play();
-        say('Playing processed audio.');
-      } catch (error) {
-        say(error.message || 'Could not play the audio.');
-      }
-    });
-
-    stopBtn.addEventListener('click', () => {
-      audio.pause();
-      audio.currentTime = 0;
-      say('Playback stopped.');
-    });
-
-    volume.addEventListener('input', () => {
-      if (gain && ctx) {
-        gain.gain.setTargetAtTime(
-          Number(volume.value), ctx.currentTime, 0.01
-        );
-      }
-    });
-
-    bass.addEventListener('input', () => {
-      if (bassFilter && ctx) {
-        bassFilter.gain.setTargetAtTime(
-          Number(bass.value), ctx.currentTime, 0.01
-        );
-      }
-    });
-
-    treble.addEventListener('input', () => {
-      if (trebleFilter && ctx) {
-        trebleFilter.gain.setTargetAtTime(
-          Number(treble.value), ctx.currentTime, 0.01
-        );
-      }
-    });
-
-    exportBtn.addEventListener('click', async () => {
-      if (!audio.src) {
-        say('Please choose an audio file first.');
-        return;
-      }
-
-      if (recording) {
-        say('An export is already in progress.');
-        return;
-      }
-
-      try {
-        await setupAudio();
-
-        if (!window.MediaRecorder) {
-          say('Audio export recording is not supported by this browser.');
-          return;
-        }
-
-        const destination = ctx.createMediaStreamDestination();
-        gain.connect(destination);
-
-        let mimeType = '';
-        if (MediaRecorder.isTypeSupported('audio/webm;codecs=opus')) {
-          mimeType = 'audio/webm;codecs=opus';
-        } else if (MediaRecorder.isTypeSupported('audio/webm')) {
-          mimeType = 'audio/webm';
-        }
-
-        recorder = mimeType
-          ? new MediaRecorder(destination.stream, {mimeType})
-          : new MediaRecorder(destination.stream);
-
-        chunks = [];
-        recording = true;
-
-        recorder.ondataavailable = event => {
-          if (event.data && event.data.size > 0) {
-            chunks.push(event.data);
-          }
-        };
-
-        recorder.onerror = () => {
-          recording = false;
-          say('Export failed. Please try again.');
-        };
-
-        recorder.onstop = () => {
-          recording = false;
-          destination.stream.getTracks().forEach(track => track.stop());
-
-          if (!chunks.length) {
-            say('No audio was recorded. Please try again.');
-            return;
-          }
-
-          const blob = new Blob(chunks, {
-            type: recorder.mimeType || 'audio/webm'
-          });
-
-          cleanupURL(exportURL);
-          exportURL = URL.createObjectURL(blob);
-
-          const link = document.createElement('a');
-          link.href = exportURL;
-          link.download = 'wakaun du-mix.webm'.replace(' ', '');
-          document.body.appendChild(link);
-          link.click();
-          link.remove();
-
-          say('Export complete. Check your Downloads folder.');
-        };
-
-        audio.pause();
-        audio.currentTime = 0;
-        recorder.start();
-        await audio.play();
-        say('Recording your processed mix for export...');
-
-        audio.onended = () => {
-          if (recorder && recorder.state !== 'inactive') {
-            recorder.stop();
-          }
-        };
-      } catch (error) {
-        recording = false;
-        say(error.message || 'Could not export audio.');
-      }
-    });
-  })();
-  </script>
+  <button id="exportMix">⬇ Export Processed Mix</button>
+  <div class="status" id="mixStatus">Choose an audio file to begin.</div>
+  <p class="small">Export records the processed audio output in real time. Play the track while exporting.</p>
 </section>
 
-<!-- WakaûndūVibez Studio: Pitch Correction Plugin -->
-<section id="wv-pitch-plugin" style="
-  background:#17172b;color:#fff;padding:20px;
-  margin:20px 0;border-radius:16px;font-family:Arial,sans-serif;
-">
-  <h2>🎤 WakaûndūVibez Pitch Correction</h2>
-  <p>Upload your vocals and adjust pitch correction to help tune your voice.</p>
+<!-- PITCH CORRECTION -->
 
-  <label for="wv-pitch-file">Choose your vocal recording:</label>
-  <input id="wv-pitch-file" type="file" accept="audio/*"
-    style="display:block;margin:12px 0;color:white;max-width:100%;">
+<section class="panel" id="pitch">
+  <div class="section-label">04 / VOCAL TUNING</div>
+  <h3>🎤 WakaûndūVibez Pitch Correction</h3>
+  <p>Set your intended musical key and scale.</p>
 
-  <audio id="wv-pitch-audio" controls
-    style="display:block;width:100%;margin:12px 0;"></audio>
-
-  <label for="wv-pitch-amount">Correction strength: <span id="wv-pitch-value">50%</span></label>
-  <input id="wv-pitch-amount" type="range" min="0" max="100" value="50"
-    style="display:block;width:100%;margin:12px 0;">
-
-  <p id="wv-pitch-status">Choose a recording to begin.</p>
-
-  <script>
-  (() => {
-    const file = document.getElementById('wv-pitch-file');
-    const audio = document.getElementById('wv-pitch-audio');
-    const amount = document.getElementById('wv-pitch-amount');
-    const value = document.getElementById('wv-pitch-value');
-    const status = document.getElementById('wv-pitch-status');
-
-    file.addEventListener('change', () => {
-      if (!file.files || !file.files[0]) return;
-      audio.src = URL.createObjectURL(file.files[0]);
-      status.textContent =
-        'Recording loaded. Basic playback is ready.';
-    });
-
-    amount.addEventListener('input', () => {
-      value.textContent = amount.value + '%';
-      status.textContent =
-        'Strength setting changed. Actual pitch correction is not yet active.';
-    });
-  })();
-  </script>
-</section>
-
-  <h2>🎤 Auto-Tune / Pitch Correction</h2>
-  <p>Choose a musical key and adjust vocal correction.</p>
-
-  <label for="wv-key">Musical key</label>
-  <select id="wv-key" style="display:block;width:100%;padding:10px;margin:8px 0 16px">
-    <option value="0">C</option><option value="1">C# / Db</option>
-    <option value="2">D</option><option value="3">D# / Eb</option>
-    <option value="4">E</option><option value="5">F</option>
-    <option value="6">F# / Gb</option><option value="7">G</option>
-    <option value="8">G# / Ab</option><option value="9">A</option>
-    <option value="10">A# / Bb</option><option value="11">B</option>
+  <label class="field">Musical Key</label>
+  <select id="musicalKey">
+    <option>C</option><option>C# / Db</option>
+    <option>D</option><option>D# / Eb</option>
+    <option>E</option><option>F</option>
+    <option>F# / Gb</option><option>G</option>
+    <option>G# / Ab</option><option>A</option>
+    <option>A# / Bb</option><option>B</option>
   </select>
 
-  <label for="wv-scale">Scale</label>
-  <select id="wv-scale" style="display:block;width:100%;padding:10px;margin:8px 0 16px">
-    <option value="major">Major</option>
-    <option value="minor">Natural minor</option>
-    <option value="chromatic">Chromatic</option>
+  <label class="field">Scale</label>
+  <select id="scale">
+    <option>Major</option>
+    <option>Natural Minor</option>
+    <option>Chromatic</option>
   </select>
 
-  <label for="wv-strength">Correction strength: <span id="wv-strength-value">70%</span></label>
-  <input id="wv-strength" type="range" min="0" max="100" value="70"
-    style="width:100%;margin:12px 0"/>
+  <div class="control-group">
+    <label>Correction Strength: <span id="correctionValue">70%</span></label>
+    <input type="range" id="correction" min="0" max="100" value="70">
+  </div>
 
-  <label for="wv-retune">Retune speed: <span id="wv-retune-value">50%</span></label>
-  <input id="wv-retune" type="range" min="0" max="100" value="50"
-    style="width:100%;margin:12px 0"/>
+  <div class="control-group">
+    <label>Retune Speed: <span id="retuneValue">50%</span></label>
+    <input type="range" id="retune" min="0" max="100" value="50">
+  </div>
 
-  <p id="wv-pitch-status" role="status">Choose a vocal recording to begin.</p>
-  <p style="font-size:13px;color:#c8c8df">
-    Note: this panel provides tuning controls only. Full real-time pitch
-    detection and correction require an audio-processing engine.
-  </p>
+  <div class="status" id="pitchStatus">Tuning settings ready.</div>
+  <p class="small">These are tuning settings only. True Auto-Tune requires pitch detection and real-time pitch-shifting software, which is not implemented by these controls.</p>
 </section>
 
+<!-- VOCAL EFFECTS -->
+
+<section class="panel" id="effects">
+  <div class="section-label">05 / VOCAL EFFECTS</div>
+  <h3>🎛️ Vocal FX Controls</h3>
+  <p>Experiment with your mixing settings above. Use headphones when monitoring live microphone audio to avoid feedback.</p>
+  <button class="secondary" onclick="document.getElementById('mix').scrollIntoView({behavior:'smooth'})">Open Mixing Desk</button>
+</section>
+
+<!-- MULTITRACK -->
+
+<section class="panel" id="multitrack">
+  <div class="section-label">06 / MULTITRACK WORKSPACE</div>
+  <h3>🎚️ Multitrack Studio</h3>
+  <p>Load separate vocal and instrument recordings into your project.</p>
+
+  <label class="field">Select audio tracks</label>
+  <input type="file" id="trackFiles" accept="audio/*" multiple>
+  <div id="trackList"></div>
+  <div class="status" id="trackStatus">No tracks loaded.</div>
+  <p class="small">Tracks can be played individually. Full synchronized multitrack mixing and a timeline editor are future upgrades.</p>
+</section>
+
+<!-- BEAT MAKER -->
+
+<section class="panel" id="beatmaker">
+  <div class="section-label">07 / RHYTHM MACHINE</div>
+  <h3>🥁 WakaûndūVibez Beat Maker</h3>
+  <p>Create your own basic Gengetone and Afrobeat drum patterns.</p>
+
+  <label class="field">Tempo: <span id="tempoValue">120</span> BPM</label>
+  <input type="range" id="tempo" min="60" max="200" value="120">
+
+  <div id="sequencer"></div>
+
+  <button id="playBeat">▶ Play Beat</button>
+  <button id="stopBeat" class="secondary">⏹ Stop Beat</button>
+  <div class="status" id="beatMakerStatus">Create a rhythm by selecting steps.</div>
+</section>
+
+<!-- SYNTHESIZER -->
+
+<section class="panel" id="synth">
+  <div class="section-label">08 / SYNTHESIZER</div>
+  <h3>🎹 WakaûndūVibez Synth</h3>
+  <p>Play electronic notes using your phone screen.</p>
+
+  <label class="field">Sound Type</label>
+  <select id="synthWave">
+    <option value="sawtooth">Saw Lead</option>
+    <option value="sine">Soft Keys</option>
+    <option value="square">Electronic</option>
+    <option value="triangle">Warm Synth</option>
+  </select>
+
+  <div class="grid">
+    <button class="note" data-note="261.63">C</button>
+    <button class="note" data-note="293.66">D</button>
+    <button class="note" data-note="329.63">E</button>
+    <button class="note" data-note="349.23">F</button>
+    <button class="note" data-note="392.00">G</button>
+    <button class="note" data-note="440.00">A</button>
+    <button class="note" data-note="493.88">B</button>
+    <button class="note" data-note="523.25">C5</button>
+  </div>
+
+  <button id="stopSynth" class="secondary">⏹ Stop Synth</button>
+  <div class="status" id="synthStatus">Synthesizer ready.</div>
+</section>
+
+<section class="panel" id="about">
+  <div class="section-label">09 / ABOUT THE STUDIO</div>
+  <h3>More than a vibe.</h3>
+  <p>WakaûndūVibez Studio is a creative space for independent artists, original music, fresh Gengetone energy and Afrobeat production.</p>
+  <p>CREATE YOUR VIBE. BUILD YOUR SOUND.</p>
+</section>
+
+</main>
+
+<footer>
+  © 2026 WakaûndūVibez Studio PRO<br>
+  Create your vibe. Build your sound.
+</footer>
+
 <script>
-(() => {
-  const key = document.getElementById("wv-key");
-  const scale = document.getElementById("wv-scale");
-  const strength = document.getElementById("wv-strength");
-  const retune = document.getElementById("wv-retune");
-  const status = document.getElementById("wv-pitch-status");
+// ===================================
+// VOCAL RECORDING
+// ===================================
 
-  if (!key || !scale || !strength || !retune || !status) return;
+let recorder;
+let recordedChunks = [];
+let microphoneStream;
 
-  strength.addEventListener("input", () => {
-    document.getElementById("wv-strength-value").textContent =
-      strength.value + "%";
-  });
+const recordBtn = document.getElementById("recordBtn");
+const stopBtn = document.getElementById("stopBtn");
+const vocalAudio = document.getElementById("vocalAudio");
+const downloadVocal = document.getElementById("downloadVocal");
+const recordStatus = document.getElementById("recordStatus");
 
-  retune.addEventListener("input", () => {
-    document.getElementById("wv-retune-value").textContent =
-      retune.value + "%";
-  });
-
-  function updateStatus() {
-    const scaleName = scale.options[scale.selectedIndex].text;
-    status.textContent =
-      "Selected: " + key.options[key.selectedIndex].text + " " +
-      scaleName + ". Strength: " + strength.value +
-      "%. Retune speed: " + retune.value +
-      "%. Connect a pitch-correction engine to process audio.";
-  }
-
-  [key, scale, strength, retune].forEach(control => {
-    control.addEventListener("input", updateStatus);
-    control.addEventListener("change", updateStatus);
-  });
-})();
-</script>
-<!-- End WakaûndūVibez Pitch Plugin -->
-
-<script>
-async function startMicTest() {
+recordBtn.onclick = async () => {
   try {
-    const stream = await navigator.mediaDevices.getUserMedia({
-      audio: true
-    });
+    microphoneStream = await navigator.mediaDevices.getUserMedia({audio:true});
 
-    let audio = document.getElementById("micTestAudio");
+    const mime = MediaRecorder.isTypeSupported("audio/webm;codecs=opus")
+      ? "audio/webm;codecs=opus" : "";
 
-    if (!audio) {
-      audio = document.createElement("audio");
-      audio.id = "micTestAudio";
-      audio.controls = true;
-      audio.style.display = "block";
-      audio.style.margin = "12px auto";
-      document.body.appendChild(audio);
-    }
+    recorder = new MediaRecorder(microphoneStream, mime ? {mimeType:mime} : {});
 
-    audio.srcObject = stream;
+    recordedChunks = [];
 
-    alert("Microphone connected! Speak to test it.");
-  } catch (error) {
-    alert("Microphone unavailable: " + error.message);
-  }
-}
-</script>
-
-<button onclick="startMicTest()">
-  Test Microphone
-</button>
-
-<section id="vibez-audio-tools" style="background:#18182b;color:white;padding:20px;border-radius:16px;margin:20px 0;font-family:Arial,sans-serif">
-  <h2>🎙️ WakaûndūVibez Vocal Studio</h2>
-  <p>Record your voice, shape your sound and export your take.</p>
-
-  <button id="vzStart">🎤 Start Recording</button>
-  <button id="vzStop" disabled>⏹ Stop</button>
-  <p id="vzStatus">Ready to record</p>
-
-  <audio id="vzPlayback" controls style="width:100%"></audio>
-  <p><a id="vzDownload" hidden download="wakaundu-vocal.webm" style="color:#a8e7ff">Download recording</a></p>
-
-  <hr>
-  <h3>🎚️ Mixing & Mastering</h3>
-
-  <label>Pitch correction (semitones)
-    <input id="vzPitch" type="range" min="-6" max="6" value="0" step="1">
-    <span id="vzPitchVal">0</span>
-  </label><br><br>
-
-  <label>Reverb
-    <input id="vzReverb" type="range" min="0" max="100" value="15">
-  </label><br><br>
-
-  <label>Echo
-    <input id="vzEcho" type="range" min="0" max="100" value="10">
-  </label><br><br>
-
-  <label>Bass
-    <input id="vzBass" type="range" min="-12" max="12" value="0">
-  </label><br><br>
-
-  <label>Treble
-    <input id="vzTreble" type="range" min="-12" max="12" value="0">
-  </label><br><br>
-
-  <label>Master volume
-    <input id="vzVolume" type="range" min="0" max="150" value="100">
-  </label>
-
-  <p id="vzMixNote" style="color:#ffd780">
-    Effects preview is available while monitoring live input.
-    This basic version does not yet apply all effects to the exported recording.
-  </p>
-</section>
-
-<script>
-(() => {
-  const $ = id => document.getElementById(id);
-  const start = $("vzStart");
-  const stop = $("vzStop");
-  const status = $("vzStatus");
-  const player = $("vzPlayback");
-  const download = $("vzDownload");
-
-  let stream = null;
-  let recorder = null;
-  let chunks = [];
-  let recordingUrl = null;
-
-  $("vzPitch").addEventListener("input", () => {
-    $("vzPitchVal").textContent = $("vzPitch").value;
-  });
-
-  start.addEventListener("click", async () => {
-    try {
-      if (!navigator.mediaDevices?.getUserMedia ||
-          !window.MediaRecorder) {
-        throw new Error("Use an updated browser with microphone recording support.");
-      }
-
-      start.disabled = true;
-      status.textContent = "Requesting microphone…";
-
-      stream = await navigator.mediaDevices.getUserMedia({
-        audio: true,
-        video: false
-      });
-
-      chunks = [];
-      recorder = new MediaRecorder(stream);
-
-      recorder.ondataavailable = event => {
-        if (event.data.size) chunks.push(event.data);
-      };
-
-      recorder.onstop = () => {
-        const blob = new Blob(chunks, {
-          type: recorder.mimeType || "audio/webm"
-        });
-
-        if (recordingUrl) URL.revokeObjectURL(recordingUrl);
-        recordingUrl = URL.createObjectURL(blob);
-        player.src = recordingUrl;
-        download.href = recordingUrl;
-        download.hidden = false;
-        status.textContent = "Recording saved. Tap Play to listen.";
-
-        stream?.getTracks().forEach(track => track.stop());
-        stream = null;
-        start.disabled = false;
-        stop.disabled = true;
-      };
-
-      recorder.start();
-      status.textContent = "Recording… sing into your phone!";
-      stop.disabled = false;
-    } catch (error) {
-      status.textContent = "Microphone error: " + error.message;
-      stream?.getTracks().forEach(track => track.stop());
-      stream = null;
-      start.disabled = false;
-      stop.disabled = true;
-    }
-  });
-
-  stop.addEventListener("click", () => {
-    if (recorder && recorder.state !== "inactive") {
-      recorder.stop();
-      status.textContent = "Preparing your recording…";
-    }
-  });
-
-  $("vzMixNote").textContent =
-    "Pitch, reverb, echo, EQ and volume controls are UI controls only in this starter version. True pitch correction and processed export need an audio-processing engine.";
-})();
-</script>
-
-<section id="vibez-fx" style="background:#101020;color:white;padding:18px;border-radius:14px;margin:20px 0;font-family:Arial">
-  <h2>🎛️ Vocal FX Plugin</h2>
-  <p>Live microphone effects preview</p>
-
-  <button id="fxStart">Start FX</button>
-  <button id="fxStop" disabled>Stop FX</button>
-  <p id="fxStatus">Ready</p>
-
-  <label>Echo
-    <input id="fxEcho" type="range" min="0" max="0.7" step="0.05" value="0.2">
-  </label><br><br>
-
-  <label>Reverb
-    <input id="fxReverb" type="range" min="0" max="1" step="0.1" value="0.3">
-  </label><br><br>
-
-  <label>Voice tone (filter)
-    <input id="fxTone" type="range" min="200" max="5000" step="100" value="1200">
-  </label><br><br>
-
-  <label>Output volume
-    <input id="fxVolume" type="range" min="0" max="1" step="0.05" value="0.5">
-  </label>
-
-  <p style="color:#ffd780">
-    Use headphones for live monitoring to prevent feedback.
-    This plugin does not yet provide true Auto-Tune.
-  </p>
-</section>
-
-<script>
-(() => {
-  const $ = id => document.getElementById(id);
-  let ctx, stream, source, filter, delay, feedback, wet, dry, output;
-
-  function connectEffects() {
-    filter = ctx.createBiquadFilter();
-    filter.type = "lowpass";
-    filter.frequency.value = +$("fxTone").value;
-
-    delay = ctx.createDelay(1);
-    delay.delayTime.value = 0.22;
-
-    feedback = ctx.createGain();
-    wet = ctx.createGain();
-    dry = ctx.createGain();
-    output = ctx.createGain();
-
-    source.connect(filter);
-    filter.connect(dry);
-    dry.connect(output);
-
-    filter.connect(delay);
-    delay.connect(wet);
-    wet.connect(output);
-    delay.connect(feedback);
-    feedback.connect(delay);
-
-    output.connect(ctx.destination);
-    update();
-  }
-
-  function update() {
-    if (!ctx || !output) return;
-    feedback.gain.value = +$("fxEcho").value;
-    wet.gain.value = +$("fxReverb").value * 0.5;
-    filter.frequency.value = +$("fxTone").value;
-    output.gain.value = +$("fxVolume").value;
-    dry.gain.value = 0.8;
-  }
-
-  ["fxEcho", "fxReverb", "fxTone", "fxVolume"].forEach(id => {
-    $(id).addEventListener("input", update);
-  });
-
-  $("fxStart").addEventListener("click", async () => {
-    try {
-      $("fxStart").disabled = true;
-      ctx = new (window.AudioContext || window.webkitAudioContext)();
-      await ctx.resume();
-      stream = await navigator.mediaDevices.getUserMedia({audio:true});
-      source = ctx.createMediaStreamSource(stream);
-      connectEffects();
-      $("fxStop").disabled = false;
-      $("fxStatus").textContent =
-        "FX active. Connect headphones, then speak or sing.";
-    } catch (e) {
-      stream?.getTracks().forEach(t => t.stop());
-      if (ctx) await ctx.close();
-      ctx = null;
-      $("fxStart").disabled = false;
-      $("fxStatus").textContent = "Could not start: " + e.message;
-    }
-  });
-
-  $("fxStop").addEventListener("click", async () => {
-    stream?.getTracks().forEach(t => t.stop());
-    if (ctx) await ctx.close();
-    ctx = stream = source = filter = delay =
-      feedback = wet = dry = output = null;
-    $("fxStart").disabled = false;
-    $("fxStop").disabled = true;
-    $("fxStatus").textContent = "FX stopped";
-  });
-})();
-</script>
-
-<!-- WakaûndūVibez Studio Audio Processing Engine -->
-<section id="audio-engine" style="background:#12121e;color:white;padding:20px;border-radius:14px;margin:20px 0;font-family:Arial,sans-serif">
-  <h2>🎚️ Audio Processing Engine</h2>
-  <p>Load a vocal recording and shape your sound in real time.</p>
-
-  <label for="engine-file">Choose vocal recording</label>
-  <input id="engine-file" type="file" accept="audio/*"
-    style="display:block;margin:12px 0;color:white;max-width:100%">
-
-  <audio id="engine-audio" controls style="width:100%;margin:10px 0"></audio>
-
-  <label for="engine-eq">EQ / Tone</label>
-  <input id="engine-eq" type="range" min="-12" max="12" value="0" step="1" style="width:100%">
-  <p>EQ: <span id="engine-eq-value">0</span> dB</p>
-
-  <label for="engine-comp">Compression</label>
-  <input id="engine-comp" type="range" min="0" max="100" value="40" style="width:100%">
-  <p>Compression: <span id="engine-comp-value">40</span>%</p>
-
-  <label for="engine-reverb">Reverb</label>
-  <input id="engine-reverb" type="range" min="0" max="100" value="20" style="width:100%">
-  <p>Reverb: <span id="engine-reverb-value">20</span>%</p>
-
-  <label for="engine-echo">Echo</label>
-  <input id="engine-echo" type="range" min="0" max="100" value="0" style="width:100%">
-  <p>Echo: <span id="engine-echo-value">0</span>%</p>
-
-  <label for="engine-volume">Output volume</label>
-  <input id="engine-volume" type="range" min="0" max="100" value="80" style="width:100%">
-  <p>Volume: <span id="engine-volume-value">80</span>%</p>
-
-  <button id="engine-enable" type="button"
-    style="padding:12px;background:#8b5cf6;color:white;border:0;border-radius:8px;margin:8px 4px 8px 0">
-    Enable Processing
-  </button>
-  <button id="engine-reset" type="button"
-    style="padding:12px;background:#333;color:white;border:0;border-radius:8px">
-    Reset Effects
-  </button>
-  <p id="engine-status" role="status">Choose an audio file to begin.</p>
-  <small>Processing applies during playback. This module does not replace your existing Auto-Tune.</small>
-</section>
-
-<script>
-(() => {
-  const $ = id => document.getElementById("engine-" + id);
-  const file = $("file");
-  const audio = $("audio");
-  const status = $("status");
-  const enable = $("enable");
-  const reset = $("reset");
-
-  // Avoid initializing twice if this script is accidentally included twice.
-  if (enable.dataset.ready) return;
-  enable.dataset.ready = "yes";
-
-  let ctx, source, eq, compressor, dry, wet, master;
-  let convolver, delay, feedback, echoGain, reverbGain;
-  let impulseURL;
-  let enabled = false;
-
-  function makeImpulse(context) {
-    const length = Math.floor(context.sampleRate * 1.8);
-    const buffer = context.createBuffer(2, length, context.sampleRate);
-    for (let ch = 0; ch < 2; ch++) {
-      const data = buffer.getChannelData(ch);
-      for (let i = 0; i < length; i++) {
-        data[i] = (Math.random() * 2 - 1) *
-          Math.pow(1 - i / length, 2.5);
-      }
-    }
-    return buffer;
-  }
-
-  function setup() {
-    if (ctx) return;
-
-    ctx = new (window.AudioContext || window.webkitAudioContext)();
-    source = ctx.createMediaElementSource(audio);
-
-    eq = ctx.createBiquadFilter();
-    eq.type = "peaking";
-    eq.frequency.value = 1500;
-    eq.Q.value = 0.8;
-
-    compressor = ctx.createDynamicsCompressor();
-    compressor.threshold.value = -24;
-    compressor.knee.value = 20;
-    compressor.ratio.value = 4;
-    compressor.attack.value = 0.01;
-    compressor.release.value = 0.2;
-
-    dry = ctx.createGain();
-    wet = ctx.createGain();
-    master = ctx.createGain();
-
-    convolver = ctx.createConvolver();
-    convolver.buffer = makeImpulse(ctx);
-    reverbGain = ctx.createGain();
-
-    delay = ctx.createDelay(1.0);
-    delay.delayTime.value = 0.28;
-    feedback = ctx.createGain();
-    echoGain = ctx.createGain();
-    feedback.gain.value = 0.25;
-
-    // Dry vocal and compressed signal
-    source.connect(eq);
-    eq.connect(compressor);
-    compressor.connect(dry);
-    dry.connect(master);
-
-    // Reverb send
-    compressor.connect(convolver);
-    convolver.connect(reverbGain);
-    reverbGain.connect(master);
-
-    // Echo send
-    compressor.connect(delay);
-    delay.connect(echoGain);
-    delay.connect(feedback);
-    feedback.connect(delay);
-    echoGain.connect(master);
-
-    master.connect(ctx.destination);
-    apply();
-  }
-
-  function value(name) {
-    return Number($(name).value);
-  }
-
-  function apply() {
-    if (!ctx) return;
-    const now = ctx.currentTime;
-    eq.gain.setTargetAtTime(value("eq"), now, 0.02);
-    dry.gain.setTargetAtTime(1, now, 0.02);
-    compressor.threshold.setTargetAtTime(-12 - value("comp") * 0.24, now, 0.02);
-    reverbGain.gain.setTargetAtTime(value("reverb") / 100 * 0.6, now, 0.02);
-    echoGain.gain.setTargetAtTime(value("echo") / 100 * 0.6, now, 0.02);
-    feedback.gain.setTargetAtTime(Math.min(0.65, value("echo") / 100 * 0.65), now, 0.02);
-    master.gain.setTargetAtTime(value("volume") / 100, now, 0.02);
-  }
-
-  ["eq", "comp", "reverb", "echo", "volume"].forEach(name => {
-    $(name).addEventListener("input", () => {
-      $(name + "-value").textContent = value(name);
-      if (enabled) apply();
-    });
-  });
-
-  file.addEventListener("change", () => {
-    const selected = file.files && file.files[0];
-    if (!selected) return;
-    if (audio.dataset.objectUrl) URL.revokeObjectURL(audio.dataset.objectUrl);
-    const url = URL.createObjectURL(selected);
-    audio.dataset.objectUrl = url;
-    audio.src = url;
-    audio.load();
-    status.textContent = "Recording loaded. Tap Enable Processing, then Play.";
-  });
-
-  enable.addEventListener("click", async () => {
-    try {
-      if (!audio.src) {
-        status.textContent = "Choose a vocal recording first.";
-        return;
-      }
-      setup();
-      await ctx.resume();
-      enabled = true;
-      apply();
-      status.textContent = "Processing enabled. Play your recording to hear the effects.";
-    } catch (err) {
-      status.textContent = "Audio setup failed. Reload the page and try again.";
-      console.error(err);
-    }
-  });
-
-  reset.addEventListener("click", () => {
-    $("eq").value = 0;
-    $("comp").value = 40;
-    $("reverb").value = 20;
-    $("echo").value = 0;
-    $("volume").value = 80;
-    ["eq", "comp", "reverb", "echo", "volume"].forEach(name => {
-      $(name + "-value").textContent = value(name);
-    });
-    if (enabled) apply();
-    status.textContent = "Effects reset to default values.";
-  });
-})();
-</script>
-  
-<section id="vibez-beat-synth" style="background:#100d20;color:white;padding:18px;border-radius:18px;margin:20px 0;font-family:Arial">
-  <h2>🥁 WakaûndūVibez Beat Maker</h2>
-  <p>Create your own Gengetone and Afrobeat rhythms.</p>
-
-  <label>Tempo: <span id="vTempo">120</span> BPM</label>
-  <input id="vBpm" type="range" min="60" max="180" value="120" style="width:100%">
-
-  <div id="vDrums"></div>
-  <button id="vBeatPlay">▶ Play Beat</button>
-  <button id="vBeatStop">■ Stop</button>
-
-  <hr style="margin:22px 0;border-color:#554477">
-
-  <h2>🎹 WakaûndūVibez Synthesizer</h2>
-  <p>KORG-inspired electronic keyboard</p>
-
-  <label>Sound:</label>
-  <select id="vWave" style="padding:9px">
-    <option value="sawtooth">Synth Lead</option>
-    <option value="square">Electronic Bass</option>
-    <option value="triangle">Soft Keys</option>
-    <option value="sine">Pure Tone</option>
-  </select>
-
-  <div id="vKeys" style="display:flex;gap:4px;overflow-x:auto;padding:15px 0"></div>
-  <p>Touch and hold a key to play. Release to stop.</p>
-  <style>
-    #vibez-beat-synth button {cursor:pointer;border:0;border-radius:7px;padding:10px;margin:3px;background:#713be8;color:white}
-    #vDrums .vrow {display:flex;align-items:center;gap:3px;margin:9px 0}
-    #vDrums .vrow span {width:48px;font-size:12px}
-    #vDrums .step {flex:1;min-width:0;padding:0;height:29px;background:#343047}
-    #vDrums .step.active {background:#e52baf}
-    #vKeys button {min-width:43px;height:115px;background:#fff;color:#111;border:1px solid #aaa}
-    #vKeys button:active {background:#b9a1ff}
-  </style>
-</section>
-
-<script>
-(() => {
-  const root = document.getElementById("vibez-beat-synth");
-  if (!root || root.dataset.ready) return;
-  root.dataset.ready = "yes";
-
-  let ctx, timer, currentStep = 0;
-  let playing = false;
-  let bpm = 120;
-  const patterns = {
-    Kick: Array(16).fill(false),
-    Snare: Array(16).fill(false),
-    Clap: Array(16).fill(false),
-    HiHat: Array(16).fill(false)
-  };
-
-  patterns.Kick[0] = patterns.Kick[4] = patterns.Kick[8] = patterns.Kick[12] = true;
-  patterns.Snare[4] = patterns.Snare[12] = true;
-  [2,6,10,14].forEach(i => patterns.HiHat[i] = true);
-
-  const drums = root.querySelector("#vDrums");
-
-  Object.entries(patterns).forEach(([name, pattern]) => {
-    const row = document.createElement("div");
-    row.className = "vrow";
-    const label = document.createElement("span");
-    label.textContent = name;
-    row.append(label);
-
-    pattern.forEach((on, i) => {
-      const btn = document.createElement("button");
-      btn.className = "step" + (on ? " active" : "");
-      btn.textContent = "";
-      btn.setAttribute("aria-label", name + " step " + (i + 1));
-      btn.onclick = () => {
-        pattern[i] = !pattern[i];
-        btn.classList.toggle("active", pattern[i]);
-      };
-      row.append(btn);
-    });
-    drums.append(row);
-  });
-
-  async function audio() {
-    if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
-    if (ctx.state === "suspended") await ctx.resume();
-    return ctx;
-  }
-
-  function drumSound(name) {
-    const t = ctx.currentTime;
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-
-    if (name === "Kick") {
-      osc.type = "sine";
-      osc.frequency.setValueAtTime(150, t);
-      osc.frequency.exponentialRampToValueAtTime(42, t + .15);
-      gain.gain.setValueAtTime(.9, t);
-      gain.gain.exponentialRampToValueAtTime(.001, t + .25);
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.start(t);
-      osc.stop(t + .26);
-    } else {
-      const buffer = ctx.createBuffer(1, ctx.sampleRate * .2, ctx.sampleRate);
-      const data = buffer.getChannelData(0);
-      for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
-
-      const noise = ctx.createBufferSource();
-      noise.buffer = buffer;
-      const filter = ctx.createBiquadFilter();
-      filter.type = name === "HiHat" ? "highpass" : "bandpass";
-      filter.frequency.value = name === "HiHat" ? 8000 : 1800;
-      gain.gain.setValueAtTime(name === "Clap" ? .35 : .45, t);
-      gain.gain.exponentialRampToValueAtTime(.001, t + (name === "HiHat" ? .045 : .15));
-      noise.connect(filter);
-      filter.connect(gain);
-      gain.connect(ctx.destination);
-      noise.start(t);
-    }
-  }
-
-  function tick() {
-    Object.entries(patterns).forEach(([name, pattern]) => {
-      if (pattern[currentStep]) drumSound(name);
-    });
-    currentStep = (currentStep + 1) % 16;
-  }
-
-  root.querySelector("#vBpm").oninput = e => {
-    bpm = Number(e.target.value);
-    root.querySelector("#vTempo").textContent = bpm;
-    if (playing) {
-      clearInterval(timer);
-      timer = setInterval(tick, 60000 / bpm / 4);
-    }
-  };
-
-  root.querySelector("#vBeatPlay").onclick = async () => {
-    await audio();
-    if (playing) return;
-    playing = true;
-    currentStep = 0;
-    tick();
-    timer = setInterval(tick, 60000 / bpm / 4);
-  };
-
-  root.querySelector("#vBeatStop").onclick = () => {
-    playing = false;
-    clearInterval(timer);
-    currentStep = 0;
-  };
-
-  const notes = [
-    ["C4",261.63],["D4",293.66],["E4",329.63],
-    ["F4",349.23],["G4",392],["A4",440],
-    ["B4",493.88],["C5",523.25],
-    ["D5",587.33],["E5",659.25]
-  ];
-
-  const keys = root.querySelector("#vKeys");
-
-  notes.forEach(([name, frequency]) => {
-    const key = document.createElement("button");
-    key.textContent = name;
-    let oscillator, gain;
-
-    key.onpointerdown = async e => {
-      e.preventDefault();
-      if (oscillator) return;
-      await audio();
-      oscillator = ctx.createOscillator();
-      gain = ctx.createGain();
-      oscillator.type = root.querySelector("#vWave").value;
-      oscillator.frequency.value = frequency;
-      gain.gain.value = .18;
-      oscillator.connect(gain);
-      gain.connect(ctx.destination);
-      oscillator.start();
-      key.style.background = "#b9a1ff";
+    recorder.ondataavailable = e => {
+      if(e.data.size > 0) recordedChunks.push(e.data);
     };
 
-    function release() {
-      if (!oscillator) return;
-      const old = oscillator;
-      const oldGain = gain;
-      oscillator = null;
-      gain = null;
-      oldGain.gain.setTargetAtTime(0, ctx.currentTime, .04);
-      old.stop(ctx.currentTime + .2);
-      key.style.background = "white";
-    }
-
-    key.onpointerup = release;
-    key.onpointercancel = release;
-    key.onlostpointercapture = release;
-    keys.append(key);
-  });
-})();
-</script>
-  
-<section id="wv-multitrack">
-  <style>
-    #wv-multitrack {
-      background:#090711;
-      color:#fff;
-      padding:18px;
-      border-radius:18px;
-      margin:20px 0;
-      font-family:Arial,sans-serif;
-    }
-    #wv-multitrack h2 {color:#c084fc;}
-    #wv-multitrack button {
-      background:#7c3aed;color:white;border:0;
-      padding:11px 15px;border-radius:9px;
-      margin:4px;cursor:pointer;
-    }
-    #wv-multitrack button:disabled {opacity:.5;}
-    #wv-multitrack .wv-track {
-      background:#1b1930;padding:12px;
-      border-radius:12px;margin:12px 0;
-      border:1px solid #38304e;
-    }
-    #wv-multitrack input[type=range] {width:100%;}
-    #wv-multitrack input[type=text] {
-      background:#292440;color:white;
-      padding:9px;border:1px solid #554477;
-      border-radius:7px;width:90%;
-    }
-    #wv-multitrack .wv-timeline {
-      display:flex;gap:3px;overflow:hidden;
-      margin:12px 0;
-    }
-    #wv-multitrack .wv-timeline span {
-      background:#30264d;min-width:38px;
-      padding:8px 3px;text-align:center;
-      font-size:11px;border-radius:4px;
-    }
-    #wv-multitrack .wv-status {
-      color:#c4b5fd;font-size:13px;
-    }
-    #wv-multitrack audio {display:none;}
-  </style>
-
-  <h2>🎚️ WakaûndūVibez Multitrack Studio</h2>
-  <p>Create, arrange and mix your music.</p>
-
-  <div>
-    <button type="button" id="wv-play">▶ Play</button>
-    <button type="button" id="wv-pause">⏸ Pause</button>
-    <button type="button" id="wv-stop">⏹ Stop</button>
-    <button type="button" id="wv-add">＋ Add Track</button>
-  </div>
-
-  <p class="wv-status" id="wv-status">
-    Studio ready. Add audio to begin.
-  </p>
-
-  <div class="wv-timeline" id="wv-ruler">
-    <span>00:00</span><span>00:10</span>
-    <span>00:20</span><span>00:30</span>
-    <span>00:40</span><span>00:50</span>
-  </div>
-
-  <label>Song timeline</label>
-  <input id="wv-seek" type="range" min="0" max="100"
-         value="0" step="0.1">
-
-  <p id="wv-time">00:00 / 00:00</p>
-
-  <hr>
-
-  <div id="wv-tracks"></div>
-
-  <hr>
-  <h3>🎛️ Master Volume</h3>
-  <input id="wv-master" type="range"
-         min="0" max="1" step="0.01" value="1">
-  <p>Adjust overall playback volume.</p>
-
-  <p class="wv-status">
-    Tip: Upload separate vocals, drums, bass and instruments
-    to arrange your song.
-  </p>
-
-  <script>
-  (() => {
-    const root = document.getElementById('wv-multitrack');
-    if (!root || root.dataset.ready) return;
-    root.dataset.ready = 'yes';
-
-    const tracksBox = root.querySelector('#wv-tracks');
-    const status = root.querySelector('#wv-status');
-    const seek = root.querySelector('#wv-seek');
-    const time = root.querySelector('#wv-time');
-    const master = root.querySelector('#wv-master');
-
-    let tracks = [];
-    let playing = false;
-    let timer = null;
-
-    function format(seconds) {
-      if (!isFinite(seconds)) return '00:00';
-      return Math.floor(seconds / 60).toString().padStart(2,'0')
-        + ':' + Math.floor(seconds % 60).toString().padStart(2,'0');
-    }
-
-    function totalDuration() {
-      return Math.max(0, ...tracks.map(t => t.audio.duration || 0));
-    }
-
-    function updateTime() {
-      const duration = totalDuration();
-      const current = Math.max(0, ...tracks.map(t => t.audio.currentTime || 0));
-      seek.value = duration ? current / duration * 100 : 0;
-      time.textContent = format(current) + ' / ' + format(duration);
-    }
-
-    function addTrack(name) {
-      const id = Date.now() + Math.random();
-      const audio = new Audio();
-      audio.preload = 'metadata';
-
-      const track = {
-        id, audio, url:null, muted:false, volume:1,
-        name:name || 'Audio Track ' + (tracks.length + 1)
-      };
-
-      tracks.push(track);
-
-      const card = document.createElement('div');
-      card.className = 'wv-track';
-      card.dataset.id = id;
-
-      card.innerHTML = `
-        <strong class="wv-title"></strong>
-        <p>
-          <input class="wv-name" type="text"
-                 aria-label="Track name">
-        </p>
-        <input class="wv-file" type="file"
-               accept="audio/*">
-        <p class="wv-status wv-file-status">No audio loaded</p>
-        <label>Track volume</label>
-        <input class="wv-volume" type="range"
-               min="0" max="1" step="0.01" value="1">
-        <div>
-          <button type="button" class="wv-mute">Mute</button>
-          <button type="button" class="wv-remove">Remove Track</button>
-        </div>
-      `;
-
-      tracksBox.appendChild(card);
-
-      const nameInput = card.querySelector('.wv-name');
-      const title = card.querySelector('.wv-title');
-      const fileInput = card.querySelector('.wv-file');
-      const volumeInput = card.querySelector('.wv-volume');
-      const muteButton = card.querySelector('.wv-mute');
-      const fileStatus = card.querySelector('.wv-file-status');
-
-      nameInput.value = track.name;
-      title.textContent = track.name;
-
-      nameInput.addEventListener('input', () => {
-        track.name = nameInput.value;
-        title.textContent = track.name;
-      });
-
-      fileInput.addEventListener('change', () => {
-        const file = fileInput.files[0];
-        if (!file) return;
-
-        if (track.url) URL.revokeObjectURL(track.url);
-
-        track.url = URL.createObjectURL(file);
-        audio.src = track.url;
-        audio.load();
-
-        fileStatus.textContent = 'Loaded: ' + file.name;
-        status.textContent = track.name + ' loaded successfully.';
-        updateTime();
-      });
-
-      volumeInput.addEventListener('input', () => {
-        track.volume = Number(volumeInput.value);
-        audio.volume = track.muted ? 0 :
-          track.volume * Number(master.value);
-      });
-
-      muteButton.addEventListener('click', () => {
-        track.muted = !track.muted;
-        audio.volume = track.muted ? 0 :
-          track.volume * Number(master.value);
-        muteButton.textContent = track.muted ? 'Unmute' : 'Mute';
-      });
-
-      card.querySelector('.wv-remove').addEventListener('click', () => {
-        audio.pause();
-        audio.removeAttribute('src');
-        audio.load();
-        if (track.url) URL.revokeObjectURL(track.url);
-        tracks = tracks.filter(t => t.id !== id);
-        card.remove();
-        updateTime();
-        status.textContent = 'Track removed.';
-      });
-
-      audio.addEventListener('loadedmetadata', updateTime);
-      audio.addEventListener('ended', updateTime);
-    }
-
-    function pauseAll() {
-      tracks.forEach(t => t.audio.pause());
-      playing = false;
-      clearInterval(timer);
-      status.textContent = 'Playback paused.';
-    }
-
-    root.querySelector('#wv-add').addEventListener('click', () => {
-      addTrack();
-    });
-
-    root.querySelector('#wv-play').addEventListener('click', async () => {
-      const loaded = tracks.filter(t => t.url);
-      if (!loaded.length) {
-        status.textContent = 'Upload an audio file first.';
-        return;
-      }
-
-      const start = Math.max(0, ...loaded.map(t => t.audio.currentTime || 0));
-      playing = true;
-
-      await Promise.all(loaded.map(async t => {
-        if (Math.abs(t.audio.currentTime - start) > 0.25) {
-          t.audio.currentTime = start;
-        }
-        t.audio.volume = t.muted ? 0 :
-          t.volume * Number(master.value);
-        try { await t.audio.play(); } catch(e) {}
-      }));
-
-      status.textContent = 'Playing your arrangement.';
-      clearInterval(timer);
-      timer = setInterval(updateTime, 200);
-    });
-
-    root.querySelector('#wv-pause').addEventListener('click', pauseAll);
-
-    root.querySelector('#wv-stop').addEventListener('click', () => {
-      pauseAll();
-      tracks.forEach(t => {
-        t.audio.currentTime = 0;
-      });
-      updateTime();
-      status.textContent = 'Playback stopped.';
-    });
-
-    master.addEventListener('input', () => {
-      tracks.forEach(t => {
-        t.audio.volume = t.muted ? 0 :
-          t.volume * Number(master.value);
-      });
-    });
-
-    seek.addEventListener('input', () => {
-      const duration = totalDuration();
-      if (!duration) return;
-      const position = duration * Number(seek.value) / 100;
-      tracks.forEach(t => {
-        if (t.url && isFinite(t.audio.duration)) {
-          t.audio.currentTime = Math.min(position, t.audio.duration);
-        }
-      });
-      updateTime();
-    });
-
-    addTrack('Vocals');
-    addTrack('Drums');
-    addTrack('Instruments');
-  })();
-  </script>
-</section>
-  
-<section id="vibez-beatmaker" style="background:#111124;color:white;padding:18px;border-radius:18px;margin:20px 0;font-family:Arial,sans-serif">
-  <h2>🥁 WakaûndūVibez Beat Maker</h2>
-  <p>Create your own Gengetone beats!</p>
-
-  <label>Tempo (BPM)</label>
-  <input id="bmTempo" type="number" min="60" max="200" value="120" style="width:75px;padding:8px">
-
-  <div id="bmPads" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:16px 0">
-    <button data-sound="kick">Kick</button>
-    <button data-sound="snare">Snare</button>
-    <button data-sound="hat">Hi-hat</button>
-    <button data-sound="clap">Clap</button>
-  </div>
-
-  <h3>🎼 Step Sequencer</h3>
-  <div id="bmSequence"></div>
-
-  <div style="display:flex;gap:10px;margin-top:16px">
-    <button id="bmPlay">▶ Play</button>
-    <button id="bmStop">■ Stop</button>
-    <button id="bmClear">Clear</button>
-  </div>
-  <p id="bmStatus">Ready to make beats.</p>
-</section>
-
-<style>
-#vibez-beatmaker button {
-  background:#762cff;color:white;border:0;border-radius:9px;
-  padding:12px 5px;font-weight:bold;
-}
-#bmSequence .bm-row {
-  display:grid;grid-template-columns:65px repeat(16,minmax(0,1fr));
-  gap:3px;margin:8px 0;align-items:center;
-}
-#bmSequence button {
-  padding:0;min-width:0;height:27px;background:#33334c;
-}
-#bmSequence button.active {background:#00cba0;}
-#bmSequence button.current {outline:2px solid white;}
-</style>
-
-<script>
-(() => {
-  const root=document.getElementById('vibez-beatmaker');
-  if(!root || root.dataset.ready) return;
-  root.dataset.ready='1';
-
-  const names=['kick','snare','hat','clap'];
-  let pattern=names.map(()=>Array(16).fill(false));
-  let audio=null, timer=null, step=0;
-
-  const sequence=root.querySelector('#bmSequence');
-  const status=root.querySelector('#bmStatus');
-
-  function sound(type){
-    audio=audio || new (window.AudioContext||window.webkitAudioContext)();
-    if(audio.state==='suspended') audio.resume();
-    const now=audio.currentTime;
-    const osc=audio.createOscillator();
-    const gain=audio.createGain();
-
-    if(type==='kick'){
-      osc.type='sine';
-      osc.frequency.setValueAtTime(150,now);
-      osc.frequency.exponentialRampToValueAtTime(45,now+0.16);
-      gain.gain.setValueAtTime(1,now);
-      gain.gain.exponentialRampToValueAtTime(0.001,now+0.22);
-      osc.connect(gain);gain.connect(audio.destination);
-      osc.start(now);osc.stop(now+0.23);
-    } else {
-      const length=audio.sampleRate*0.12;
-      const buffer=audio.createBuffer(1,length,audio.sampleRate);
-      const data=buffer.getChannelData(0);
-      for(let i=0;i<length;i++) data[i]=Math.random()*2-1;
-      const noise=audio.createBufferSource();
-      noise.buffer=buffer;
-      const filter=audio.createBiquadFilter();
-      filter.type=type==='hat'?'highpass':'lowpass';
-      filter.frequency.value=type==='hat'?8000:2500;
-      gain.gain.setValueAtTime(type==='clap'?0.7:0.35,now);
-      gain.gain.exponentialRampToValueAtTime(0.001,now+0.12);
-      noise.connect(filter);filter.connect(gain);gain.connect(audio.destination);
-      noise.start(now);
-    }
-  }
-
-  function draw(){
-    sequence.innerHTML='';
-    names.forEach((name,r)=>{
-      const row=document.createElement('div');
-      row.className='bm-row';
-      const label=document.createElement('span');
-      label.textContent=name;
-      row.appendChild(label);
-      for(let s=0;s<16;s++){
-        const b=document.createElement('button');
-        b.className=pattern[r][s]?'active':'';
-        b.textContent='';
-        b.setAttribute('aria-label',name+' step '+(s+1));
-        b.onclick=()=>{
-          pattern[r][s]=!pattern[r][s];
-          draw();
-        };
-        row.appendChild(b);
-      }
-      sequence.appendChild(row);
-    });
-  }
-
-  function tick(){
-    const buttons=sequence.querySelectorAll('.bm-row button');
-    buttons.forEach(b=>b.classList.remove('current'));
-    names.forEach((name,r)=>{
-      const b=sequence.children[r].children[step+1];
-      b.classList.add('current');
-      if(pattern[r][step]) sound(name);
-    });
-    step=(step+1)%16;
-  }
-
-  function stop(){
-    if(timer) clearInterval(timer);
-    timer=null;
-    status.textContent='Stopped.';
-  }
-
-  function play(){
-    stop();
-    const bpm=Math.max(60,Math.min(200,Number(root.querySelector('#bmTempo').value)||120));
-    step=0;
-    tick();
-    timer=setInterval(tick,60000/bpm/4);
-    status.textContent='Playing at '+bpm+' BPM';
-  }
-
-  root.querySelectorAll('[data-sound]').forEach(b=>{
-    b.onclick=()=>sound(b.dataset.sound);
-  });
-  root.querySelector('#bmPlay').onclick=play;
-  root.querySelector('#bmStop').onclick=stop;
-  root.querySelector('#bmClear').onclick=()=>{
-    stop();
-    pattern=names.map(()=>Array(16).fill(false));
-    draw();
-  };
-
-  draw();
-})();
-</script>
-
-<section id="multi-mixer" style="background:#151225;color:white;padding:18px;border-radius:14px;margin:20px 0;">
-  <h2>🎚️ Wakaûndū Multitrack Mixer</h2>
-  <p>Build your song with multiple audio tracks.</p>
-
-  <button id="mmAdd">＋ Add Audio Track</button>
-  <label style="display:block;margin-top:15px">
-    Master Volume
-    <input id="mmMaster" type="range" min="0" max="1" step="0.01" value="0.8">
-  </label>
-
-  <div id="mmTracks"></div>
-
-  <button id="mmPlay">▶ Play All</button>
-  <button id="mmStop">■ Stop All</button>
-</section>
-
-<script>
-(() => {
-  const root = document.querySelector('#multi-mixer');
-  if (!root || root.dataset.ready) return;
-  root.dataset.ready = 'yes';
-
-  const tracks = [];
-  window.vibezMixerTracks = tracks;
-  let master = 0.8;
-  let playing = false;
-  let startTime = 0;
-  let offset = 0;
-
-  function addTrack(file) {
-    const audio = new Audio(URL.createObjectURL(file));
-    audio.loop = true;
-    const track = {audio, volume: 0.8, muted: false, solo: false, file};
-    tracks.push(track);
-
-    const card = document.createElement('div');
-    card.style.cssText = 'background:#241d38;padding:12px;margin:12px 0;border-radius:10px';
-
-    const title = document.createElement('strong');
-    title.textContent = '🎵 ' + file.name;
-
-    const volume = document.createElement('input');
-    volume.type = 'range';
-    volume.min = 0;
-    volume.max = 1;
-    volume.step = 0.01;
-    volume.value = 0.8;
-    volume.style.width = '100%';
-
-    const mute = document.createElement('button');
-    mute.textContent = 'Mute';
-
-    const solo = document.createElement('button');
-    solo.textContent = 'Solo';
-
-    const remove = document.createElement('button');
-    remove.textContent = 'Remove';
-
-    function update() {
-      const anySolo = tracks.some(t => t.solo);
-      tracks.forEach(t => {
-        t.audio.volume = master *
-          t.volume *
-          (!t.muted && (!anySolo || t.solo) ? 1 : 0);
-      });
-    }
-
-    volume.oninput = () => {
-      track.volume = Number(volume.value);
-      update();
+    recorder.onstop = () => {
+      const blob = new Blob(recordedChunks, {type:recorder.mimeType || "audio/webm"});
+      const url = URL.createObjectURL(blob);
+
+      vocalAudio.src = url;
+      vocalAudio.hidden = false;
+      downloadVocal.href = url;
+      downloadVocal.hidden = false;
+
+      recordStatus.textContent = "Recording completed. Your vocals are ready.";
+      microphoneStream.getTracks().forEach(track => track.stop());
     };
 
-    mute.onclick = () => {
-      track.muted = !track.muted;
-      mute.textContent = track.muted ? 'Unmute' : 'Mute';
-      update();
-    };
+    recorder.start();
+    recordBtn.disabled = true;
+    stopBtn.disabled = false;
+    recordStatus.textContent = "🔴 Recording in progress...";
 
-    solo.onclick = () => {
-      track.solo = !track.solo;
-      solo.textContent = track.solo ? 'Unsolo' : 'Solo';
-      update();
-    };
-
-    remove.onclick = () => {
-      track.audio.pause();
-      track.audio.src = '';
-      tracks.splice(tracks.indexOf(track), 1);
-      card.remove();
-      update();
-    };
-
-    card.append(title, document.createElement('br'),
-      volume, document.createElement('br'),
-      mute, solo, remove);
-    root.querySelector('#mmTracks').append(card);
-    update();
+  } catch(error) {
+    recordStatus.textContent = "Microphone error: " + error.message;
   }
-
-  root.querySelector('#mmAdd').onclick = () => {
-    const picker = document.createElement('input');
-    picker.type = 'file';
-    picker.accept = 'audio/*';
-    picker.onchange = () => {
-      if (picker.files[0]) addTrack(picker.files[0]);
-    };
-    picker.click();
-  };
-
-  root.querySelector('#mmMaster').oninput = e => {
-    master = Number(e.target.value);
-    tracks.forEach(t => {
-      const anySolo = tracks.some(x => x.solo);
-      t.audio.volume = master * t.volume *
-        (!t.muted && (!anySolo || t.solo) ? 1 : 0);
-    });
-  };
-
-  root.querySelector('#mmPlay').onclick = async () => {
-    if (playing) return;
-    playing = true;
-    for (const t of tracks) {
-      t.audio.currentTime = offset;
-      await t.audio.play().catch(() => {});
-    }
-  };
-
-  root.querySelector('#mmStop').onclick = () => {
-    tracks.forEach(t => {
-      t.audio.pause();
-      t.audio.currentTime = 0;
-    });
-    playing = false;
-    offset = 0;
-  };
-})();
-</script>
-
-<section id="vocal-fx" style="background:#171329;color:white;padding:18px;border-radius:14px;margin:20px 0">
-<h2>🎛️ Studio FX Rack</h2>
-<p>Choose a track and shape its sound.</p>
-
-<label>Track
-<select id="fxTrack" style="width:100%;padding:10px">
-<option value="">Select a mixer track</option>
-</select>
-</label>
-
-<label>Reverb
-<input id="fxReverb" type="range" min="0" max="1" step=".01" value="0" style="width:100%">
-</label>
-
-<label>Delay
-<input id="fxDelay" type="range" min="0" max="1" step=".01" value="0" style="width:100%">
-</label>
-
-<label>Bass
-<input id="fxBass" type="range" min="-15" max="15" value="0" style="width:100%">
-</label>
-
-<label>Mid
-<input id="fxMid" type="range" min="-15" max="15" value="0" style="width:100%">
-</label>
-
-<label>Treble
-<input id="fxTreble" type="range" min="-15" max="15" value="0" style="width:100%">
-</label>
-
-<label>Compression
-<input id="fxComp" type="range" min="1" max="12" value="1" step=".1" style="width:100%">
-</label>
-
-<p id="fxStatus">Select a track to enable effects.</p>
-  <button id="fxExport" type="button">
-  ⬇ Download Processed Audio (WAV)
-</button>
-</section>
-
-<script>
-(() => {
- const root = document.querySelector('#vocal-fx');
- if (!root || root.dataset.ready) return;
- root.dataset.ready = 'yes';
-
- const select = root.querySelector('#fxTrack');
- const status = root.querySelector('#fxStatus');
-
- let ctx = null;
- let active = null;
- const chains = new WeakMap();
-function refresh() {
-  const tracks = window.vibezMixerTracks || [];
-  const current = select.value;
-
-  select.innerHTML = '<option value="">Select a mixer track</option>';
-
-  tracks.forEach((t, i) => {
-    const option = document.createElement('option');
-    option.value = i;
-    option.textContent = t.file ? t.file.name : 'Audio track ' + (i + 1);
-    select.appendChild(option);
-  });
-
-  if (current !== '' && tracks[Number(current)]) {
-    select.value = current;
-  }
-}
- function update() {
-  if (!active) return;
-
-  active.bass.gain.value = Number(root.querySelector('#fxBass').value);
-  active.mid.gain.value = Number(root.querySelector('#fxMid').value);
-  active.treble.gain.value = Number(root.querySelector('#fxTreble').value);
-  active.compressor.ratio.value = Number(root.querySelector('#fxComp').value);
-   active.delayGain.gain.value = Number(root.querySelector('#fxDelay').value);
- }
-
- async function connect() {
-  refresh();
-
-  const tracks = window.vibezMixerTracks || [];
-  if (select.value === '') {
-   status.textContent = 'Select a mixer track first.';
-   return;
-  }
-
-  const track = tracks[Number(select.value)];
-  if (!track || !track.audio) {
-   status.textContent = 'Track unavailable.';
-   return;
-  }
-
-  try {
-   if (!ctx) {
-    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-    if (!AudioContextClass) throw new Error('Audio effects are not supported.');
-    ctx = new AudioContextClass();
-   }
-
-   await ctx.resume();
-
-   let chain = chains.get(track);
-
-   if (!chain) {
-    const source = ctx.createMediaElementSource(track.audio);
-
-    const bass = ctx.createBiquadFilter();
-    bass.type = 'lowshelf';
-    bass.frequency.value = 250;
-
-    const mid = ctx.createBiquadFilter();
-    mid.type = 'peaking';
-    mid.frequency.value = 1000;
-    mid.Q.value = 1;
-
-    const treble = ctx.createBiquadFilter();
-    treble.type = 'highshelf';
-    treble.frequency.value = 4000;
-
-    const compressor = ctx.createDynamicsCompressor();
-    compressor.threshold.value = -18;
-
-    source.connect(bass);
-    bass.connect(mid);
-    mid.connect(treble);
-    treble.connect(compressor);
-  const delayNode = ctx.createDelay(2);
-delayNode.delayTime.value = 0.25;
-
-const delayGain = ctx.createGain();
-     const masterGain = ctx.createGain();
-masterGain.gain.value = 0.8;
-delayGain.gain.value = 0;
-masterGain.gain.value = 0.8;
-
-compressor.connect(masterGain);
-compressor.connect(delayNode);
-delayNode.connect(delayGain);
-delayGain.connect(masterGain);
-const recordDestination = ctx.createMediaStreamDestination();
-masterGain.connect(recordDestination);    
-masterGain.connect(ctx.destination);
-
-chain = {
-  bass,
-  mid,
-  treble,
-  compressor,
-  masterGain,
-  delayNode,
-  delayGain
-  recordDestination
 };
-    chains.set(track, chain);
-   }
 
-   active = chain;
-
-active.masterGain.gain.value = 0.8;
-
-update();
-
-   status.textContent = 'Effects connected to ' +
-    (track.file ? track.file.name : 'selected track');
-
-  } catch (error) {
-   status.textContent = 'Audio connection error: ' + error.message;
+stopBtn.onclick = () => {
+  if(recorder && recorder.state !== "inactive") {
+    recorder.stop();
+    recordBtn.disabled = false;
+    stopBtn.disabled = true;
   }
- }
+};
 
- select.addEventListener('focus', refresh);
- select.addEventListener('change', connect);
+// ===================================
+// BEAT PLAYER
+// ===================================
 
- ['fxBass', 'fxMid', 'fxTreble', 'fxComp', 'fxDelay'].forEach(id => {
-  root.querySelector('#' + id).addEventListener('input', update);
- });
+document.getElementById("beatFile").onchange = e => {
+  const file = e.target.files[0];
+  if(!file) return;
 
- refresh();
-  let exportRecorder = null;
+  const url = URL.createObjectURL(file);
+  const audio = document.getElementById("beatAudio");
+
+  audio.src = url;
+  audio.hidden = false;
+  document.getElementById("beatStatus").textContent = "Loaded: " + file.name;
+};
+
+// ===================================
+// MIXING ENGINE
+// ===================================
+
+let audioContext;
+let mixSource;
+let mixInput;
+let bassFilter;
+let trebleFilter;
+let compressor;
+let masterGain;
+let reverbNode;
+let echoNode;
+let mixDestination;
+let exportRecorder;
 let exportChunks = [];
 
-root.querySelector('#fxExport').onclick = async () => {
-  if (!active) {
-    status.textContent = 'Select a track first.';
-    return;
+const mixAudio = document.getElementById("mixAudio");
+
+async function setupMixEngine() {
+  if(audioContext) return;
+
+  audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+  mixSource = audioContext.createMediaElementSource(mixAudio);
+
+  bassFilter = audioContext.createBiquadFilter();
+  bassFilter.type = "lowshelf";
+  bassFilter.frequency.value = 200;
+
+  trebleFilter = audioContext.createBiquadFilter();
+  trebleFilter.type = "highshelf";
+  trebleFilter.frequency.value = 3000;
+
+  compressor = audioContext.createDynamicsCompressor();
+
+  masterGain = audioContext.createGain();
+
+  echoNode = audioContext.createDelay(2);
+  echoNode.delayTime.value = 0.25;
+
+  const echoGain = audioContext.createGain();
+  echoGain.gain.value = 0;
+
+  reverbNode = audioContext.createConvolver();
+
+  // Create a short synthetic room impulse for reverb.
+  const length = audioContext.sampleRate * 2;
+  const impulse = audioContext.createBuffer(2, length, audioContext.sampleRate);
+
+  for(let channel = 0; channel < 2; channel++) {
+    const data = impulse.getChannelData(channel);
+    for(let i = 0; i < length; i++) {
+      data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, 3);
+    }
   }
 
-  if (!exportRecorder || exportRecorder.state === 'inactive') {
-    exportChunks = [];
+  reverbNode.buffer = impulse;
 
-    exportRecorder = new MediaRecorder(active.recordDestination.stream);
+  const reverbGain = audioContext.createGain();
+  reverbGain.gain.value = 0;
+
+  mixDestination = audioContext.createMediaStreamDestination();
+
+  mixSource.connect(bassFilter);
+  bassFilter.connect(trebleFilter);
+  trebleFilter.connect(compressor);
+  compressor.connect(masterGain);
+
+  masterGain.connect(audioContext.destination);
+  masterGain.connect(mixDestination);
+
+  // Echo feedback and reverb are mixed in parallel.
+  masterGain.connect(echoNode);
+  echoNode.connect(echoGain);
+  echoGain.connect(audioContext.destination);
+  echoGain.connect(mixDestination);
+
+  masterGain.connect(reverbNode);
+  reverbNode.connect(reverbGain);
+  reverbGain.connect(audioContext.destination);
+  reverbGain.connect(mixDestination);
+
+  window.mixEchoGain = echoGain;
+  window.mixReverbGain = reverbGain;
+}
+
+document.getElementById("mixFile").onchange = async e => {
+  const file = e.target.files[0];
+  if(!file) return;
+
+  mixAudio.src = URL.createObjectURL(file);
+  mixAudio.hidden = false;
+
+  try {
+    await setupMixEngine();
+    document.getElementById("mixStatus").textContent =
+      "Loaded: " + file.name + ". Press play to monitor your mix.";
+  } catch(error) {
+    document.getElementById("mixStatus").textContent = error.message;
+  }
+};
+
+function updateMix() {
+  if(!audioContext) return;
+
+  bassFilter.gain.value = Number(document.getElementById("bass").value);
+  trebleFilter.gain.value = Number(document.getElementById("treble").value);
+
+  masterGain.gain.value = Number(document.getElementById("volume").value) / 100;
+
+  const compression = Number(document.getElementById("compression").value);
+  compressor.threshold.value = -10 - compression * 0.5;
+  compressor.ratio.value = 1 + compression / 15;
+
+  window.mixEchoGain.gain.value =
+    Number(document.getElementById("echo").value) / 200;
+
+  window.mixReverbGain.gain.value =
+    Number(document.getElementById("reverb").value) / 150;
+}
+
+["volume","bass","treble","compression","echo","reverb"].forEach(id => {
+  document.getElementById(id).oninput = e => {
+    const value = e.target.value;
+    const units = id === "bass" || id === "treble" ? " dB" : "%";
+    document.getElementById(id + "Value").textContent = value + units;
+    updateMix();
+  };
+});
+
+document.getElementById("mixAudio").onplay = async () => {
+  await setupMixEngine();
+  await audioContext.resume();
+  updateMix();
+};
+
+document.getElementById("exportMix").onclick = async () => {
+  try {
+    await setupMixEngine();
+    await audioContext.resume();
+
+    if(!mixDestination) throw new Error("Mix engine is not ready.");
+
+    const stream = mixDestination.stream;
+    const mime = MediaRecorder.isTypeSupported("audio/webm;codecs=opus")
+      ? "audio/webm;codecs=opus" : "audio/webm";
+
+    exportChunks = [];
+    exportRecorder = new MediaRecorder(stream, {mimeType:mime});
 
     exportRecorder.ondataavailable = e => {
-      if (e.data.size > 0) exportChunks.push(e.data);
+      if(e.data.size) exportChunks.push(e.data);
     };
 
-    exportRecorder.onstop = async () => {
-      try {
-        const blob = new Blob(exportChunks, { type: exportRecorder.mimeType });
-        const buffer = await ctx.decodeAudioData(await blob.arrayBuffer());
-        const wav = audioBufferToWav(buffer);
-        const url = URL.createObjectURL(wav);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = 'Wakaundu-Processed-Audio.wav';
-        link.click();
-        URL.revokeObjectURL(url);
-        status.textContent = 'Processed WAV downloaded.';
-      } catch (error) {
-        status.textContent = 'Export failed: ' + error.message;
-      }
+    exportRecorder.onstop = () => {
+      const blob = new Blob(exportChunks, {type:mime});
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "WakaunduVibez-Mastered-Mix.webm";
+      link.click();
+      URL.revokeObjectURL(url);
+
+      document.getElementById("mixStatus").textContent = "Your mix has been exported.";
     };
 
     exportRecorder.start();
-    root.querySelector('#fxExport').textContent = '■ Stop and Download WAV';
-    status.textContent = 'Recording processed audio. Play your track now.';
-  } else {
-    exportRecorder.stop();
-    root.querySelector('#fxExport').textContent = '⬇ Download Processed Audio (WAV)';
-    status.textContent = 'Preparing WAV download...';
+    document.getElementById("mixStatus").textContent =
+      "Recording processed output. Play your track, then press Export again to finish.";
+
+    document.getElementById("exportMix").textContent = "■ Finish & Download Mix";
+
+    document.getElementById("exportMix").onclick = () => {
+      if(exportRecorder && exportRecorder.state === "recording") {
+        exportRecorder.stop();
+        document.getElementById("exportMix").textContent = "⬇ Export Processed Mix";
+      }
+    };
+
+  } catch(error) {
+    document.getElementById("mixStatus").textContent =
+      "Export error: " + error.message;
   }
 };
- setInterval(refresh, 1000);
-})();
+
+// ===================================
+// PITCH SETTINGS
+// ===================================
+
+document.getElementById("correction").oninput = e => {
+  document.getElementById("correctionValue").textContent = e.target.value + "%";
+};
+
+document.getElementById("retune").oninput = e => {
+  document.getElementById("retuneValue").textContent = e.target.value + "%";
+};
+
+["musicalKey","scale","correction","retune"].forEach(id => {
+  document.getElementById(id).onchange = () => {
+    document.getElementById("pitchStatus").textContent =
+      "Key: " + document.getElementById("musicalKey").value +
+      " | Scale: " + document.getElementById("scale").value +
+      " | Settings updated.";
+  };
+});
+
+// ===================================
+// MULTITRACK WORKSPACE
+// ===================================
+
+document.getElementById("trackFiles").onchange = e => {
+  const files = Array.from(e.target.files);
+  const list = document.getElementById("trackList");
+
+  files.forEach(file => {
+    const url = URL.createObjectURL(file);
+    const box = document.createElement("div");
+    box.className = "track";
+
+    const title = document.createElement("strong");
+    title.textContent = file.name;
+
+    const audio = document.createElement("audio");
+    audio.controls = true;
+    audio.src = url;
+
+    box.appendChild(title);
+    box.appendChild(audio);
+    list.appendChild(box);
+  });
+
+  document.getElementById("trackStatus").textContent =
+    files.length + " track(s) added to your workspace.";
+};
+
+// ===================================
+// BEAT MAKER / DRUM MACHINE
+// ===================================
+
+const drumNames = ["Kick","Snare","Hi-Hat"];
+const patterns = [
+  [1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0],
+  [0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0],
+  [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0]
+];
+
+const sequencer = document.getElementById("sequencer");
+const tempo = document.getElementById("tempo");
+
+drumNames.forEach((name,row) => {
+  const heading = document.createElement("p");
+  heading.textContent = name;
+  sequencer.appendChild(heading);
+
+  const line = document.createElement("div");
+  line.className = "steps";
+
+  for(let i = 0; i < 16; i++) {
+    const button = document.createElement("button");
+    button.className = "step" + (patterns[row][i] ? " active" : "");
+    button.textContent = i + 1;
+
+    button.onclick = () => {
+      patterns[row][i] = patterns[row][i] ? 0 : 1;
+      button.classList.toggle("active");
+    };
+
+    line.appendChild(button);
+  }
+
+  sequencer.appendChild(line);
+});
+
+let drumContext;
+let beatTimer;
+let currentStep = 0;
+
+function playDrum(type) {
+  if(!drumContext) return;
+
+  const now = drumContext.currentTime;
+  const osc = drumContext.createOscillator();
+  const gain = drumContext.createGain();
+
+  osc.connect(gain);
+  gain.connect(drumContext.destination);
+
+  if(type === 0) {
+    osc.type = "sine";
+    osc.frequency.setValueAtTime(150,now);
+    osc.frequency.exponentialRampToValueAtTime(40,now + 0.15);
+    gain.gain.setValueAtTime(1,now);
+    gain.gain.exponentialRampToValueAtTime(0.001,now + 0.2);
+    osc.start(now);
+    osc.stop(now + 0.2);
+
+  } else if(type === 1) {
+    osc.type = "triangle";
+    osc.frequency.value = 180;
+    gain.gain.setValueAtTime(0.6,now);
+    gain.gain.exponentialRampToValueAtTime(0.001,now + 0.12);
+    osc.start(now);
+    osc.stop(now + 0.12);
+
+  } else {
+    const buffer = drumContext.createBuffer(1,drumContext.sampleRate * 0.05,drumContext.sampleRate);
+    const data = buffer.getChannelData(0);
+
+    for(let i = 0; i < data.length; i++) {
+      data[i] = Math.random() * 2 - 1;
+    }
+
+    const noise = drumContext.createBufferSource();
+    const filter = drumContext.createBiquadFilter();
+    const noiseGain = drumContext.createGain();
+
+    noise.buffer = buffer;
+    filter.type = "highpass";
+    filter.frequency.value = 7000;
+
+    noise.connect(filter);
+    filter.connect(noiseGain);
+    noiseGain.connect(drumContext.destination);
+
+    noiseGain.gain.setValueAtTime(0.3,now);
+    noiseGain.gain.exponentialRampToValueAtTime(0.001,now + 0.05);
+    noise.start(now);
+  }
+}
+
+function beatTick() {
+  patterns.forEach((pattern,row) => {
+    if(pattern[currentStep]) playDrum(row);
+  });
+
+  currentStep = (currentStep + 1) % 16;
+}
+
+tempo.oninput = () => {
+  document.getElementById("tempoValue").textContent = tempo.value;
+  if(beatTimer) {
+    clearInterval(beatTimer);
+    beatTimer = setInterval(beatTick,60000 / Number(tempo.value) / 4);
+  }
+};
+
+document.getElementById("playBeat").onclick = async () => {
+  drumContext = drumContext || new (window.AudioContext || window.webkitAudioContext)();
+  await drumContext.resume();
+
+  if(beatTimer) clearInterval(beatTimer);
+  currentStep = 0;
+
+  beatTick();
+  beatTimer = setInterval(beatTick,60000 / Number(tempo.value) / 4);
+
+  document.getElementById("beatMakerStatus").textContent = "Playing your beat.";
+};
+
+document.getElementById("stopBeat").onclick = () => {
+  if(beatTimer) clearInterval(beatTimer);
+  beatTimer = null;
+  document.getElementById("beatMakerStatus").textContent = "Beat stopped.";
+};
+
+// ===================================
+// SYNTHESIZER
+// ===================================
+
+let synthContext;
+let activeOscillators = [];
+
+document.querySelectorAll(".note").forEach(button => {
+  button.addEventListener("click", async () => {
+    synthContext = synthContext || new (window.AudioContext || window.webkitAudioContext)();
+    await synthContext.resume();
+
+    const osc = synthContext.createOscillator();
+    const gain = synthContext.createGain();
+
+    osc.type = document.getElementById("synthWave").value;
+    osc.frequency.value = Number(button.dataset.note);
+
+    osc.connect(gain);
+    gain.connect(synthContext.destination);
+
+    gain.gain.setValueAtTime(0.3,synthContext.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001,synthContext.currentTime + 0.8);
+
+    osc.start();
+    osc.stop(synthContext.currentTime + 0.8);
+
+    activeOscillators.push(osc);
+
+    document.getElementById("synthStatus").textContent =
+      "Playing note " + button.textContent;
+  });
+});
+
+document.getElementById("stopSynth").onclick = () => {
+  activeOscillators.forEach(osc => {
+    try { osc.stop(); } catch(error) {}
+  });
+
+  activeOscillators = [];
+  document.getElementById("synthStatus").textContent = "Synth stopped.";
+};
+
+// ===================================
+// WAVEFORM DISPLAY
+// ===================================
+
+const visualizer = document.getElementById("visualizer");
+
+for(let i = 0; i < 35; i++) {
+  const bar = document.createElement("span");
+  visualizer.appendChild(bar);
+}
+
 </script>
 </body>
 </html>
