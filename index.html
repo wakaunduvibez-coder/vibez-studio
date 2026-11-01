@@ -9,82 +9,6 @@
 <title>WakaûndūVibez Studio PRO</title>
 
 <style>
-
-/* WAKAÛNDŪVIBEZ PRO BANNER */
-
-.banner-artwork {
-  width: 100%;
-  margin: 0 auto;
-  overflow: hidden;
-  background: #090711;
-  border-bottom: 2px solid #ffd447;
-}
-
-.banner-artwork img {
-  display: block;
-  width: 100%;
-  height: auto;
-  max-height: 600px;
-  object-fit: contain;
-  margin: auto;
-}
-
-/* TRANSPARENT GLASS THEME */
-
-body {
-  background:
-    linear-gradient(
-      rgba(5,4,15,.78),
-      rgba(5,4,15,.88)
-    ),
-    url("banner.png") center top / cover fixed;
-  background-color: #090711;
-}
-
-header, nav {
-  background: rgba(5,5,15,.68);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(255,210,60,.3);
-}
-
-.panel {
-  background: rgba(19,12,35,.67);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  border: 1px solid rgba(255,195,50,.32);
-  box-shadow: 0 8px 35px rgba(0,0,0,.4);
-}
-
-.hero {
-  min-height: 430px;
-  background:
-    linear-gradient(
-      rgba(5,3,15,.35),
-      rgba(5,3,15,.65)
-    ),
-    url("banner.png") center center / cover no-repeat;
-  border-bottom: 2px solid #dba800;
-}
-
-button, .button {
-  background: linear-gradient(
-    110deg,
-    #d99b00,
-    #ffcf33,
-    #a855f7
-  );
-  color: white;
-  border: 1px solid rgba(255,255,255,.3);
-  box-shadow: 0 0 15px rgba(255,190,20,.25);
-}
-
-.section-label {
-  color: #ffd447;
-}
-
-</style>
-</head>
 :root {
   --bg:#090711;
   --panel:#151023;
@@ -94,73 +18,153 @@ button, .button {
   --muted:#b9adc9;
   --green:#22c55e;
 }
+
 * {box-sizing:border-box}
 html {scroll-behavior:smooth}
+
 body {
   margin:0;
-  background:linear-gradient(145deg,#090711,#1b1030,#090711);
+  background:
+    linear-gradient(rgba(5,4,15,.78),rgba(5,4,15,.88)),
+    url("banner.png") center top / cover fixed;
+  background-color:var(--bg);
   color:var(--text);
   font-family:Arial,sans-serif;
 }
+
+/* TOP ARTWORK */
+
+.banner-artwork {
+  width:100%;
+  margin:0 auto;
+  overflow:hidden;
+  background:#090711;
+  border-bottom:2px solid #ffd447;
+}
+
+.banner-artwork img {
+  display:block;
+  width:100%;
+  height:auto;
+  max-height:600px;
+  object-fit:contain;
+  margin:auto;
+}
+
+/* HEADER */
+
 header {
   padding:22px 15px;
   text-align:center;
-  background:#100b1d;
-  border-bottom:1px solid #35204e;
+  background:rgba(5,5,15,.68);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(255,210,60,.3);
 }
+
 header h1 {
-  color:var(--pink);
+  color:#ffd447;
   margin:0;
   font-size:25px;
 }
-header p {color:var(--muted);letter-spacing:2px;font-size:12px}
+
+header p {
+  color:var(--muted);
+  letter-spacing:2px;
+  font-size:12px;
+}
+
+/* NAVIGATION */
+
 nav {
   display:flex;
   justify-content:center;
   flex-wrap:wrap;
   gap:18px;
   padding:14px;
-  background:#100b1d;
+  background:rgba(5,5,15,.68);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(255,210,60,.3);
   position:sticky;
   top:0;
   z-index:10;
 }
-nav a {color:white;text-decoration:none;font-size:13px}
-nav a:hover {color:var(--pink)}
+
+nav a {
+  color:white;
+  text-decoration:none;
+  font-size:13px;
+}
+
+nav a:hover {color:#ffd447}
+
+/* HERO */
+
 .hero {
+  min-height:430px;
   text-align:center;
   padding:55px 18px;
-  background:radial-gradient(circle at center,#38204e,#100b1d 70%);
+  background:
+    linear-gradient(rgba(5,3,15,.35),rgba(5,3,15,.65)),
+    url("banner.png") center center / cover no-repeat;
+  border-bottom:2px solid #dba800;
 }
-.hero h2 {font-size:32px;margin:10px 0}
-.hero p {color:var(--muted);line-height:1.7}
-.hero strong {color:var(--pink)}
-main {max-width:1050px;margin:auto;padding:15px}
+
+.hero h2 {
+  font-size:32px;
+  margin:10px 0;
+}
+
+.hero p {
+  color:var(--muted);
+  line-height:1.7;
+}
+
+.hero strong {color:#ffd447}
+
+/* MAIN CONTENT */
+
+main {
+  max-width:1050px;
+  margin:auto;
+  padding:15px;
+}
+
 .panel {
-  background:var(--panel);
-  border:1px solid #38254d;
+  background:rgba(19,12,35,.67);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  border:1px solid rgba(255,195,50,.32);
   border-radius:16px;
   padding:20px;
   margin:18px 0;
-  box-shadow:0 8px 25px #0005;
+  box-shadow:0 8px 35px rgba(0,0,0,.4);
 }
-.panel h3 {color:var(--pink);margin-top:5px}
+
+.panel h3 {color:#ffd447;margin-top:5px}
+
 .section-label {
-  color:var(--purple);
+  color:#ffd447;
   font-size:11px;
   letter-spacing:2px;
   font-weight:bold;
 }
+
 p {line-height:1.6;color:var(--muted)}
+
 .grid {
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
   gap:15px;
 }
+
+/* BUTTONS */
+
 button,.button {
-  background:linear-gradient(100deg,var(--purple),var(--pink));
+  background:linear-gradient(110deg,#d99b00,#ffcf33,#a855f7);
   color:white;
-  border:0;
+  border:1px solid rgba(255,255,255,.3);
   border-radius:9px;
   padding:12px 16px;
   margin:5px 3px;
@@ -168,12 +172,18 @@ button,.button {
   cursor:pointer;
   display:inline-block;
   text-decoration:none;
+  box-shadow:0 0 15px rgba(255,190,20,.25);
 }
+
 button.secondary,.secondary {
   background:#342449;
   border:1px solid #7950a5;
 }
+
 button:disabled {opacity:.4;cursor:not-allowed}
+
+/* INPUTS */
+
 input[type=file] {
   width:100%;
   padding:12px;
@@ -182,7 +192,9 @@ input[type=file] {
   border-radius:8px;
   margin:10px 0;
 }
-input[type=range] {width:100%;accent-color:var(--pink)}
+
+input[type=range] {width:100%;accent-color:#ffd447}
+
 input[type=text],select {
   width:100%;
   padding:12px;
@@ -191,7 +203,15 @@ input[type=text],select {
   border:1px solid #63427e;
   color:white;
 }
-label.field {display:block;margin-top:15px;color:#e7d8f7}
+
+label.field {
+  display:block;
+  margin-top:15px;
+  color:#e7d8f7;
+}
+
+/* STUDIO CONTROLS */
+
 .status {
   background:#21172e;
   padding:12px;
@@ -200,10 +220,14 @@ label.field {display:block;margin-top:15px;color:#e7d8f7}
   color:var(--green);
   font-size:13px;
 }
+
 audio {width:100%;margin:12px 0}
+
 .small {font-size:12px;color:#a99ab9}
+
 .control-group {margin:18px 0}
 .control-group label {display:block;margin-bottom:7px}
+
 .visualizer {
   height:55px;
   display:flex;
@@ -212,42 +236,58 @@ audio {width:100%;margin:12px 0}
   gap:4px;
   overflow:hidden;
 }
+
 .visualizer span {
   width:4px;
   height:12px;
   border-radius:5px;
-  background:var(--pink);
+  background:#ffd447;
   animation:wave .8s ease-in-out infinite alternate;
 }
+
 .visualizer span:nth-child(3n) {animation-delay:.2s}
 .visualizer span:nth-child(2n) {animation-delay:.4s}
-@keyframes wave {to {height:48px}}
+
+@keyframes wave {
+  to {height:48px}
+}
+
 .steps {
   display:grid;
   grid-template-columns:repeat(8,1fr);
   gap:6px;
   margin:15px 0;
 }
+
 .step {
   min-width:0;
   padding:12px 2px;
   background:#292039;
   border:1px solid #61447c;
 }
+
 .step.active {background:var(--pink)}
+
 .track {
   padding:12px;
   background:#21172e;
   border-radius:9px;
   margin:10px 0;
 }
+
 footer {
   text-align:center;
   padding:25px;
   color:#a99ab9;
   font-size:12px;
 }
-hr {border:0;border-top:1px solid #49335d;margin:20px 0}
+
+hr {
+  border:0;
+  border-top:1px solid #49335d;
+  margin:20px 0;
+}
+
 @media(max-width:500px) {
   .hero h2 {font-size:25px}
   .panel {padding:15px}
@@ -255,11 +295,16 @@ hr {border:0;border-top:1px solid #49335d;margin:20px 0}
 }
 </style>
 </head>
+
 <body>
+
 <div class="banner-artwork">
-  <img src="banner.png" alt="WakaûndūVibez Studio PRO Artwork">
+  <img src="banner.png"
+       alt="WakaûndūVibez Studio PRO Artwork">
 </div>
 
+<header>
+  <div>
     <h1>WakaûndūVibez Studio PRO</h1>
     <p>CREATE YOUR VIBE. BUILD YOUR SOUND.</p>
   </div>
@@ -276,12 +321,16 @@ hr {border:0;border-top:1px solid #49335d;margin:20px 0}
 </nav>
 
 <section class="hero" id="home">
-  <img src="studio-banner.png"
-     alt="WakaûndūVibez Studio"
-     style="width:100%;height:auto;display:block;border-radius:12px;">
+  <img src="banner.png"
+       alt="WakaûndūVibez Studio PRO"
+       style="width:100%;height:auto;display:block;border-radius:12px;">
+
   <div class="section-label">YOUR SOUND. YOUR STORY.</div>
+
   <h2>Welcome to your <strong>personal music studio.</strong></h2>
+
   <p>Record vocals, produce beats, shape your sound and create music directly from your phone.</p>
+
   <a class="button" href="#record">🎙️ OPEN RECORDING STUDIO</a>
 </section>
 
