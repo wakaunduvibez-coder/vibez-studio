@@ -104,11 +104,21 @@ nav a:hover {color:#ffd447}
 .hero {
   min-height:430px;
   text-align:center;
-  padding:55px 18px;
+  padding:30px 18px 55px;
   background:
     linear-gradient(rgba(5,3,15,.35),rgba(5,3,15,.65)),
-    url("banner.png") center center / cover no-repeat;
+    url("studio-banner.PNG") center center / cover no-repeat;
   border-bottom:2px solid #dba800;
+}
+
+.hero img {
+  width:100%;
+  max-width:900px;
+  max-height:400px;
+  object-fit:contain;
+  display:block;
+  margin:0 auto 20px;
+  border-radius:12px;
 }
 
 .hero h2 {
@@ -123,7 +133,7 @@ nav a:hover {color:#ffd447}
 
 .hero strong {color:#ffd447}
 
-/* MAIN CONTENT */
+/* MAIN */
 
 main {
   max-width:1050px;
@@ -159,8 +169,6 @@ p {line-height:1.6;color:var(--muted)}
   gap:15px;
 }
 
-/* BUTTONS */
-
 button,.button {
   background:linear-gradient(110deg,#d99b00,#ffcf33,#a855f7);
   color:white;
@@ -181,8 +189,6 @@ button.secondary,.secondary {
 }
 
 button:disabled {opacity:.4;cursor:not-allowed}
-
-/* INPUTS */
 
 input[type=file] {
   width:100%;
@@ -209,8 +215,6 @@ label.field {
   margin-top:15px;
   color:#e7d8f7;
 }
-
-/* STUDIO CONTROLS */
 
 .status {
   background:#21172e;
@@ -298,16 +302,15 @@ hr {
 
 <body>
 
+<!-- TOP BANNER ARTWORK -->
 <div class="banner-artwork">
   <img src="banner.png"
-       alt="WakaûndūVibez Studio PRO Artwork">
+       alt="WakaûndūVibez Studio PRO Banner">
 </div>
 
 <header>
-  <div>
-    <h1>WakaûndūVibez Studio PRO</h1>
-    <p>CREATE YOUR VIBE. BUILD YOUR SOUND.</p>
-  </div>
+  <h1>WakaûndūVibez Studio PRO</h1>
+  <p>CREATE YOUR VIBE. BUILD YOUR SOUND.</p>
 </header>
 
 <nav>
@@ -320,10 +323,11 @@ hr {
   <a href="#synth">Synth</a>
 </nav>
 
+<!-- STUDIO HERO ARTWORK -->
 <section class="hero" id="home">
-  <img src="banner.png"
-       alt="WakaûndūVibez Studio PRO"
-       style="width:100%;height:auto;display:block;border-radius:12px;">
+
+  <img src="studio-banner.PNG"
+       alt="WakaûndūVibez Studio PRO Main Artwork">
 
   <div class="section-label">YOUR SOUND. YOUR STORY.</div>
 
@@ -332,706 +336,7 @@ hr {
   <p>Record vocals, produce beats, shape your sound and create music directly from your phone.</p>
 
   <a class="button" href="#record">🎙️ OPEN RECORDING STUDIO</a>
+
 </section>
 
 <main>
-
-<!-- VOCAL RECORDING -->
-
-<section class="panel" id="record">
-  <div class="section-label">01 / VOCAL BOOTH</div>
-  <h3>🎙️ WakaûndūVibez Vocal Studio</h3>
-  <p>Record your vocals using your phone microphone.</p>
-
-  <div class="visualizer" id="visualizer"></div>
-  <div class="status" id="recordStatus">Ready to record.</div>
-
-  <button id="recordBtn">🔴 Start Recording</button>
-  <button id="stopBtn" class="secondary" disabled>⏹ Stop Recording</button>
-
-  <audio id="vocalAudio" controls hidden></audio>
-  <a id="downloadVocal" class="button secondary" hidden download="WakaunduVibez-Vocals.webm">⬇ Download Vocals</a>
-  <p class="small">Allow microphone permission. Keep this page open while recording.</p>
-</section>
-
-<!-- BEAT PLAYER -->
-
-<section class="panel" id="beats">
-  <div class="section-label">02 / BEAT PLAYER</div>
-  <h3>🎧 Bring Your Beat</h3>
-  <p>Upload instrumentals and listen to them while recording.</p>
-
-  <label class="field">Choose your beat</label>
-  <input type="file" id="beatFile" accept="audio/*">
-  <audio id="beatAudio" controls hidden></audio>
-  <div class="status" id="beatStatus">No beat selected.</div>
-</section>
-
-<!-- MIXING AND MASTERING -->
-
-<section class="panel" id="mix">
-  <div class="section-label">03 / MIXING & MASTERING</div>
-  <h3>🎚️ Professional Mixing Desk</h3>
-  <p>Upload a recording, adjust the processing controls and export the processed playback.</p>
-
-  <label class="field">Choose your recording</label>
-  <input type="file" id="mixFile" accept="audio/*">
-  <audio id="mixAudio" controls hidden></audio>
-
-  <div class="control-group">
-    <label>Volume: <span id="volumeValue">80%</span></label>
-    <input type="range" id="volume" min="0" max="100" value="80">
-  </div>
-
-  <div class="control-group">
-    <label>Bass: <span id="bassValue">0 dB</span></label>
-    <input type="range" id="bass" min="-12" max="12" value="0">
-  </div>
-
-  <div class="control-group">
-    <label>Treble: <span id="trebleValue">0 dB</span></label>
-    <input type="range" id="treble" min="-12" max="12" value="0">
-  </div>
-
-  <div class="control-group">
-    <label>Compression: <span id="compressionValue">40%</span></label>
-    <input type="range" id="compression" min="0" max="100" value="40">
-  </div>
-
-  <div class="control-group">
-    <label>Reverb: <span id="reverbValue">0%</span></label>
-    <input type="range" id="reverb" min="0" max="100" value="0">
-  </div>
-
-  <div class="control-group">
-    <label>Echo: <span id="echoValue">0%</span></label>
-    <input type="range" id="echo" min="0" max="100" value="0">
-  </div>
-
-  <button id="exportMix">⬇ Export Processed Mix</button>
-  <div class="status" id="mixStatus">Choose an audio file to begin.</div>
-  <p class="small">Export records the processed audio output in real time. Play the track while exporting.</p>
-</section>
-
-<!-- PITCH CORRECTION -->
-
-<section class="panel" id="pitch">
-  <div class="section-label">04 / VOCAL TUNING</div>
-  <h3>🎤 WakaûndūVibez Pitch Correction</h3>
-  <p>Set your intended musical key and scale.</p>
-
-  <label class="field">Musical Key</label>
-  <select id="musicalKey">
-    <option>C</option><option>C# / Db</option>
-    <option>D</option><option>D# / Eb</option>
-    <option>E</option><option>F</option>
-    <option>F# / Gb</option><option>G</option>
-    <option>G# / Ab</option><option>A</option>
-    <option>A# / Bb</option><option>B</option>
-  </select>
-
-  <label class="field">Scale</label>
-  <select id="scale">
-    <option>Major</option>
-    <option>Natural Minor</option>
-    <option>Chromatic</option>
-  </select>
-
-  <div class="control-group">
-    <label>Correction Strength: <span id="correctionValue">70%</span></label>
-    <input type="range" id="correction" min="0" max="100" value="70">
-  </div>
-
-  <div class="control-group">
-    <label>Retune Speed: <span id="retuneValue">50%</span></label>
-    <input type="range" id="retune" min="0" max="100" value="50">
-  </div>
-
-  <div class="status" id="pitchStatus">Tuning settings ready.</div>
-  <p class="small">These are tuning settings only. True Auto-Tune requires pitch detection and real-time pitch-shifting software, which is not implemented by these controls.</p>
-</section>
-
-<!-- VOCAL EFFECTS -->
-
-<section class="panel" id="effects">
-  <div class="section-label">05 / VOCAL EFFECTS</div>
-  <h3>🎛️ Vocal FX Controls</h3>
-  <p>Experiment with your mixing settings above. Use headphones when monitoring live microphone audio to avoid feedback.</p>
-  <button class="secondary" onclick="document.getElementById('mix').scrollIntoView({behavior:'smooth'})">Open Mixing Desk</button>
-</section>
-
-<!-- MULTITRACK -->
-
-<section class="panel" id="multitrack">
-  <div class="section-label">06 / MULTITRACK WORKSPACE</div>
-  <h3>🎚️ Multitrack Studio</h3>
-  <p>Load separate vocal and instrument recordings into your project.</p>
-
-  <label class="field">Select audio tracks</label>
-  <input type="file" id="trackFiles" accept="audio/*" multiple>
-  <div id="trackList"></div>
-  <div class="status" id="trackStatus">No tracks loaded.</div>
-  <p class="small">Tracks can be played individually. Full synchronized multitrack mixing and a timeline editor are future upgrades.</p>
-</section>
-
-<!-- BEAT MAKER -->
-
-<section class="panel" id="beatmaker">
-  <div class="section-label">07 / RHYTHM MACHINE</div>
-  <h3>🥁 WakaûndūVibez Beat Maker</h3>
-  <p>Create your own basic Gengetone and Afrobeat drum patterns.</p>
-
-  <label class="field">Tempo: <span id="tempoValue">120</span> BPM</label>
-  <input type="range" id="tempo" min="60" max="200" value="120">
-
-  <div id="sequencer"></div>
-
-  <button id="playBeat">▶ Play Beat</button>
-  <button id="stopBeat" class="secondary">⏹ Stop Beat</button>
-  <div class="status" id="beatMakerStatus">Create a rhythm by selecting steps.</div>
-</section>
-
-<!-- SYNTHESIZER -->
-
-<section class="panel" id="synth">
-  <div class="section-label">08 / SYNTHESIZER</div>
-  <h3>🎹 WakaûndūVibez Synth</h3>
-  <p>Play electronic notes using your phone screen.</p>
-
-  <label class="field">Sound Type</label>
-  <select id="synthWave">
-    <option value="sawtooth">Saw Lead</option>
-    <option value="sine">Soft Keys</option>
-    <option value="square">Electronic</option>
-    <option value="triangle">Warm Synth</option>
-  </select>
-
-  <div class="grid">
-    <button class="note" data-note="261.63">C</button>
-    <button class="note" data-note="293.66">D</button>
-    <button class="note" data-note="329.63">E</button>
-    <button class="note" data-note="349.23">F</button>
-    <button class="note" data-note="392.00">G</button>
-    <button class="note" data-note="440.00">A</button>
-    <button class="note" data-note="493.88">B</button>
-    <button class="note" data-note="523.25">C5</button>
-  </div>
-
-  <button id="stopSynth" class="secondary">⏹ Stop Synth</button>
-  <div class="status" id="synthStatus">Synthesizer ready.</div>
-</section>
-
-<section class="panel" id="about">
-  <div class="section-label">09 / ABOUT THE STUDIO</div>
-  <h3>More than a vibe.</h3>
-  <p>WakaûndūVibez Studio is a creative space for independent artists, original music, fresh Gengetone energy and Afrobeat production.</p>
-  <p>CREATE YOUR VIBE. BUILD YOUR SOUND.</p>
-</section>
-
-</main>
-
-<footer>
-  © 2026 WakaûndūVibez Studio PRO<br>
-  Create your vibe. Build your sound.
-</footer>
-
-<script>
-// ===================================
-// VOCAL RECORDING
-// ===================================
-
-let recorder;
-let recordedChunks = [];
-let microphoneStream;
-
-const recordBtn = document.getElementById("recordBtn");
-const stopBtn = document.getElementById("stopBtn");
-const vocalAudio = document.getElementById("vocalAudio");
-const downloadVocal = document.getElementById("downloadVocal");
-const recordStatus = document.getElementById("recordStatus");
-
-recordBtn.onclick = async () => {
-  try {
-    microphoneStream = await navigator.mediaDevices.getUserMedia({audio:true});
-
-    const mime = MediaRecorder.isTypeSupported("audio/webm;codecs=opus")
-      ? "audio/webm;codecs=opus" : "";
-
-    recorder = new MediaRecorder(microphoneStream, mime ? {mimeType:mime} : {});
-
-    recordedChunks = [];
-
-    recorder.ondataavailable = e => {
-      if(e.data.size > 0) recordedChunks.push(e.data);
-    };
-
-    recorder.onstop = () => {
-      const blob = new Blob(recordedChunks, {type:recorder.mimeType || "audio/webm"});
-      const url = URL.createObjectURL(blob);
-
-      vocalAudio.src = url;
-      vocalAudio.hidden = false;
-      downloadVocal.href = url;
-      downloadVocal.hidden = false;
-
-      recordStatus.textContent = "Recording completed. Your vocals are ready.";
-      microphoneStream.getTracks().forEach(track => track.stop());
-    };
-
-    recorder.start();
-    recordBtn.disabled = true;
-    stopBtn.disabled = false;
-    recordStatus.textContent = "🔴 Recording in progress...";
-
-  } catch(error) {
-    recordStatus.textContent = "Microphone error: " + error.message;
-  }
-};
-
-stopBtn.onclick = () => {
-  if(recorder && recorder.state !== "inactive") {
-    recorder.stop();
-    recordBtn.disabled = false;
-    stopBtn.disabled = true;
-  }
-};
-
-// ===================================
-// BEAT PLAYER
-// ===================================
-
-document.getElementById("beatFile").onchange = e => {
-  const file = e.target.files[0];
-  if(!file) return;
-
-  const url = URL.createObjectURL(file);
-  const audio = document.getElementById("beatAudio");
-
-  audio.src = url;
-  audio.hidden = false;
-  document.getElementById("beatStatus").textContent = "Loaded: " + file.name;
-};
-
-// ===================================
-// MIXING ENGINE
-// ===================================
-
-let audioContext;
-let mixSource;
-let mixInput;
-let bassFilter;
-let trebleFilter;
-let compressor;
-let masterGain;
-let reverbNode;
-let echoNode;
-let mixDestination;
-let exportRecorder;
-let exportChunks = [];
-
-const mixAudio = document.getElementById("mixAudio");
-
-async function setupMixEngine() {
-  if(audioContext) return;
-
-  audioContext = new (window.AudioContext || window.webkitAudioContext)();
-
-  mixSource = audioContext.createMediaElementSource(mixAudio);
-
-  bassFilter = audioContext.createBiquadFilter();
-  bassFilter.type = "lowshelf";
-  bassFilter.frequency.value = 200;
-
-  trebleFilter = audioContext.createBiquadFilter();
-  trebleFilter.type = "highshelf";
-  trebleFilter.frequency.value = 3000;
-
-  compressor = audioContext.createDynamicsCompressor();
-
-  masterGain = audioContext.createGain();
-
-  echoNode = audioContext.createDelay(2);
-  echoNode.delayTime.value = 0.25;
-
-  const echoGain = audioContext.createGain();
-  echoGain.gain.value = 0;
-
-  reverbNode = audioContext.createConvolver();
-
-  // Create a short synthetic room impulse for reverb.
-  const length = audioContext.sampleRate * 2;
-  const impulse = audioContext.createBuffer(2, length, audioContext.sampleRate);
-
-  for(let channel = 0; channel < 2; channel++) {
-    const data = impulse.getChannelData(channel);
-    for(let i = 0; i < length; i++) {
-      data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, 3);
-    }
-  }
-
-  reverbNode.buffer = impulse;
-
-  const reverbGain = audioContext.createGain();
-  reverbGain.gain.value = 0;
-
-  mixDestination = audioContext.createMediaStreamDestination();
-
-  mixSource.connect(bassFilter);
-  bassFilter.connect(trebleFilter);
-  trebleFilter.connect(compressor);
-  compressor.connect(masterGain);
-
-  masterGain.connect(audioContext.destination);
-  masterGain.connect(mixDestination);
-
-  // Echo feedback and reverb are mixed in parallel.
-  masterGain.connect(echoNode);
-  echoNode.connect(echoGain);
-  echoGain.connect(audioContext.destination);
-  echoGain.connect(mixDestination);
-
-  masterGain.connect(reverbNode);
-  reverbNode.connect(reverbGain);
-  reverbGain.connect(audioContext.destination);
-  reverbGain.connect(mixDestination);
-
-  window.mixEchoGain = echoGain;
-  window.mixReverbGain = reverbGain;
-}
-
-document.getElementById("mixFile").onchange = async e => {
-  const file = e.target.files[0];
-  if(!file) return;
-
-  mixAudio.src = URL.createObjectURL(file);
-  mixAudio.hidden = false;
-
-  try {
-    await setupMixEngine();
-    document.getElementById("mixStatus").textContent =
-      "Loaded: " + file.name + ". Press play to monitor your mix.";
-  } catch(error) {
-    document.getElementById("mixStatus").textContent = error.message;
-  }
-};
-
-function updateMix() {
-  if(!audioContext) return;
-
-  bassFilter.gain.value = Number(document.getElementById("bass").value);
-  trebleFilter.gain.value = Number(document.getElementById("treble").value);
-
-  masterGain.gain.value = Number(document.getElementById("volume").value) / 100;
-
-  const compression = Number(document.getElementById("compression").value);
-  compressor.threshold.value = -10 - compression * 0.5;
-  compressor.ratio.value = 1 + compression / 15;
-
-  window.mixEchoGain.gain.value =
-    Number(document.getElementById("echo").value) / 200;
-
-  window.mixReverbGain.gain.value =
-    Number(document.getElementById("reverb").value) / 150;
-}
-
-["volume","bass","treble","compression","echo","reverb"].forEach(id => {
-  document.getElementById(id).oninput = e => {
-    const value = e.target.value;
-    const units = id === "bass" || id === "treble" ? " dB" : "%";
-    document.getElementById(id + "Value").textContent = value + units;
-    updateMix();
-  };
-});
-
-document.getElementById("mixAudio").onplay = async () => {
-  await setupMixEngine();
-  await audioContext.resume();
-  updateMix();
-};
-
-document.getElementById("exportMix").onclick = async () => {
-  try {
-    await setupMixEngine();
-    await audioContext.resume();
-
-    if(!mixDestination) throw new Error("Mix engine is not ready.");
-
-    const stream = mixDestination.stream;
-    const mime = MediaRecorder.isTypeSupported("audio/webm;codecs=opus")
-      ? "audio/webm;codecs=opus" : "audio/webm";
-
-    exportChunks = [];
-    exportRecorder = new MediaRecorder(stream, {mimeType:mime});
-
-    exportRecorder.ondataavailable = e => {
-      if(e.data.size) exportChunks.push(e.data);
-    };
-
-    exportRecorder.onstop = () => {
-      const blob = new Blob(exportChunks, {type:mime});
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = "WakaunduVibez-Mastered-Mix.webm";
-      link.click();
-      URL.revokeObjectURL(url);
-
-      document.getElementById("mixStatus").textContent = "Your mix has been exported.";
-    };
-
-    exportRecorder.start();
-    document.getElementById("mixStatus").textContent =
-      "Recording processed output. Play your track, then press Export again to finish.";
-
-    document.getElementById("exportMix").textContent = "■ Finish & Download Mix";
-
-    document.getElementById("exportMix").onclick = () => {
-      if(exportRecorder && exportRecorder.state === "recording") {
-        exportRecorder.stop();
-        document.getElementById("exportMix").textContent = "⬇ Export Processed Mix";
-      }
-    };
-
-  } catch(error) {
-    document.getElementById("mixStatus").textContent =
-      "Export error: " + error.message;
-  }
-};
-
-// ===================================
-// PITCH SETTINGS
-// ===================================
-
-document.getElementById("correction").oninput = e => {
-  document.getElementById("correctionValue").textContent = e.target.value + "%";
-};
-
-document.getElementById("retune").oninput = e => {
-  document.getElementById("retuneValue").textContent = e.target.value + "%";
-};
-
-["musicalKey","scale","correction","retune"].forEach(id => {
-  document.getElementById(id).onchange = () => {
-    document.getElementById("pitchStatus").textContent =
-      "Key: " + document.getElementById("musicalKey").value +
-      " | Scale: " + document.getElementById("scale").value +
-      " | Settings updated.";
-  };
-});
-
-// ===================================
-// MULTITRACK WORKSPACE
-// ===================================
-
-document.getElementById("trackFiles").onchange = e => {
-  const files = Array.from(e.target.files);
-  const list = document.getElementById("trackList");
-
-  files.forEach(file => {
-    const url = URL.createObjectURL(file);
-    const box = document.createElement("div");
-    box.className = "track";
-
-    const title = document.createElement("strong");
-    title.textContent = file.name;
-
-    const audio = document.createElement("audio");
-    audio.controls = true;
-    audio.src = url;
-
-    box.appendChild(title);
-    box.appendChild(audio);
-    list.appendChild(box);
-  });
-
-  document.getElementById("trackStatus").textContent =
-    files.length + " track(s) added to your workspace.";
-};
-
-// ===================================
-// BEAT MAKER / DRUM MACHINE
-// ===================================
-
-const drumNames = ["Kick","Snare","Hi-Hat"];
-const patterns = [
-  [1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0],
-  [0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0],
-  [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0]
-];
-
-const sequencer = document.getElementById("sequencer");
-const tempo = document.getElementById("tempo");
-
-drumNames.forEach((name,row) => {
-  const heading = document.createElement("p");
-  heading.textContent = name;
-  sequencer.appendChild(heading);
-
-  const line = document.createElement("div");
-  line.className = "steps";
-
-  for(let i = 0; i < 16; i++) {
-    const button = document.createElement("button");
-    button.className = "step" + (patterns[row][i] ? " active" : "");
-    button.textContent = i + 1;
-
-    button.onclick = () => {
-      patterns[row][i] = patterns[row][i] ? 0 : 1;
-      button.classList.toggle("active");
-    };
-
-    line.appendChild(button);
-  }
-
-  sequencer.appendChild(line);
-});
-
-let drumContext;
-let beatTimer;
-let currentStep = 0;
-
-function playDrum(type) {
-  if(!drumContext) return;
-
-  const now = drumContext.currentTime;
-  const osc = drumContext.createOscillator();
-  const gain = drumContext.createGain();
-
-  osc.connect(gain);
-  gain.connect(drumContext.destination);
-
-  if(type === 0) {
-    osc.type = "sine";
-    osc.frequency.setValueAtTime(150,now);
-    osc.frequency.exponentialRampToValueAtTime(40,now + 0.15);
-    gain.gain.setValueAtTime(1,now);
-    gain.gain.exponentialRampToValueAtTime(0.001,now + 0.2);
-    osc.start(now);
-    osc.stop(now + 0.2);
-
-  } else if(type === 1) {
-    osc.type = "triangle";
-    osc.frequency.value = 180;
-    gain.gain.setValueAtTime(0.6,now);
-    gain.gain.exponentialRampToValueAtTime(0.001,now + 0.12);
-    osc.start(now);
-    osc.stop(now + 0.12);
-
-  } else {
-    const buffer = drumContext.createBuffer(1,drumContext.sampleRate * 0.05,drumContext.sampleRate);
-    const data = buffer.getChannelData(0);
-
-    for(let i = 0; i < data.length; i++) {
-      data[i] = Math.random() * 2 - 1;
-    }
-
-    const noise = drumContext.createBufferSource();
-    const filter = drumContext.createBiquadFilter();
-    const noiseGain = drumContext.createGain();
-
-    noise.buffer = buffer;
-    filter.type = "highpass";
-    filter.frequency.value = 7000;
-
-    noise.connect(filter);
-    filter.connect(noiseGain);
-    noiseGain.connect(drumContext.destination);
-
-    noiseGain.gain.setValueAtTime(0.3,now);
-    noiseGain.gain.exponentialRampToValueAtTime(0.001,now + 0.05);
-    noise.start(now);
-  }
-}
-
-function beatTick() {
-  patterns.forEach((pattern,row) => {
-    if(pattern[currentStep]) playDrum(row);
-  });
-
-  currentStep = (currentStep + 1) % 16;
-}
-
-tempo.oninput = () => {
-  document.getElementById("tempoValue").textContent = tempo.value;
-  if(beatTimer) {
-    clearInterval(beatTimer);
-    beatTimer = setInterval(beatTick,60000 / Number(tempo.value) / 4);
-  }
-};
-
-document.getElementById("playBeat").onclick = async () => {
-  drumContext = drumContext || new (window.AudioContext || window.webkitAudioContext)();
-  await drumContext.resume();
-
-  if(beatTimer) clearInterval(beatTimer);
-  currentStep = 0;
-
-  beatTick();
-  beatTimer = setInterval(beatTick,60000 / Number(tempo.value) / 4);
-
-  document.getElementById("beatMakerStatus").textContent = "Playing your beat.";
-};
-
-document.getElementById("stopBeat").onclick = () => {
-  if(beatTimer) clearInterval(beatTimer);
-  beatTimer = null;
-  document.getElementById("beatMakerStatus").textContent = "Beat stopped.";
-};
-
-// ===================================
-// SYNTHESIZER
-// ===================================
-
-let synthContext;
-let activeOscillators = [];
-
-document.querySelectorAll(".note").forEach(button => {
-  button.addEventListener("click", async () => {
-    synthContext = synthContext || new (window.AudioContext || window.webkitAudioContext)();
-    await synthContext.resume();
-
-    const osc = synthContext.createOscillator();
-    const gain = synthContext.createGain();
-
-    osc.type = document.getElementById("synthWave").value;
-    osc.frequency.value = Number(button.dataset.note);
-
-    osc.connect(gain);
-    gain.connect(synthContext.destination);
-
-    gain.gain.setValueAtTime(0.3,synthContext.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001,synthContext.currentTime + 0.8);
-
-    osc.start();
-    osc.stop(synthContext.currentTime + 0.8);
-
-    activeOscillators.push(osc);
-
-    document.getElementById("synthStatus").textContent =
-      "Playing note " + button.textContent;
-  });
-});
-
-document.getElementById("stopSynth").onclick = () => {
-  activeOscillators.forEach(osc => {
-    try { osc.stop(); } catch(error) {}
-  });
-
-  activeOscillators = [];
-  document.getElementById("synthStatus").textContent = "Synth stopped.";
-};
-
-// ===================================
-// WAVEFORM DISPLAY
-// ===================================
-
-const visualizer = document.getElementById("visualizer");
-
-for(let i = 0; i < 35; i++) {
-  const bar = document.createElement("span");
-  visualizer.appendChild(bar);
-}
-
-</script>
-</body>
-</html>
