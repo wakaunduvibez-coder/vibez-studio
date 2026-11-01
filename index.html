@@ -1,342 +1,125 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#090711">
-<meta name="description" content="WakaûndūVibez Studio PRO - Record, mix, produce and create music from your phone.">
 <title>WakaûndūVibez Studio PRO</title>
 
 <style>
-:root {
-  --bg:#090711;
-  --panel:#151023;
-  --purple:#a855f7;
-  --pink:#ec4899;
-  --text:#fff;
-  --muted:#b9adc9;
-  --green:#22c55e;
+* {
+  box-sizing: border-box;
 }
-
-* {box-sizing:border-box}
-html {scroll-behavior:smooth}
-
 body {
-  margin:0;
-  background:
-    linear-gradient(rgba(5,4,15,.78),rgba(5,4,15,.88)),
-    url("banner.png") center top / cover fixed;
-  background-color:var(--bg);
-  color:var(--text);
-  font-family:Arial,sans-serif;
+  margin: 0;
+  background: #090711;
+  color: white;
+  font-family: Arial, sans-serif;
 }
-
-/* TOP ARTWORK */
-
-.banner-artwork {
-  width:100%;
-  margin:0 auto;
-  overflow:hidden;
-  background:#090711;
-  border-bottom:2px solid #ffd447;
-}
-
-.banner-artwork img {
-  display:block;
-  width:100%;
-  height:auto;
-  max-height:600px;
-  object-fit:contain;
-  margin:auto;
-}
-
-/* HEADER */
-
 header {
-  padding:22px 15px;
-  text-align:center;
-  background:rgba(5,5,15,.68);
-  backdrop-filter:blur(16px);
-  -webkit-backdrop-filter:blur(16px);
-  border-bottom:1px solid rgba(255,210,60,.3);
+  padding: 20px;
+  text-align: center;
+  background: #151023;
 }
-
-header h1 {
-  color:#ffd447;
-  margin:0;
-  font-size:25px;
+.banner {
+  width: 100%;
+  display: block;
+  border-bottom: 3px solid #ffd447;
 }
-
-header p {
-  color:var(--muted);
-  letter-spacing:2px;
-  font-size:12px;
+h1 {
+  color: #ffd447;
 }
-
-/* NAVIGATION */
-
-nav {
-  display:flex;
-  justify-content:center;
-  flex-wrap:wrap;
-  gap:18px;
-  padding:14px;
-  background:rgba(5,5,15,.68);
-  backdrop-filter:blur(16px);
-  -webkit-backdrop-filter:blur(16px);
-  border-bottom:1px solid rgba(255,210,60,.3);
-  position:sticky;
-  top:0;
-  z-index:10;
+.tagline {
+  color: #ec91d5;
 }
-
-nav a {
-  color:white;
-  text-decoration:none;
-  font-size:13px;
-}
-
-nav a:hover {color:#ffd447}
-
-/* HERO */
-
-.hero {
-  min-height:430px;
-  text-align:center;
-  padding:30px 18px 55px;
-  background:
-    linear-gradient(rgba(5,3,15,.35),rgba(5,3,15,.65)),
-    url("studio-banner.PNG") center center / cover no-repeat;
-  border-bottom:2px solid #dba800;
-}
-
-.hero img {
-  width:100%;
-  max-width:900px;
-  max-height:400px;
-  object-fit:contain;
-  display:block;
-  margin:0 auto 20px;
-  border-radius:12px;
-}
-
-.hero h2 {
-  font-size:32px;
-  margin:10px 0;
-}
-
-.hero p {
-  color:var(--muted);
-  line-height:1.7;
-}
-
-.hero strong {color:#ffd447}
-
-/* MAIN */
-
 main {
-  max-width:1050px;
-  margin:auto;
-  padding:15px;
+  padding: 18px;
+  max-width: 850px;
+  margin: auto;
 }
-
 .panel {
-  background:rgba(19,12,35,.67);
-  backdrop-filter:blur(18px);
-  -webkit-backdrop-filter:blur(18px);
-  border:1px solid rgba(255,195,50,.32);
-  border-radius:16px;
-  padding:20px;
-  margin:18px 0;
-  box-shadow:0 8px 35px rgba(0,0,0,.4);
+  background: #191329;
+  border: 1px solid #a855f7;
+  border-radius: 12px;
+  padding: 18px;
+  margin-bottom: 18px;
 }
-
-.panel h3 {color:#ffd447;margin-top:5px}
-
-.section-label {
-  color:#ffd447;
-  font-size:11px;
-  letter-spacing:2px;
-  font-weight:bold;
+button {
+  background: #a855f7;
+  color: white;
+  border: 0;
+  padding: 13px 18px;
+  border-radius: 8px;
+  font-weight: bold;
+  margin: 5px;
 }
-
-p {line-height:1.6;color:var(--muted)}
-
-.grid {
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:15px;
+button:active {
+  background: #ec4899;
 }
-
-button,.button {
-  background:linear-gradient(110deg,#d99b00,#ffcf33,#a855f7);
-  color:white;
-  border:1px solid rgba(255,255,255,.3);
-  border-radius:9px;
-  padding:12px 16px;
-  margin:5px 3px;
-  font-weight:bold;
-  cursor:pointer;
-  display:inline-block;
-  text-decoration:none;
-  box-shadow:0 0 15px rgba(255,190,20,.25);
-}
-
-button.secondary,.secondary {
-  background:#342449;
-  border:1px solid #7950a5;
-}
-
-button:disabled {opacity:.4;cursor:not-allowed}
-
-input[type=file] {
-  width:100%;
-  padding:12px;
-  background:#21172e;
-  color:white;
-  border-radius:8px;
-  margin:10px 0;
-}
-
-input[type=range] {width:100%;accent-color:#ffd447}
-
-input[type=text],select {
-  width:100%;
-  padding:12px;
-  border-radius:8px;
-  background:#21172e;
-  border:1px solid #63427e;
-  color:white;
-}
-
-label.field {
-  display:block;
-  margin-top:15px;
-  color:#e7d8f7;
-}
-
-.status {
-  background:#21172e;
-  padding:12px;
-  border-radius:8px;
-  margin:12px 0;
-  color:var(--green);
-  font-size:13px;
-}
-
-audio {width:100%;margin:12px 0}
-
-.small {font-size:12px;color:#a99ab9}
-
-.control-group {margin:18px 0}
-.control-group label {display:block;margin-bottom:7px}
-
-.visualizer {
-  height:55px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:4px;
-  overflow:hidden;
-}
-
-.visualizer span {
-  width:4px;
-  height:12px;
-  border-radius:5px;
-  background:#ffd447;
-  animation:wave .8s ease-in-out infinite alternate;
-}
-
-.visualizer span:nth-child(3n) {animation-delay:.2s}
-.visualizer span:nth-child(2n) {animation-delay:.4s}
-
-@keyframes wave {
-  to {height:48px}
-}
-
-.steps {
-  display:grid;
-  grid-template-columns:repeat(8,1fr);
-  gap:6px;
-  margin:15px 0;
-}
-
-.step {
-  min-width:0;
-  padding:12px 2px;
-  background:#292039;
-  border:1px solid #61447c;
-}
-
-.step.active {background:var(--pink)}
-
-.track {
-  padding:12px;
-  background:#21172e;
-  border-radius:9px;
-  margin:10px 0;
-}
-
 footer {
-  text-align:center;
-  padding:25px;
-  color:#a99ab9;
-  font-size:12px;
-}
-
-hr {
-  border:0;
-  border-top:1px solid #49335d;
-  margin:20px 0;
-}
-
-@media(max-width:500px) {
-  .hero h2 {font-size:25px}
-  .panel {padding:15px}
-  nav {gap:12px}
+  text-align: center;
+  padding: 20px;
+  color: #aaa;
 }
 </style>
 </head>
 
 <body>
 
-<!-- TOP BANNER ARTWORK -->
-<div class="banner-artwork">
-  <img src="banner.png"
-       alt="WakaûndūVibez Studio PRO Banner">
-</div>
+<img class="banner" src="studio-banner.PNG" alt="WakaûndūVibez Studio artwork">
 
 <header>
   <h1>WakaûndūVibez Studio PRO</h1>
-  <p>CREATE YOUR VIBE. BUILD YOUR SOUND.</p>
+  <p class="tagline">CREATE YOUR VIBE. BUILD YOUR SOUND.</p>
 </header>
 
-<nav>
-  <a href="#home">Home</a>
-  <a href="#record">Recording</a>
-  <a href="#beats">Beats</a>
-  <a href="#mix">Mixing</a>
-  <a href="#pitch">Auto-Tune</a>
-  <a href="#multitrack">Multitrack</a>
-  <a href="#synth">Synth</a>
-</nav>
+<main>
 
-<!-- STUDIO HERO ARTWORK -->
-<section class="hero" id="home">
-
-  <img src="studio-banner.PNG"
-       alt="WakaûndūVibez Studio PRO Main Artwork">
-
-  <div class="section-label">YOUR SOUND. YOUR STORY.</div>
-
-  <h2>Welcome to your <strong>personal music studio.</strong></h2>
-
-  <p>Record vocals, produce beats, shape your sound and create music directly from your phone.</p>
-
-  <a class="button" href="#record">🎙️ OPEN RECORDING STUDIO</a>
-
+<section class="panel">
+  <h2>🎙️ Vocal Recording</h2>
+  <p>Record your own vocals directly in the studio.</p>
+  <button onclick="alert('Recording module coming next!')">
+    Open Vocal Studio
+  </button>
 </section>
 
-<main>
+<section class="panel">
+  <h2>🎹 Korg Synthesizer</h2>
+  <p>Create your own sounds and melodies.</p>
+  <button onclick="alert('Synthesizer coming next!')">
+    Open Synth
+  </button>
+</section>
+
+<section class="panel">
+  <h2>🥁 Beat Maker</h2>
+  <p>Create rhythms and drum patterns.</p>
+  <button onclick="alert('Beat Maker coming next!')">
+    Open Beat Maker
+  </button>
+</section>
+
+<section class="panel">
+  <h2>🎚️ Mixing & Mastering</h2>
+  <p>Build and polish your tracks.</p>
+  <button onclick="alert('Mixer coming next!')">
+    Open Mixer
+  </button>
+</section>
+
+<section class="panel">
+  <h2>🎤 Vocal Suite — Nectar Style</h2>
+  <p>Our planned vocal processing workspace.</p>
+  <button onclick="alert('Vocal Suite coming next!')">
+    Open Vocal Suite
+  </button>
+</section>
+
+</main>
+
+<footer>
+  WakaûndūVibez Studio PRO © 2026
+</footer>
+
+</body>
+</html>
