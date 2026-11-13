@@ -2,124 +2,112 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#090711">
-<title>WakaûndūVibez Studio PRO</title>
-
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#100d24">
+<meta name="description" content="WakaûndūVibez Studio — offline-first music workstation for Android and desktop browsers.">
+<link rel="manifest" href="./manifest.webmanifest">
+<title>WakaûndūVibez Studio Pro</title>
 <style>
-* {
-  box-sizing: border-box;
-}
-body {
-  margin: 0;
-  background: #090711;
-  color: white;
-  font-family: Arial, sans-serif;
-}
-header {
-  padding: 20px;
-  text-align: center;
-  background: #151023;
-}
-.banner {
-  width: 100%;
-  display: block;
-  border-bottom: 3px solid #ffd447;
-}
-h1 {
-  color: #ffd447;
-}
-.tagline {
-  color: #ec91d5;
-}
-main {
-  padding: 18px;
-  max-width: 850px;
-  margin: auto;
-}
-.panel {
-  background: #191329;
-  border: 1px solid #a855f7;
-  border-radius: 12px;
-  padding: 18px;
-  margin-bottom: 18px;
-}
-button {
-  background: #a855f7;
-  color: white;
-  border: 0;
-  padding: 13px 18px;
-  border-radius: 8px;
-  font-weight: bold;
-  margin: 5px;
-}
-button:active {
-  background: #ec4899;
-}
-footer {
-  text-align: center;
-  padding: 20px;
-  color: #aaa;
-}
+:root{color-scheme:dark;--bg:#100d24;--panel:#1b1735;--panel2:#241e45;--line:#39315f;--text:#f4f0ff;--muted:#b6aed0;--pink:#ff4fa3;--cyan:#5ee7e0;--gold:#f5c96a}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#29204b,var(--bg) 55%);color:var(--text);font:15px system-ui,Arial,sans-serif}
+header{padding:15px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;background:#100d24ed;position:sticky;top:0;z-index:5}
+h1{font-size:21px;margin:0;color:var(--cyan)}header p{margin:3px 0 0;color:var(--muted);font-size:12px}
+main{max-width:1250px;margin:auto;padding:14px;display:grid;gap:13px}.panel{background:linear-gradient(145deg,var(--panel),#17132d);border:1px solid var(--line);border-radius:15px;padding:14px;min-width:0}
+h2{font-size:16px;margin:0 0 11px;color:var(--gold)}h3{font-size:13px;margin:12px 0 7px;color:var(--cyan)}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}button,.filebtn{background:var(--panel2);color:var(--text);border:1px solid #514778;border-radius:9px;padding:9px 12px;font-weight:650;cursor:pointer}
+button.primary{background:linear-gradient(120deg,#b82e83,#6638a8);border:0}button.good{border-color:#267d77;color:var(--cyan)}button.danger{border-color:#9a4169;color:#ff9bc5}button:disabled{opacity:.45;cursor:not-allowed}
+input,select{background:#100d24;color:var(--text);border:1px solid var(--line);border-radius:8px;padding:8px;max-width:100%}input[type=range]{accent-color:var(--pink);padding:0;width:115px}
+label{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px;flex-wrap:wrap}small,.muted,.help{color:var(--muted)}.status{color:var(--cyan);font-size:12px;min-height:17px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.stat{background:#100d24;border:1px solid var(--line);padding:10px;border-radius:10px}.stat strong{display:block;font-size:18px;color:var(--cyan)}
+canvas{width:100%;display:block;background:#0b0918;border:1px solid var(--line);border-radius:9px}#pianoRoll{height:300px;touch-action:none}#velocityLane,#automationLane{height:105px;touch-action:none}#wave{height:75px}
+.track{padding:8px;border:1px solid var(--line);border-radius:9px;margin-top:7px}.help{font-size:12px;line-height:1.45}
+footer{text-align:center;color:var(--muted);font-size:11px;padding:8px 0 20px}
+@media(max-width:720px){.grid2,.grid3{grid-template-columns:1fr}main{padding:9px}.panel{padding:11px}header{position:relative}#pianoRoll{height:260px}}
 </style>
 </head>
-
 <body>
-
-<img class="banner" src="studio-banner.PNG" alt="WakaûndūVibez Studio artwork">
-
 <header>
-  <h1>WakaûndūVibez Studio PRO</h1>
-  <p class="tagline">CREATE YOUR VIBE. BUILD YOUR SOUND.</p>
+ <div><h1>WakaûndūVibez Studio Pro</h1><p>Offline-first music workstation • Android / Chrome</p></div>
+ <div class="row"><button id="saveBtn" class="good">Save</button><button id="loadBtn">Open saved</button><button id="newBtn">New</button></div>
 </header>
-
 <main>
-
 <section class="panel">
-  <h2>🎙️ Vocal Recording</h2>
-  <p>Record your own vocals directly in the studio.</p>
-  <button onclick="alert('Recording module coming next!')">
-    Open Vocal Studio
-  </button>
+ <h2>Project & transport</h2>
+ <div class="row">
+  <label>Project <input id="projectName" value="My Vibez Project" maxlength="60"></label>
+  <label>Tempo <input id="bpm" type="number" min="40" max="240" value="120" style="width:70px"> BPM</label>
+  <label>Master <input id="master" type="range" min="0" max="1" step=".01" value=".8"></label>
+  <button id="playMidi" class="primary">▶ Play MIDI</button><button id="stopMidi" class="danger">■ Stop</button>
+ </div>
+ <div class="grid3" style="margin-top:10px">
+  <div class="stat"><small>Audio engine</small><strong id="engineState">Ready</strong></div>
+  <div class="stat"><small>MIDI notes</small><strong id="noteCount">0</strong></div>
+  <div class="stat"><small>Offline storage</small><strong id="storageState">Starting…</strong></div>
+ </div>
+ <p class="status" id="mainStatus">Ready. Draw MIDI, record vocals, or import audio.</p>
+</section>
+
+<section class="grid2">
+ <div class="panel">
+  <h2>Vocal recording</h2>
+  <div class="row"><button id="recordBtn" class="primary">● Record</button><button id="stopRecord" disabled>■ Stop</button><button id="playRecord" disabled>▶ Play take</button><button id="downloadRecord" disabled>Download</button></div>
+  <canvas id="wave" width="900" height="100"></canvas>
+  <p class="status" id="recordStatus">Microphone permission is requested when Record is pressed. HTTPS is required.</p>
+  <audio id="takePlayer" controls style="width:100%;margin-top:7px"></audio>
+ </div>
+ <div class="panel">
+  <h2>Audio import & playback</h2>
+  <div class="row"><input id="audioFile" type="file" accept="audio/*"><button id="playBeat">▶ Play</button><button id="stopBeat">Stop</button></div>
+  <p class="status" id="beatStatus">Choose an audio file on your device.</p>
+  <audio id="beatPlayer" controls style="width:100%;margin-top:7px"></audio>
+  <div class="row" style="margin-top:8px"><label>Volume <input id="beatVolume" type="range" min="0" max="1" step=".01" value=".8"></label><label>Speed <input id="beatRate" type="range" min=".5" max="1.5" step=".05" value="1"></label></div>
+ </div>
 </section>
 
 <section class="panel">
-  <h2>🎹 Korg Synthesizer</h2>
-  <p>Create your own sounds and melodies.</p>
-  <button onclick="alert('Synthesizer coming next!')">
-    Open Synth
-  </button>
+ <h2>Advanced MIDI piano roll</h2>
+ <p class="help">Tap an empty cell to add a note. Tap a note to select it; drag to move it. Use note length and velocity controls to edit. One bar has 16 steps.</p>
+ <div class="row">
+  <label>Octave view <select id="octave"><option value="2">2</option><option value="3">3</option><option value="4" selected>4</option><option value="5">5</option><option value="6">6</option></select></label>
+  <label>Length <input id="noteLength" type="number" min="1" max="16" value="2" style="width:60px"></label>
+  <label>Velocity <input id="velocity" type="range" min="1" max="127" value="100"></label>
+  <button id="deleteNote" class="danger">Delete selected</button><button id="clearMidi">Clear MIDI</button>
+ </div>
+ <canvas id="pianoRoll" width="1200" height="480"></canvas>
+ <div class="row" style="margin-top:8px"><button id="addBar">Add bar</button><button id="exportMidi">Export .mid</button><button id="renderWav">Render MIDI WAV</button><span class="muted" id="selectedInfo">No note selected</span></div>
+ <h3>Velocity editor</h3><canvas id="velocityLane" width="1200" height="120"></canvas>
+ <h3>Automation lane</h3>
+ <div class="row"><label>Parameter <select id="automationType"><option value="volume">Volume</option><option value="filter">Filter</option><option value="pan">Pan</option></select></label><label>Value <input id="automationValue" type="range" min="0" max="1" step=".01" value=".7"></label><button id="addAutomation">Add point</button><button id="clearAutomation">Clear lane</button></div>
+ <canvas id="automationLane" width="1200" height="120"></canvas>
+</section>
+
+<section class="grid2">
+ <div class="panel">
+  <h2>Built-in instrument rack</h2>
+  <div class="row"><label>Instrument <select id="waveType"><option value="triangle">Warm Keys</option><option value="sine">Soft Tone</option><option value="sawtooth">Synth Lead</option><option value="square">Bass Synth</option></select></label><label>Attack <input id="attack" type="range" min=".005" max=".5" step=".005" value=".02"></label><label>Release <input id="release" type="range" min=".05" max="1.5" step=".05" value=".25"></label></div>
+  <div class="row" style="margin-top:9px"><button class="key" data-note="60">C4</button><button class="key" data-note="62">D4</button><button class="key" data-note="64">E4</button><button class="key" data-note="65">F4</button><button class="key" data-note="67">G4</button><button class="key" data-note="69">A4</button><button class="key" data-note="71">B4</button><button class="key" data-note="72">C5</button></div>
+  <p class="help">These are built-in browser instruments. Native VST3 plugins are not supported inside Android Chrome; desktop VST3 requires a separate native host.</p>
+ </div>
+ <div class="panel">
+  <h2>Effects & mixer</h2>
+  <div class="row"><label>Low EQ <input id="lowEQ" type="range" min="-12" max="12" value="0"></label><label>High EQ <input id="highEQ" type="range" min="-12" max="12" value="0"></label></div>
+  <div class="row"><label>Reverb <input id="reverb" type="range" min="0" max="1" step=".01" value=".2"></label><label>Echo <input id="echo" type="range" min="0" max=".8" step=".01" value="0"></label></div>
+  <label><input id="compressor" type="checkbox" checked> Compressor</label>
+  <p class="status" id="mixStatus">Effects are routed through the built-in synth engine.</p>
+ </div>
 </section>
 
 <section class="panel">
-  <h2>🥁 Beat Maker</h2>
-  <p>Create rhythms and drum patterns.</p>
-  <button onclick="alert('Beat Maker coming next!')">
-    Open Beat Maker
-  </button>
+ <h2>Project backup & install</h2>
+ <div class="row"><button id="exportProject">Export project JSON</button><label class="filebtn">Import project JSON <input id="importProject" type="file" accept=".json,application/json"></label></div>
+ <p class="help">Projects are stored in this browser's IndexedDB. Export backups regularly. Audio recordings and imported audio are not embedded in the project JSON; download those separately.</p>
+ <p class="status" id="projectStatus"></p>
+ <p class="status" id="pwaStatus">Checking offline installation support…</p>
 </section>
-
-<section class="panel">
-  <h2>🎚️ Mixing & Mastering</h2>
-  <p>Build and polish your tracks.</p>
-  <button onclick="alert('Mixer coming next!')">
-    Open Mixer
-  </button>
-</section>
-
-<section class="panel">
-  <h2>🎤 Vocal Suite — Nectar Style</h2>
-  <p>Our planned vocal processing workspace.</p>
-  <button onclick="alert('Vocal Suite coming next!')">
-    Open Vocal Suite
-  </button>
-</section>
-
+<footer>WakaûndūVibez Studio Pro • Browser-based Android/Chrome workstation • Desktop native VST3 hosting is a separate application component.</footer>
 </main>
 
-<footer>
-  WakaûndūVibez Studio PRO © 2026
-</footer>
-
-</body>
-</html>
+<script>
+(() => {
+'use strict';
